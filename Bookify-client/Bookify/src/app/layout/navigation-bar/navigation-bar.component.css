@@ -59,7 +59,17 @@ mat-icon {
   border-radius: 20px;
 }
 
+#logout_btn {
+   background-color: white;
+   padding: 10px 25px;
+   border-radius: 20px;
+ }
+
 #login_btn[mat-button] {
+  color: #2E4057;
+}
+
+#logout_btn[mat-button] {
   color: #2E4057;
 }
 

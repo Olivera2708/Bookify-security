@@ -4,6 +4,7 @@ import {inject} from "@angular/core";
 import {AdminPaths} from "./adminpaths";
 import {GuestPaths} from "./guestpaths";
 import {OwnerPaths} from "./ownerpaths";
+import {SysAdminPaths} from "./sysadminpaths";
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authenticationService: AuthenticationService = inject(AuthenticationService);
@@ -15,6 +16,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   } else if (userRole === 'GUEST' && checkForPaths(path, GuestPaths)) {
     return true;
   } else if (userRole === 'OWNER' && checkForPaths(path, OwnerPaths)) {
+    return true;
+  } else if (userRole === 'SYSADMIN' && checkForPaths(path, SysAdminPaths)) {
     return true;
   } else {
     router.navigate(['']);

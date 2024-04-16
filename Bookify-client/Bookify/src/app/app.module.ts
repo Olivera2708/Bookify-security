@@ -16,10 +16,12 @@ import { Interceptor } from "./feature-modules/authentication/interceptor/interc
 import { AdministrationModule } from "./feature-modules/administration/administration.module";
 import { ReviewModule } from './feature-modules/review/review.module';
 import { ReservationModule } from './feature-modules/reservation/reservation.module';
+import { CertificateManagerComponent } from './feature-modules/sysadmin/cartificate-manager/certificate-manager.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CertificateManagerComponent
   ],
   imports: [
     BrowserModule,

@@ -29,6 +29,9 @@ import {UsersComponent} from "./feature-modules/administration/users/users.compo
 import { GuestPageComponent } from './feature-modules/review/guest-page/guest-page.component';
 import { ReportsPageComponent } from "./feature-modules/accommodation/reports/reports-page/reports-page.component";
 import {FeedbackComponent} from "./feature-modules/administration/feedback/feedback.component";
+import {
+  CertificateManagerComponent
+} from "./feature-modules/sysadmin/cartificate-manager/certificate-manager.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -52,7 +55,8 @@ const routes: Routes = [
   { path: "favorites", component: FavoritesPageComponent, canActivate: [authGuard] },
   { path: "accommodation/reports", component: ReportsPageComponent, canActivate: [authGuard] },
   { path: "feedback", component: FeedbackComponent, canActivate: [authGuard] },
-  { path: "guest-reservations", component: GuestReservationsComponent, canActivate: [authGuard] }
+  { path: "guest-reservations", component: GuestReservationsComponent, canActivate: [authGuard] },
+  { path: "certificates", component: CertificateManagerComponent, canActivate: [authGuard]}
 ];
 
 @NgModule({

@@ -86,4 +86,8 @@ export class NavigationBarComponent implements OnInit {
       }
     });
   }
+  OnLogoutClick(): void {
+    this.authenticationService.logout();
+    this.router.navigate(['']);
+  }
 }

@@ -8,5 +8,4 @@ import lombok.NoArgsConstructor;
 @Entity
 @DiscriminatorValue("SYSADMIN")
 public class SysAdmin extends User{
-
 }
