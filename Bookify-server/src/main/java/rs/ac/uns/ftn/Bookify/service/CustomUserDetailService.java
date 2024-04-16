@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.Bookify.model.Admin;
 import rs.ac.uns.ftn.Bookify.model.Owner;
+import rs.ac.uns.ftn.Bookify.model.SysAdmin;
 import rs.ac.uns.ftn.Bookify.model.User;
 import rs.ac.uns.ftn.Bookify.repository.interfaces.IUserRepository;
 
@@ -40,7 +41,9 @@ public class CustomUserDetailService implements UserDetailsService {
             return "ADMIN";
         } else if (user instanceof Owner) {
             return "OWNER";
-        } else {
+        } else if (user instanceof SysAdmin){
+            return "SYSADMIN";
+        }else {
             return "GUEST";
         }
     }

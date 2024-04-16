@@ -194,6 +194,8 @@ public class UserService implements IUserService {
             role = "OWNER";
         } else if (user instanceof Admin) {
             role = "ADMIN";
+        } else if (user instanceof SysAdmin){
+            role = "SYSADMIN";
         } else {
             role = "GUEST";
         }
