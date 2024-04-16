@@ -1,0 +1,19 @@
+<div class="page">
+  <h2 class="title">Accommodation requests</h2>
+  <div class="title-underline"></div>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="color">Edited</span>
+      </ng-template>
+      <div class="card-holder" *ngFor="let request of requests | edited">
+        <app-accommodation-requests-card [request]="request"></app-accommodation-requests-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Created">
+      <div class="card-holder" *ngFor="let request of requests | created">
+        <app-accommodation-requests-card [request]="request"></app-accommodation-requests-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

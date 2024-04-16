@@ -1,0 +1,28 @@
+.comments-ratings-wrapper {
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 2rem;
+    width: 60%;
+    border-radius: 1.5em;
+    background-color: #FAF0CA;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+h3 {
+    margin: 1rem 0 0 1rem;
+}
+
+hr {
+    margin: 0.3rem 0;
+    width: 40%;
+    margin-left: 2.5rem;
+    height: 0.2rem;
+    background-color: #2e4057;
+    border-radius: 1rem;
+    border: 0;
+    font-size: 1rem;
+    opacity: 1;
+}

@@ -1,0 +1,41 @@
+<form [formGroup]="form">
+    <div class="wrapper-item">
+        <mat-label>Type</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-select required name="type" formControlName="type">
+                <mat-option value="ROOM">Room</mat-option>
+                <mat-option value="APARTMENT">Apartment</mat-option>
+                <mat-option value="HOTEL">Hotel</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('type')!.hasError('required')">Type is required</mat-error>
+        </mat-form-field>
+    </div>
+    
+    <div class="wrapper-item">
+        <mat-label>Min guests</mat-label>
+        <mat-form-field appearance="fill">
+            <input matInput required type="number" min="0" name="minGuests" formControlName="minGuests">
+            <mat-error *ngIf="form.get('minGuests')!.hasError('required')">Min guests is required</mat-error>
+        </mat-form-field>
+    </div>
+    
+    <div class="wrapper-item">
+        <mat-label>Max guests</mat-label>
+        <mat-form-field appearance="fill">
+            <input matInput required type="number" min="0" name="maxGuests" formControlName="maxGuests">
+            <mat-error *ngIf="form.get('maxGuests')!.hasError('required')">Max guests is required</mat-error>
+            <mat-error *ngIf="form.get('maxGuests')!.hasError('lessThen')">{{form.get('maxGuests')!.getError('message')}}</mat-error>
+        </mat-form-field>
+    </div>
+    
+    <div class="wrapper-item">
+        <mat-label>Reservation acceptance</mat-label>
+        <div>
+            <mat-button-toggle-group name="reservationAcceptance" formControlName="reservationAcceptance" aria-label="Reservation Acceptance">
+                <mat-button-toggle value="automatic">Automatic</mat-button-toggle>
+                <mat-button-toggle value="manual">Manual</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-error *ngIf="submitted && form.get('reservationAcceptance')!.hasError('required')">Reservation acceptance is required</mat-error>
+        </div>
+    </div>
+</form>

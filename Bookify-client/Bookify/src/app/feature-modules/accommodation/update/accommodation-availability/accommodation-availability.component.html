@@ -1,0 +1,20 @@
+<form [formGroup]="form">
+    <div class="wrapper-item">
+        <mat-label>Cancellation deadline (days)</mat-label>
+        <mat-form-field appearance="fill">
+            <input matInput required type="number" min="0" name="cancellationDeadline" formControlName="cancellationDeadline">
+            <mat-error *ngIf="form.get('cancellationDeadline')!.hasError('required')">Cancellation deadline is required</mat-error>
+        </mat-form-field>
+    </div>
+    
+    <div class="wrapper-item">
+        <mat-label>Price per</mat-label>
+        <div>
+            <mat-button-toggle-group name="pricePer" formControlName="pricePer" aria-label="Price Per">
+                <mat-button-toggle value="PERSON">Person</mat-button-toggle>
+                <mat-button-toggle value="ROOM">Room</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-error *ngIf="submitted && form.get('pricePer')!.hasError('required')">Reservation acceptance is required</mat-error>
+        </div>
+    </div>
+</form>    

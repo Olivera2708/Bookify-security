@@ -1,0 +1,19 @@
+<div class="page">
+  <h2 class="title">User feedback</h2>
+  <div class="title-underline"></div>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="color">Created</span>
+      </ng-template>
+      <div class="card-holder" *ngFor="let r of createdReviews">
+        <app-review-card [review]="r" (clicked)="onRemovedReview($event)"></app-review-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Reported">
+      <div class="card-holder" *ngFor="let r of reportedReviews">
+        <app-review-reported-card [review]="r" (clicked)="onRemovedReportedReview($event)"></app-review-reported-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

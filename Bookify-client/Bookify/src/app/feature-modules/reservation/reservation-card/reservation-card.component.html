@@ -1,0 +1,23 @@
+<div class="reservation-card">
+    <div class="column-left">
+        <img class="reservation-image" [src]="image">
+    </div>
+    <div class="column-center">
+        <div class="inline">
+            <p class="title">{{ request.accommodationName }}</p>
+            <meter class="average-rating" min="0" max="5" style="--percent: calc({{request.avgRating}}/5*100%);"></meter>
+        </div>
+        <hr />
+        <p class="subtitle" [routerLink]="['/guest',request?.user?.id]">Guest: {{request.user.firstName}} {{request.user.lastName}} <span>(Cancelled {{request.user.cancellationTimes}} time)</span></p>
+        <p class="subtitle">Date: {{request.start}}-{{request.end}}</p>
+        <p class="subtitle">Persons: {{request.guestNumber}}</p>
+        <p class="subtitle">Incomes: {{request.price}} EUR</p>
+        <div class="wrapper">
+            <p class="description">Status: {{request.status}}</p>
+            <div class="button-wrapper" *ngIf="request.status==='PENDING'">
+                <button class="details-button accept" (click)="acceptReservation()">Accept</button>
+                <button class="details-button reject" (click)="rejectReservation()">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>

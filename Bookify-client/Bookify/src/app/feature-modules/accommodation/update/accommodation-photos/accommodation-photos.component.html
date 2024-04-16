@@ -1,0 +1,11 @@
+<label for="fileInput" class="custom-file-label">
+  <span>Upload Photos</span>
+</label>
+<input type="file" name="photos" id="fileInput" (change)="onFilesSelected($event)" multiple class="custom-file-input" />
+<label class="hint">Upload at least one photo</label>
+<div class="selected-images-container">
+  <div *ngFor="let image of selectedImagesObject" class="image-container">
+    <img [src]="image.url" alt="Selected Image" class="selected-image"/>
+    <span class="material-symbols-outlined" (click)="removeImage(image)">cancel</span>
+  </div>
+</div>

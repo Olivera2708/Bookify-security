@@ -1,0 +1,21 @@
+<div class="user-card">
+  <div class="column-left">
+    <div id="account-pic">
+      <img class="image" [src]="image" alt="Please wait while loading the image">
+    </div>
+  </div>
+  <div class="column-center">
+
+    <p class="title">{{user.email}}</p>
+    <div class="title-underline"></div>
+    <div>
+      <p class="information">First name: {{user.firstName}}</p>
+      <p class="information">Last name: {{ user.lastName}}</p>
+      <p class="information">Status: {{user.blocked ? "Blocked" : "Not blocked"}}</p>
+    </div>
+    <div class="button-holder">
+      <button class="button-block" *ngIf="!user.blocked" (click)="blockUser()">Block</button>
+      <button class="button-unblock" *ngIf="user.blocked" (click)="unblockUser()">Unblock</button>
+    </div>
+  </div>
+</div>

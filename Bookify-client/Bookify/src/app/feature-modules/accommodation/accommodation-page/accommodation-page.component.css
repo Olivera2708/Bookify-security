@@ -1,0 +1,234 @@
+.inline {
+  margin-top: 2rem;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+#hotel-name {
+  margin: 0;
+  font-size: xx-large;
+}
+
+.average-rating {
+  position: relative;
+  width: 3rem;
+  margin: 0.8vh 0 0 2vw;
+  appearance: none;
+  color: transparent;
+  display: inline-block;
+}
+
+.average-rating::before {
+  content: '★★★★★';
+  font-size: 1.6rem;
+  background:
+    linear-gradient(90deg, #326268 var(--percent), rgba(0,0,0,0.2) var(--percent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.two-part {
+  display: flex;
+  width: 60%;
+  margin: 2rem auto 0 auto;
+  justify-content: center;
+}
+
+app-reserve{
+  width: 54rem;
+}
+
+#amenities {
+  width: 24rem;
+  min-height: 16rem;
+  border-radius: 1rem;
+  background-color: #326268;
+  margin-right: 1rem;
+  float: left;
+  padding: 1rem 1rem 0 1rem;
+}
+
+#location {
+  margin-left: 1rem;
+  width: 24rem;
+  height: inherit;
+  border-radius: 1rem;
+  background-color: #326268;
+  float: right;
+  padding: 1rem;
+}
+
+#description {
+  margin-right: 1rem;
+  width: 24rem;
+  height: auto;
+  padding: 1rem;
+  float: left;
+}
+
+#owner {
+  margin-left: 1rem;
+  width: 24rem;
+  height: auto;
+  padding: 1rem;
+  float: right;
+}
+
+hr {
+  width: 14rem;
+  height: 0.2rem;
+  background-color: darkgrey;
+  border-radius: 1rem;
+  border: 0;
+  margin: 0 0 0 1vw;
+  font-size: 1rem;
+  opacity: 1;
+  justify-content: left;
+}
+
+#desc {
+  margin-top: 0.7rem;
+}
+
+.subcategory {
+  font-size: large;
+  margin: 0.2rem;
+}
+
+.white {
+  color: #D8EBDE;
+}
+
+.white-back {
+  background-color: #D8EBDE;
+}
+
+img {
+  object-fit: contain;
+}
+
+#image-slider {
+  justify-content: center;
+  margin: 2rem auto 0 auto;
+  object-fit: contain;
+}
+
+#address {
+  margin-top: 1.3vh;
+  font-size: small;
+  text-align: center;
+  color: #D8EBDE;
+}
+
+#owner-profile {
+  margin: 0.7rem 0 0 0;
+  display: flex;
+  cursor: pointer;
+}
+
+#owner-info {
+  margin: auto 0 auto 1rem;
+  justify-content: center;
+  vertical-align: center;
+}
+
+#owner-name {
+  font-size: medium;
+  margin: -0.05rem 0 0 0;
+}
+
+#owner-number {
+  font-size: small;
+  margin: 0;
+}
+
+#amenities-list {
+  display: grid;
+  margin: 1rem 1rem 1rem 1rem;
+  grid-template-columns: 50% 50%;
+}
+
+.amenities-wrapper {
+  display: flex;
+  margin: 0.2rem 0 0.2rem 0;
+}
+
+.amenities-icon {
+  font-size: 1.7rem;
+  color: #D8EBDE;
+  margin: auto 0 auto 0;
+}
+
+.amenities-name {
+  margin: auto 0 auto 0.5rem;
+  font-size: small;
+  color: #D8EBDE;
+}
+
+.favorite {
+  font-size: 2rem;
+  margin: 0.3rem 0.7rem 0.1rem 0;
+  color: #2E4057;
+  cursor: pointer;
+}
+
+.small {
+  margin-left: 0.7rem;
+  margin-top: 0;
+}
+
+.small::before {
+  font-size: 0.9rem;
+  margin-left: 0;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.title-main {
+  margin-top: 10vh;
+  width: 100%;
+}
+
+#map {
+  width: 21rem;
+  height: 70%;
+  display: flex;
+  margin: 0.7rem auto 0 auto;
+  z-index: 1;
+}
+
+#owner-image {
+  width: 10rem;
+  height: 10rem;
+}
+
+#account-pic {
+  border-radius: 100%;
+  border: 3px solid #5d5d5d;
+  margin: 0;
+  width: 4rem;
+  height: 4rem;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+#reserve-comp {
+  padding-bottom: 1rem;
+  display: none;
+}
+
+#favorite-button {
+  visibility: hidden;
+}
+
+.reviews {
+  padding-bottom: 2rem;
+}

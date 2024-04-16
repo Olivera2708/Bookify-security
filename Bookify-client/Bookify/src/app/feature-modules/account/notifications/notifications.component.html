@@ -1,0 +1,9 @@
+<div id="notifications-view" class="card" *ngIf="role!='ADMIN'">
+  <label class="acc-title">Notifications</label>
+  <div class="title-underline"></div>
+  <div class="notifications-holder">
+    <div *ngFor="let notification of notifications">
+      <app-notification-card [notification]="notification"></app-notification-card>
+    </div>
+  </div>
+</div>

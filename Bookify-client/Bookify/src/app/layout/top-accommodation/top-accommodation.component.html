@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="accommodation-card">
+  <div class="column-left">
+    <img class="accommodation-image" [src]="image">
+  </div>
+  <div class="column-center">
+    <p class="subtitle">{{ accommodation.type }}</p>
+    <p class="title">{{accommodation.name}}</p>
+    <p class="subtitle">{{accommodation.address.address}}, {{accommodation.address.city}}, {{accommodation.address.country}}</p>
+    <button class="book-button" [routerLink]="['/accommodation/details', accommodation.id]">Book now</button>
+  </div>
+</div>

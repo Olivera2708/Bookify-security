@@ -1,0 +1,58 @@
+#footer {
+  margin-top: 8vh;
+  display: flex;
+  position: relative;
+}
+
+#footer-image {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 70vh;
+  position: absolute;
+  object-fit: cover;
+  mask-image: linear-gradient(to top, rgba(255,255,255,1) 70%,rgba(0,0,0,0) 100%);
+}
+
+br {
+  display: block;
+}
+
+#moto {
+  font-size: xxx-large;
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
+
+#content {
+  width: 100%;
+  height: 70vh;
+  position: absolute;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  overflow: hidden;
+}
+
+#text {
+  font-size: x-large;
+  color: white;
+}
+
+#moto-text {
+  margin-top: 18vh;
+}
+
+#copyright {
+  color: white;
+  font-size: smaller;
+  position: absolute;
+  margin-top: 67vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#phone {
+  width: 28vw;
+  margin: 0 auto 0 auto;
+}

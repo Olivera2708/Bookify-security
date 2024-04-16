@@ -1,0 +1,15 @@
+<div class="new-comment-wrapper">
+    <h4>Report guest</h4>
+    <form class="comment-wrapper" [formGroup]="form">
+        <div class="wrapper-item">
+            <mat-form-field class="comment">
+                <textarea matInput name="comment" formControlName="comment" required></textarea>
+                <mat-error *ngIf="form.get('comment')!.hasError('required') && submitted">Report comment is
+                    required</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="right-wrapper">
+            <button mat-button (click)="onSubmit()">Report</button>
+        </div>
+    </form>
+</div>

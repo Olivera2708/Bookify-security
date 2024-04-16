@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<div id="main">
+  <div class="inline">
+    <span class="material-symbols-outlined favorite">favorite</span>
+    <h1>Favorites</h1>
+  </div>
+  <hr>
+  <div class="results">
+    @for (accommodation of accommodations; track accommodation.id) {
+      <app-accommodation-favorite [accommodation]="accommodation"></app-accommodation-favorite>
+    }
+  </div>
+</div>

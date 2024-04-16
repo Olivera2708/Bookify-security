@@ -1,0 +1,97 @@
+
+.title-underline {
+  background-color: #A29D92;
+  height: 4px;
+  width: 100%;
+  box-shadow: black;
+  border-radius: 20px;
+}
+
+.title {
+  margin: 0.12rem 1rem 0 0;
+}
+
+.title:hover {
+  cursor: pointer;
+  text-decoration: underline 1px #326268;
+}
+
+.accommodation-request-card {
+  margin-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 84%;
+  min-height: 13rem;
+  border-radius: 1.5em;
+  background-color: #D8EBDE;
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.column-left {
+  width: 16vw;
+}
+
+.column-center {
+  padding: 1rem 2rem 0 2rem;
+  flex-grow: 1;
+}
+
+.information {
+  vertical-align: center;
+}
+
+.accommodation-image {
+  width: inherit;
+  height: 100%;
+  border-radius: 1.5em;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+.button-holder {
+  width: 100%;
+  margin-bottom: 0;
+  margin-top: 1rem;
+  display: flex;
+  flex-flow: row;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.button-approve {
+  width: 8rem;
+  height: 2rem;
+  border: transparent;
+  border-radius: 2rem;
+  background-color: #2e4057;
+  color: whitesmoke;
+
+}
+
+.button-reject {
+  width: 8rem;
+  height: 2rem;
+  border: transparent;
+  border-radius: 2rem;
+  background-color: whitesmoke;
+  color: #2e4057;
+  font-weight: bolder;
+}
+
+.button-approve:hover {
+  background-color: #326268;
+}
+
+.button-reject:hover {
+  color: whitesmoke;
+  background-color: dimgrey;
+  font-weight: normal;
+
+}
+
+.information {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}

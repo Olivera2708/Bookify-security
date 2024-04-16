@@ -1,0 +1,31 @@
+<div id="main">
+  <div class="front">
+    <img src="../../../../assets/images/landing.png" class="landing"/>
+    <p id="moto">Live life with no excuses, travel with no regret.</p>
+    <p id="person">- Oscar Wilde</p>
+    <app-search class="search-bar" (buttonPressed)="searchPress($event)"></app-search>
+  </div>
+  <app-filter class="filter-comp" (buttonPressed)="filterPress($event)"></app-filter>
+
+  <div id="list">
+    <mat-form-field appearance="outline" id="sort">
+      <mat-label>Sort by</mat-label>
+      <mat-select [(ngModel)]="sort" (ngModelChange)="onSortChange()">
+        <mat-option value="Name">Name</mat-option>
+        <mat-option value="Lowest">Price lowest to highest</mat-option>
+        <mat-option value="Highest">Price highest to lowest</mat-option>
+      </mat-select>
+    </mat-form-field>
+    @for (basicAccommodation of accommodationModels; track basicAccommodation.id) {
+      <app-accommodation-basic [basicAccommodation]="basicAccommodation"></app-accommodation-basic>
+    }
+  </div>
+
+  <mat-paginator [length]="allResults"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="[5, 10, 25]"
+                 (page)="onPageChange($event)"
+                 aria-label="Select page"
+                 #paginator>
+  </mat-paginator>
+</div>

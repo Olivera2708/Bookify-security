@@ -1,0 +1,22 @@
+<div class="new-comment-wrapper">
+    <h4>Comment</h4>
+    <hr>
+    <form class="comment-wrapper" [formGroup]="form">
+        <div class="wrapper-item">
+            <mat-form-field class="comment">
+                <textarea matInput name="comment" formControlName="comment" required></textarea>
+                <mat-error *ngIf="form.get('comment')!.hasError('required') && submitted">Comment is
+                    required</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="right-wrapper">
+            <div class="rating">
+                <meter class="average-rating" min="0" max="5" style="--percent: calc({{percent}}/5*100%);"
+                    (click)="onRatingClick($event)"></meter>
+                <span>{{percent}}/5</span>
+                <mat-error *ngIf="submitted && percent===0">Ratind is required</mat-error>
+            </div>
+            <button mat-button (click)="onSubmit()">Submit</button>
+        </div>
+    </form>
+</div>

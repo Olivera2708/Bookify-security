@@ -1,0 +1,10 @@
+<p>What can guests use at your accommodation?</p>
+<div class="filters">
+    <div *ngFor="let label of checkboxLabels; trackBy: trackByFn">
+        <div class="checkbox-wrapper-42">
+            <input id="cbx-{{ label }}" name="{{label}}" type="checkbox" (change)="onCheckboxChange(label)" />
+            <label class="cbx" for="cbx-{{ label }}"></label>
+            <label class="lbl" for="cbx-{{ label }}">{{ label }}</label>
+        </div>
+    </div>
+</div>

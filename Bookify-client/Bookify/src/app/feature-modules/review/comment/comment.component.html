@@ -1,0 +1,18 @@
+<div class="comment-card">
+  <div class="column-left" id="account-pic">
+    <img class="image" [src]="ownerImage" [routerLink]="['/guest', comment.guestId]">
+  </div>
+  <div class="column-center">
+    <div class="inline">
+      <div>
+        <p class="title" [routerLink]="['/guest', comment.guestId]">{{comment.name}}</p>
+        <p class="date">{{formatDate(comment.date)}}</p>
+      </div>
+      <meter class="average-rating" min="0" max="5" style="--percent: calc({{comment.rate}}/5*100%);"></meter>
+    </div>
+    <p class="description">{{comment.comment}}</p>
+  </div>
+  <span class="material-symbols-outlined" *ngIf="comment.guestId===guestId"
+    (click)="deleteComment(comment.id)">cancel</span>
+  <button mat-button class="button" *ngIf="guestId===owner" (click)="onClick()">Report</button>
+</div>

@@ -1,0 +1,29 @@
+.wrapper-reservations {
+    margin-top: 7rem;
+    padding-bottom: 5rem;
+}
+
+h1 {
+    color: #2E4057;
+    display: block;
+    width: 70%;
+    margin: auto;
+    font-size: 1.8rem;
+}
+
+hr {
+    opacity: 1;
+    display: block;
+    margin: 0 0 2rem 15%;
+    border: none;
+    border-radius: 2px;
+    height: 4px;
+    background-color: #A29D92;
+    width: 18rem;
+}
+
+.wrapper-title{
+    width: fit-content;
+    white-space: nowrap;
+    margin-left: 15%;
+}

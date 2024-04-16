@@ -1,0 +1,6 @@
+<div class="owner-page">
+    <h2>Guest <span *ngIf="type!='GUEST'"> not found </span></h2>
+    <hr *ngIf="type=='GUEST'">
+    <app-owner-info *ngIf="type=='GUEST'"></app-owner-info>
+    <app-report-guest *ngIf="role==='OWNER' && type=='GUEST'"></app-report-guest>
+</div>

@@ -1,0 +1,63 @@
+.dp-hidden {
+  width: 0;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+.custom-day.focused {
+  background-color: rgb(46, 64, 87);
+}
+.custom-day.range,
+.custom-day:hover {
+  background-color: rgb(46, 64, 87);
+  color: white;
+  border-radius: 0.2rem;
+}
+.custom-day.faded {
+  background-color: rgba(46, 64, 87, 0.5);
+}
+
+::ng-deep div.ngb-dp-arrow > button {
+  color: #2e4057;
+}
+
+.size {
+  width: 46%;
+}
+
+input {
+  background-color: transparent;
+  border-color: transparent;
+  color: whitesmoke;
+}
+
+input:disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: whitesmoke;
+}
+
+input:focus {
+  background-color: transparent;
+  border-color: transparent;
+  color: whitesmoke;
+  outline: none;
+  box-shadow: none;
+}
+
+.icon {
+  color: whitesmoke;
+  border-color: transparent;
+  margin-top: 0.5vh;
+}
+
+.btn {
+  border-color: transparent;
+}

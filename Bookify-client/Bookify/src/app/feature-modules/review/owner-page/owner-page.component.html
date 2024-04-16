@@ -1,0 +1,9 @@
+<div class="owner-page">
+    <h2>Owner <span *ngIf="type!='OWNER'"> not found </span></h2>
+    <hr *ngIf="type=='OWNER'">
+    <app-owner-info *ngIf="type=='OWNER'"></app-owner-info>
+    <app-report *ngIf="role==='GUEST' && type=='OWNER'"></app-report>
+    <hr *ngIf="role==='GUEST' && type=='OWNER'">
+    <app-new-comment (emit)="handleEmit($event)" *ngIf="role==='GUEST' && type=='OWNER'"></app-new-comment>
+    <app-comments-ratings [load]="load" *ngIf="type=='OWNER'"></app-comments-ratings>
+</div>

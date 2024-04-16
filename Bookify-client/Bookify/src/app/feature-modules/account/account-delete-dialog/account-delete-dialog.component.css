@@ -1,0 +1,26 @@
+div[mat-dialog-content] {
+  padding-top: 15px;
+  background-color: #D8EBDE;
+}
+
+div[mat-dialog-actions] {
+  background-color: #D8EBDE;
+  justify-content: center;
+}
+
+h1 {
+  background-color: #D8EBDE;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+p {
+  color: #2e4057;
+  font-weight: bold;
+}
+#confirm{
+  background-color: #2e4057;
+  color: whitesmoke;
+}

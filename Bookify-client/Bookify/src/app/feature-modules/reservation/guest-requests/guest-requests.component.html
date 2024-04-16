@@ -1,0 +1,15 @@
+<div class="wrapper-reservations">
+  <div class="inline">
+    <div>
+      <span class="material-symbols-outlined apartment">request_page</span>
+      <h1 id="title">Requests</h1>
+    </div>
+    <hr/>
+  </div>
+  <app-filter-reservations (buttonPressed)="filterPress($event)"></app-filter-reservations>
+  <div class="results">
+    @for (request of requests; track request.id) {
+      <app-guest-request-card [request]="request"></app-guest-request-card>
+    }
+  </div>
+</div>

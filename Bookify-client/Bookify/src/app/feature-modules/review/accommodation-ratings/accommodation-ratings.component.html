@@ -1,0 +1,40 @@
+<div class="rating-wrapper">
+    <div class="title">
+        <span>{{sumProgress}}</span>
+        <meter class="average-rating" min="0" max="5" style="--percent: calc({{sumProgress}}/5*100%);"></meter>
+        <span>({{sum}})</span>
+    </div>
+    <div>
+        <div>
+            <span class="number">5</span>
+            <meter class="star" min="1" max="1"></meter>
+            <meter class="progress" min="0" max="100" style="--percent: calc(100/{{sum}}*{{fiveStars}}%);"></meter>
+            <span>({{fiveStars}})</span>
+        </div>
+        <div>
+            <span class="number">4</span>
+            <meter class="star" min="1" max="1"></meter>
+            <meter class="progress" min="0" max="100" style="--percent: calc(100/{{sum}}*{{fourStars}}%);"></meter>
+            <span>({{fourStars}})</span>
+        </div>
+        <div>
+            <span class="number">3</span>
+            <meter class="star" min="1" max="1"></meter>
+            <meter class="progress" min="0" max="100" style="--percent: calc(100/{{sum}}*{{threeStars}}%);"></meter>
+            <span>({{threeStars}})</span>
+        </div>
+        <div>
+            <span class="number">2</span>
+            <meter class="star" min="1" max="1"></meter>
+            <meter class="progress" min="0" max="100" style="--percent: calc(100/{{sum}}*{{twoStars}}%);"></meter>
+            <span>({{twoStars}})</span>
+        </div>
+        <div>
+            <span class="number">1</span>
+            <meter class="star" min="1" max="1"></meter>
+            <meter class="progress" min="0" max="100" style="--percent: calc(100/{{sum}}*{{oneStar}}%);"></meter>
+            <span>({{oneStar}})</span>
+        </div>
+    </div>
+
+</div>

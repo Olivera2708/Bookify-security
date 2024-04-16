@@ -1,0 +1,60 @@
+.search-card{
+  margin: auto;
+  width: 70%;
+  border-radius: 1.2em;
+  background-color: rgba(170, 169, 169, 0.7);
+  padding: 0 0.7rem 0 1rem;
+  display: grid;
+  grid-template-columns: 34% 40% 8% 10%;
+}
+
+input[type="text"], input[type="text"]:focus {
+  margin-left: 0.3rem;
+  background: transparent;
+  border: none;
+  outline-width: 0;
+  color: white;
+  font-size: medium;
+}
+
+input[type="number"], input[type="number"]:focus {
+  margin-left: 0.2rem;
+  background: transparent;
+  border: none;
+  outline-width: 0;
+  width: 4vw;
+  color: white;
+  font-size: medium;
+}
+
+.inline {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  color: white;
+}
+
+.date {
+  color: white;
+  margin: 0 0 0 0.4rem;
+  padding: 0;
+}
+
+::placeholder {
+  color: whitesmoke;
+}
+
+.button-right {
+  width: 11vw;
+  border: transparent;
+  margin: 0.5rem 0 0.5rem 0.7rem;
+  border-radius: 2rem;
+  background-color: white;
+  color: #2E4057;
+}
+
+.button-right:hover {
+  background-color: #e3e3e3;
+}

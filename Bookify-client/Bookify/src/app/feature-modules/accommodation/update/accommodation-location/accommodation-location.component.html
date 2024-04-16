@@ -1,0 +1,40 @@
+<div class="left">
+   <form [formGroup]="form">
+       <div class="wrapper-item">
+           <mat-label>Country</mat-label>
+           <mat-form-field>
+               <mat-select required name="country" formControlName="country" (click)="clicked()">
+                   <mat-option *ngFor="let country of countries | async" [value]="country">{{ country }}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="form.get('country')!.hasError('required')">Country is required</mat-error>
+           </mat-form-field>
+       </div>
+   
+       <div class="wrapper-item">
+           <mat-label>City</mat-label>
+           <mat-form-field appearance="fill">
+               <input matInput required name="city" formControlName="city">
+               <mat-error *ngIf="form.get('city')!.hasError('required')">City is required</mat-error>
+           </mat-form-field>
+       </div>
+   
+       <div class="wrapper-item">
+           <mat-label>Street address</mat-label>
+           <mat-form-field appearance="fill">
+               <input matInput required name="streetAddress" formControlName="streetAddress">
+               <mat-error *ngIf="form.get('streetAddress')!.hasError('required')">Address is required</mat-error>
+           </mat-form-field>
+       </div>
+   
+       <div class="wrapper-item">
+           <mat-label>Zip code</mat-label>
+           <mat-form-field appearance="fill">
+               <input matInput required name="zipCode" formControlName="zipCode">
+               <mat-error *ngIf="form.get('zipCode')!.hasError('required')">Zip code is required</mat-error>
+           </mat-form-field>
+       </div>
+   </form>
+</div>
+<div class="right">
+    <app-map (locationClick)="handleLocationClick($event)" [create]="create" [locationAddress]="locationAddress"></app-map>
+</div>

@@ -1,0 +1,18 @@
+<div class="accommodation-request-card" *ngIf="visible">
+  <div class="column-left">
+    <img class="accommodation-image" [src]="image" alt="Please wait while loading the image">
+  </div>
+  <div class="column-center">
+    <p class="title" [routerLink]="['/accommodation/details', request.id]">{{request.name}}</p>
+    <div class="title-underline"></div>
+    <div>
+      <p class="information">{{request.owner.firstName + " " + request.owner.lastName}}</p>
+      <p class="information">{{request.owner.email}}</p>
+      <p class="information">Status: {{request.statusRequest}}</p>
+    </div>
+    <div class="button-holder">
+      <button class="button-approve" (click)="OnApproveClick()">Approve</button>
+      <button class="button-reject" (click)="OnRejectClick()">Reject</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="user-card">
+  <div class="column-left">
+    <div id="account-pic">
+      <img class="image" [src]="image" alt="Please wait while loading the image">
+    </div>
+  </div>
+  <div class="column-center">
+    <p class="title">{{review?.guest?.email}}</p>
+    <meter class="average-rating" min="0" max="5" style="--percent: calc({{review?.rate}}/5*100%);"></meter>
+    <div class="title-underline"></div>
+    <p>Date: {{review?.date}}</p>
+    <div>
+      <p class="information">Review type: {{review.reviewType}}</p>
+      <p class="information">Comment:</p>
+      <p class="information">{{review?.comment}}</p>
+      <br>
+      <p class="information">Review status: {{review?.accepted ? 'APPROVED' : 'NOT APPROVED'}}</p>
+      <br>
+      <p class="information">Report status: {{review?.accepted ? 'REPORTED' : 'IGNORED'}}</p>
+    </div>
+  </div>
+  <div class="column-right" *ngIf="review?.reported">
+    <button class="button-accept" (click)="ignore()">Ignore</button>
+    <button class="button-decline" (click)="remove()">Remove</button>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<div id="main">
+  <div class="inline">
+    <span class="material-symbols-outlined favorite">analytics</span>
+    <p id="title">Reports</p>
+  </div>
+  <hr>
+  <div id="content">
+    <div class="comp-border">
+      <div class="inline-button">
+        <app-datapicker-range></app-datapicker-range>
+        <button class="download" (click)="showOverall()">Show</button>
+      </div>
+      <p class="subtitle">Revenue for selected period</p>
+      <app-overall-chart-revenue></app-overall-chart-revenue>
+      <p class="subtitle more-space">Reservations for selected period</p>
+      <app-overall-chart-reservations></app-overall-chart-reservations>
+      <button class="btn downloads" (click)="downloadPdfForOverall()"><i class="fa fa-download"></i> Download</button>
+    </div>
+    <div class="comp-border">
+      <div class="inline-dropdown">
+        <mat-form-field appearance="outline" id="accommodation">
+          <mat-label>Accommodation</mat-label>
+          <mat-select [(ngModel)]="selectedAccommodation">
+            <mat-option *ngFor="let accommodation of accommodations | keyvalue" [value]="accommodation.key">
+              {{ accommodation.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" id="year">
+          <mat-label>Year</mat-label>
+          <mat-select [(ngModel)]="selectedYear">
+            <mat-option *ngFor="let year of years" [value]="year">
+              {{ year }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button class="download button-space" (click)="showForAccommodations()">Show</button>
+      </div>
+      <p class="subtitle less-space">Revenue for selected accommodation</p>
+      <app-accommodation-chart-revenue></app-accommodation-chart-revenue>
+      <p class="subtitle more-space">Reservations for selected accommodation</p>
+      <app-accommodation-chart-reservations></app-accommodation-chart-reservations>
+      <button class="btn downloads" (click)="downloadPdfForAccommodation()"><i class="fa fa-download"></i> Download</button>
+    </div>
+  </div>
+</div>

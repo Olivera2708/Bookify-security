@@ -1,0 +1,144 @@
+.inline {
+    display: flex;
+}
+
+.reservation-card {
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    border-radius: 1.5em;
+    background-color: #D8EBDE;
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+.column-left {
+    width: 17.5vw;
+}
+
+.column-center {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    flex-grow: 1;
+}
+
+.column-right {
+    margin: 0 1rem 0 1rem;
+    width: 10vw;
+    padding-top: 6vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.reservation-image {
+    width: inherit;
+    height: 100%;
+    border-radius: 1.5em;
+    padding: 5px;
+    margin: 0;
+    display: inline-block;
+}
+
+.subtitle {
+    font-size: small;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.title {
+    font-size: larger;
+    font-weight: bold;
+    margin: 0.12rem 1rem 0 0;
+}
+
+.description {
+    margin-top: auto;
+    font-size: medium;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.price-per {
+    font-size: medium;
+    color: #326268;
+    margin: 0 0 0.5rem 0;
+}
+
+.price {
+    font-size: medium;
+    color: #2E4057;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+}
+
+.details-button {
+    border: transparent;
+    padding: 0.4rem 2rem;
+    line-height: 1;
+    border-radius: 2rem;
+    background-color: #2E4057;
+    color: whitesmoke;
+}
+
+.details-button:hover {
+    background-color: dimgrey;
+}
+
+.average-rating {
+    position: relative;
+    appearance: none;
+    color: transparent;
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.average-rating::before {
+    /*--percent: calc(4.2/5*100%);*/
+    content: '★★★★★';
+    font-size: 1.2rem;
+    background:
+        linear-gradient(90deg, #326268 var(--percent), rgba(0, 0, 0, 0.2) var(--percent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+hr {
+    opacity: 1;
+    margin: 0;
+    border: none;
+    border-radius: 2px;
+    height: 2px;
+    background-color: #A29D92;
+    width: 50%;
+}
+
+span {
+    margin-left: 20px;
+    color: #A29D92;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.accept {
+    color: #F5F5F5;
+}
+
+.reject{
+    background-color: #ffffff;
+    color: #2E4057;
+}
+
+.button-wrapper {
+    display: flex;
+    width: 15rem;
+    justify-content: space-around;
+    padding-bottom: 10px;
+}

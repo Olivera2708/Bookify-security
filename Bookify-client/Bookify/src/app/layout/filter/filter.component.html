@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<div class="filter-card">
+  <div class="inline">
+    <span class="material-symbols-outlined">filter_alt</span>
+    <p class="subcategory">Filters</p>
+  </div>
+  <hr class="rounded">
+  <div class="filters">
+    @for (label of checkboxLabels; track label) {
+    <div class="checkbox-wrapper-42 checkbox-filter">
+      <input id="cbx-{{ label }}" type="checkbox" />
+      <label class="cbx" for="cbx-{{ label }}"></label>
+      <label class="lbl" for="cbx-{{ label }}">{{ label }}</label>
+    </div>
+    }
+  </div>
+  <div class="inline-price">
+    <span class="material-symbols-outlined">apartment</span>
+    <p class="subcategory">Accommodation type</p>
+    <div class="inline-type">
+      @for (label of accommodationCheckbox; track label) {
+      <div class="checkbox-wrapper-42 checkbox-type">
+        <input id="cbx-{{ label }}" type="checkbox" checked/>
+        <label class="cbx" for="cbx-{{ label }}"></label>
+        <label class="lbl" for="cbx-{{ label }}">{{ label }}</label>
+      </div>
+      }
+    </div>
+  </div>
+  <div class="inline-price">
+    <span class="material-symbols-outlined">shoppingmode</span>
+    <p class="subcategory">Price</p>
+    <input class="input-field input-margin" value="{{ minPrice }}" disabled/>
+    <p id="line">-</p>
+    <input class="input-field" value="{{ maxPrice }}" disabled/>
+  </div>
+  <mat-slider min="{{ minPossiblePrice }}" max="{{ maxPossiblePrice }}">
+    <input [(ngModel)]="minPrice" matSliderStartThumb>
+    <input [(ngModel)]="maxPrice" matSliderEndThumb>
+  </mat-slider>
+  <button class="button-right" (click)="onButtonPress()">Filter</button>
+</div>

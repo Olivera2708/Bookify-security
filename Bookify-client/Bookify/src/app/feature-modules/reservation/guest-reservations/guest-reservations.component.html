@@ -1,0 +1,9 @@
+<div class="wrapper-reservations">
+  <div class="wrapper-title">
+    <h1>My Reservations</h1>
+    <hr/>
+  </div>
+  <div *ngFor="let res of reservations">
+    <app-guest-reservation-card [reservation]="res"></app-guest-reservation-card>
+  </div>
+</div>

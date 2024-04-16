@@ -1,0 +1,45 @@
+<div id="notification-settings" *ngIf="role!='ADMIN'" class="card">
+  <label class="acc-title">Notification Settings</label>
+  <div class="title-underline"></div>
+  <div class="settings">
+    <section class="option-holder" *ngIf="role==='OWNER'">
+      <div class="checkbox-wrapper-42">
+        <input id="cbx-new-reservation-request" type="checkbox"
+               [checked]="settings.notificationType.RESERVATION_CREATED"
+               (change)="settings.notificationType.RESERVATION_CREATED = !settings.notificationType.RESERVATION_CREATED"/>
+        <label class="cbx" for="cbx-new-reservation-request"></label>
+        <label class="lbl" for="cbx-new-reservation-request">New Reservation Request</label>
+      </div>
+      <div class="checkbox-wrapper-42">
+        <input id="cbx-new-profile-rating" type="checkbox" [checked]="settings.notificationType.NEW_USER_RATING"
+               (change)="settings.notificationType.NEW_USER_RATING = !settings.notificationType.NEW_USER_RATING"/>
+        <label class="cbx" for="cbx-new-profile-rating"></label>
+        <label class="lbl" for="cbx-new-profile-rating">New Profile Rating</label>
+      </div>
+      <div class="checkbox-wrapper-42">
+        <input id="cbx-reservation-rating" type="checkbox" [checked]="settings.notificationType.RESERVATION_CANCELED"
+               (change)="settings.notificationType.RESERVATION_CANCELED = !settings.notificationType.RESERVATION_CANCELED"/>
+        <label class="cbx" for="cbx-reservation-rating"></label>
+        <label class="lbl" for="cbx-reservation-rating">Reservation Cancellation</label>
+      </div>
+      <div class="checkbox-wrapper-42">
+        <input id="cbx-new-accommodation-rating" type="checkbox"
+               [checked]="settings.notificationType.NEW_ACCOMMODATION_RATING"
+               (change)="settings.notificationType.NEW_ACCOMMODATION_RATING = !settings.notificationType.NEW_ACCOMMODATION_RATING"/>
+        <label class="cbx" for="cbx-new-accommodation-rating"></label>
+        <label class="lbl" for="cbx-new-accommodation-rating">New Accommodation Rating</label>
+      </div>
+    </section>
+    <section class="option-holder" *ngIf="role==='GUEST'">
+      <div class="checkbox-wrapper-42">
+        <input id="cbx-enable-notifications" type="checkbox"
+               [checked]="settings.notificationType.RESERVATION_RESPONSE"
+               (change)="settings.notificationType.RESERVATION_RESPONSE = !settings.notificationType.RESERVATION_RESPONSE"/>
+        <label class="cbx" for="cbx-enable-notifications"></label>
+        <label class="lbl" for="cbx-enable-notifications">Enable notifications</label>
+      </div>
+    </section>
+
+    <button mat-button (click)="applyChanges()">APPLY CHANGES</button>
+  </div>
+</div>

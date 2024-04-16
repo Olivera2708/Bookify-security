@@ -1,0 +1,12 @@
+<div class="search-card">
+  <div class="inline">
+    <span class="material-symbols-outlined icon">search</span>
+    <input [(ngModel)]="search" type="text" placeholder="Search destination">
+  </div>
+    <app-datapicker-range #dateComponent></app-datapicker-range>
+  <div class="inline">
+    <span class="material-symbols-outlined icon">person</span>
+    <input type="number" [(ngModel)]="persons"  value="2" min="1">
+  </div>
+  <button class="button-right" (click)="onButtonPress()">Search</button>
+</div>

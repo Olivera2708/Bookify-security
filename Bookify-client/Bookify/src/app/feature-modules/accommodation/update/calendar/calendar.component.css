@@ -1,0 +1,220 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    place-items: center;
+    overflow: hidden;
+}
+
+.container > button{
+    margin-bottom: 5rem;
+}
+
+.calendar {
+    height: 40rem;
+    width: max-content;
+    background-color: whitesmoke;
+    border-radius: 25px;
+    overflow: hidden;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 35px 50px 0px 50px;
+}
+
+.calendar {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.calendar-header {
+    background: rgb(46, 64, 87);
+    display: flex;
+    justify-content: space-between;
+    border-radius: 7px;
+    align-items: center;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 10px;
+}
+
+.calendar-body {
+    padding: 10px;
+}
+
+.calendar-week-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: 600;
+    cursor: pointer;
+    color: rgb(104, 104, 104);
+}
+
+.calendar-week-days div:hover {
+    color: rgb(46, 64, 87);
+    transform: scale(1.2);
+    transition: all .2s ease-in-out;
+}
+
+.calendar-week-days div {
+    display: grid;
+    place-items: center;
+    color: rgb(46, 64, 87);
+    height: 50px;
+}
+
+.calendar-days {
+    display: grid;
+    margin-top: -57px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    color: #0A0921;
+}
+
+.calendar-days div {
+    width: 57px;
+    height: 53px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    position: relative;
+    cursor: pointer;
+    animation: to-top 1s forwards;
+}
+
+.month-picker {
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.month-picker:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: all 0.2 ease-in-out;
+}
+
+.year-picker {
+    display: flex;
+    align-items: center;
+}
+
+.year-change {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin: 0px 10px;
+    cursor: pointer;
+}
+
+.year-change>pre {
+    margin: 0;
+    align-self: center;
+}
+
+.year-change:hover {
+    background-color: #374b66;
+    transition: all .2s ease-in-out;
+    transform: scale(1.12);
+}
+
+#year:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: all 0.2 ease-in-out;
+}
+
+.calendar-days div span {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  max-width: 100%;
+}
+
+.calendar-days div:last-child {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  max-width: 100%;
+}
+
+.calendar-days div:hover {
+    transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+    background-color: #326268;
+    border-radius: 20%;
+    color: #f8fbff;
+}
+
+.calendar-days div.selected-range {
+    background-color: #326268;
+    border-radius: 20%;
+    color: #f8fbff;
+    transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.calendar-days div:not(.selected-range):hover {
+    transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+    background-color: #f8fbff;
+    border-radius: 20%;
+    color: #0A0921;
+}
+
+.calendar-days div.current-date {
+    color: #f8fbff;
+    background-color: #9796f0;
+    border-radius: 20%;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    color: rgb(245, 245, 245) !important;
+    font-size: medium;
+    width: 40%;
+    height: 2.8rem;
+    border-width: 0px;
+    border-radius: 40px;
+    background-color: rgb(46, 64, 87) !important;
+    cursor: pointer;
+}
+
+.button:active {
+    background-color: #374b66;
+    transform: translateY(4px);
+}
+
+.form-wrapper {
+    height: 4rem;
+    width: 100%;
+    font-family: Dubai Light, Century Gothic;
+    position: relative;
+    display: flex;
+    top: 50px;
+    justify-content: center;
+    align-items: start;
+}
+
+.price {
+  font-size: 0.8rem;
+}
+
+@keyframes to-top {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(100%);
+        opacity: 1;
+    }
+}

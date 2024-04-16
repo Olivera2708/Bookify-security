@@ -1,0 +1,36 @@
+<div class="search-card">
+    <div class="inline">
+      <mat-form-field appearance="outline" id="acc">
+        <mat-label>Accommodation</mat-label>
+        <mat-select [(ngModel)]="selectedAccommodation" (ngModelChange)="onAccommodationChange()">
+          <mat-option *ngFor="let accommodation of accommodations" [value]="accommodation[0]">
+            {{ accommodation[1] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <app-datapicker-range class="date-picker"></app-datapicker-range>
+    <div class="filters">
+        <div class="checkbox-wrapper-42">
+            <input id="cbx-pending" type="checkbox" checked/>
+            <label class="cbx" for="cbx-pending"></label>
+            <label class="lbl" for="cbx-pending">Pending</label>
+        </div>
+        <div class="checkbox-wrapper-42">
+            <input id="cbx-accepted" type="checkbox" checked/>
+            <label class="cbx" for="cbx-accepted"></label>
+            <label class="lbl" for="cbx-accepted">Accepted</label>
+        </div>
+        <div class="checkbox-wrapper-42">
+            <input id="cbx-rejected" type="checkbox" checked/>
+            <label class="cbx" for="cbx-rejected"></label>
+            <label class="lbl" for="cbx-rejected">Rejected</label>
+        </div>
+      <div class="checkbox-wrapper-42">
+        <input id="cbx-canceled" type="checkbox" checked/>
+        <label class="cbx" for="cbx-canceled"></label>
+        <label class="lbl" for="cbx-canceled">Canceled</label>
+      </div>
+    </div>
+    <button class="button-right" (click)="onFilterPress()">Filter</button>
+</div>

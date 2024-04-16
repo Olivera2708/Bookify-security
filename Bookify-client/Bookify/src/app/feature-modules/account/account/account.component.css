@@ -1,0 +1,57 @@
+.card{
+  background-color: #D8EBDE;
+  padding: 30px;
+  border-radius: 30px;
+}
+
+input[matInput]{
+  font-size: 20px;
+}
+
+.acc-title{
+  display: block;
+  width: 100%;
+  color: #326268;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.stretch-text {
+  width: 200px;
+  text-align: center;
+}
+
+button[mat-button]{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  border-radius: 20px;
+  background-color: #2E4057;
+  color: white;
+}
+
+#account-page{
+  width: 70%;
+  margin-top: 7.5%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-flow: column;
+  padding-bottom: 2.5rem;
+}
+
+.button-holder button[mat-button]{
+  width: 50%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+#notifications-view{
+  margin-top: 30px;
+  min-height: 300px;
+}
+
+#notification-settings{
+  margin-top: 30px;
+  min-height: 300px;
+}

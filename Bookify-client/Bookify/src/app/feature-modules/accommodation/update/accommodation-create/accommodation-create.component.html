@@ -1,0 +1,25 @@
+<div class="wrapper">
+    <div class="inline">
+        <div>
+            <span class="material-symbols-outlined apartment">apartment</span>
+            <h1 id="title">Create accommodation</h1>
+        </div>
+        <hr/>
+    </div>
+    <app-accommodation-basic-information (basicInfoChanged)="handleBasicInfoChange($event)"
+        [submitted]="submitted" [basicInfo]="basicInfoFormUpdate"></app-accommodation-basic-information>
+    <hr>
+    <app-accommodation-location (locationChanged)="handleLocationChange($event)"
+        [submitted]="submitted" [address]="addressUpdate"></app-accommodation-location>
+    <hr>
+    <app-accommodation-amenities (amenitiesChange)="handleAmenitiesChange($event)" [amenities]="amenitiesFilter"></app-accommodation-amenities>
+    <hr>
+    <app-accommodation-photos (photosChanged)="handlePhotosChange($event)" [images]="images"></app-accommodation-photos>
+    <hr>
+    <app-accommodation-guests (guestsChanged)="handleGuestsChange($event)"
+        [submitted]="submitted" [guestsInfo]="gusetsInfoUpdate"></app-accommodation-guests>
+    <hr>
+    <app-accommodation-availability (availibilityChanged)="handleAvailabilityChange($event)"
+        [submitted]="submitted" [availabilityInfo]="availabilityInfoUpdate"></app-accommodation-availability>
+    <button mat-raised-button type="submit" class="submit-button button" (click)="onSubmit()">Submit</button>
+</div>

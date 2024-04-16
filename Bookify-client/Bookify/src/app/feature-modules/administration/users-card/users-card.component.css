@@ -1,0 +1,103 @@
+
+.title-underline {
+  background-color: #A29D92;
+  height: 4px;
+  width: 100%;
+  box-shadow: black;
+  border-radius: 20px;
+}
+
+.title {
+  margin: 0.12rem 1rem 0 0;
+}
+
+.user-card {
+  margin-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 84%;
+  min-height: 10rem;
+  border-radius: 1.5em;
+  background-color: #D8EBDE;
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+.column-left {
+  width: 13vw;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.column-center {
+  padding: 1rem 2rem 0 2rem;
+  flex-grow: 1;
+}
+
+.information {
+  vertical-align: center;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+#account-pic {
+  border-radius: 100%;
+  border: 2.5px solid #2e4057;
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  flex-flow: column;
+  width: 5vw;
+  height: 5vw;
+}
+
+.button-holder {
+  width: 100%;
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  display: flex;
+  flex-flow: row;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.button-block {
+  width: 8rem;
+  height: 2rem;
+  border: transparent;
+  border-radius: 2rem;
+  background-color: #2e4057;
+  color: whitesmoke;
+
+}
+
+.button-unblock {
+  width: 8rem;
+  height: 2rem;
+  border: transparent;
+  border-radius: 2rem;
+  background-color: whitesmoke;
+  color: #2e4057;
+  font-weight: bolder;
+}
+
+.button-block:hover {
+  background-color: #326268;
+}
+
+.button-unblock:hover {
+  color: whitesmoke;
+  background-color: dimgrey;
+  font-weight: normal;
+
+}
+
+.information {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}

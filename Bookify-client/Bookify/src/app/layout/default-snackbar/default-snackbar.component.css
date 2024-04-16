@@ -1,0 +1,11 @@
+mat-form-field {
+  margin-right: 12px;
+}
+matSnackBarLabel, matSnackBarActions{
+  color: #2e4057;
+  background-color: #2e4057;
+}
+
+span *{
+  color: whitesmoke;
+}

@@ -1,0 +1,289 @@
+.search-card {
+    margin: auto;
+    width: 66%;
+    border-radius: 1.2em;
+    background-color: rgba(170, 169, 169, 0.7);
+    padding: 0 0.7rem 0 1rem;
+    display: grid;
+    grid-template-columns: 55% 45%;
+}
+
+#acc {
+  margin-left: 1rem;
+  width: 26rem;
+}
+
+input[type="text"],
+input[type="text"]:focus {
+    margin-left: 0.3rem;
+    background: transparent;
+    border: none;
+    outline-width: 0;
+    color: white;
+    font-size: medium;
+}
+
+mat-select {
+    color: white;
+}
+
+::ng-deep .mat-mdc-select-arrow svg {
+    color: white;
+}
+
+::ng-deep .mat-select-arrow {
+    color: white;
+}
+
+::ng-deep .mat-select-placeholder {
+    color: white;
+}
+
+/* Optional: Change the selected option text color */
+::ng-deep .mat-select-value-text {
+    color: white;
+}
+
+input[type="number"],
+input[type="number"]:focus {
+    margin-left: 0.2rem;
+    background: transparent;
+    border: none;
+    outline-width: 0;
+    width: 4vw;
+    color: white;
+    font-size: medium;
+}
+
+.inline {
+  margin-top: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    color: white;
+}
+
+.date {
+    color: white;
+    margin: 0 0 0 0.4rem;
+    padding: 0;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+.button-right {
+    justify-self: end;
+    width: 11vw;
+    border: transparent;
+    margin: 0.5rem 0 0.5rem 0.7rem;
+    border-radius: 2rem;
+    background-color: white;
+    color: #2E4057;
+}
+
+.button-right:hover {
+    background-color: #e3e3e3;
+}
+
+.filters {
+    display: grid;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.checkbox-wrapper-42 {
+    margin: 0;
+}
+
+.checkbox-wrapper-42 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+}
+
+.checkbox-wrapper-42 label {
+    display: inline-block;
+    font-weight: lighter;
+    font-size: 0.9em;
+}
+
+.checkbox-wrapper-42 .cbx {
+    position: relative;
+    top: 1px;
+    width: 17px;
+    height: 17px;
+    border: 2px solid white;
+    border-radius: 3px;
+    vertical-align: middle;
+    transition: background 0.1s ease;
+    cursor: pointer;
+}
+
+.checkbox-wrapper-42 .cbx:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    width: 5px;
+    height: 11px;
+    opacity: 0;
+    transform: rotate(45deg) scale(0);
+    border-right: 2px solid whitesmoke;
+    border-bottom: 2px solid whitesmoke;
+    transition: all 0.3s ease;
+    transition-delay: 0.15s;
+}
+
+.checkbox-wrapper-42 .lbl {
+    margin-top: 4px;
+    margin-left: 5px;
+    vertical-align: middle;
+    color: white;
+    cursor: pointer;
+}
+
+.checkbox-wrapper-42 input[type="checkbox"]:checked~.cbx {
+    border-color: transparent;
+    background: #2E4057;
+    animation: jelly-42 0.6s ease;
+}
+
+.checkbox-wrapper-42 input[type="checkbox"]:checked~.cbx:after {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+}
+
+.checkbox-wrapper-42 .cntr {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+@-moz-keyframes jelly-42 {
+    from {
+        transform: scale(1, 1);
+    }
+
+    30% {
+        transform: scale(1.25, 0.75);
+    }
+
+    40% {
+        transform: scale(0.75, 1.25);
+    }
+
+    50% {
+        transform: scale(1.15, 0.85);
+    }
+
+    65% {
+        transform: scale(0.95, 1.05);
+    }
+
+    75% {
+        transform: scale(1.05, 0.95);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+@-webkit-keyframes jelly-42 {
+    from {
+        transform: scale(1, 1);
+    }
+
+    30% {
+        transform: scale(1.25, 0.75);
+    }
+
+    40% {
+        transform: scale(0.75, 1.25);
+    }
+
+    50% {
+        transform: scale(1.15, 0.85);
+    }
+
+    65% {
+        transform: scale(0.95, 1.05);
+    }
+
+    75% {
+        transform: scale(1.05, 0.95);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+@-o-keyframes jelly-42 {
+    from {
+        transform: scale(1, 1);
+    }
+
+    30% {
+        transform: scale(1.25, 0.75);
+    }
+
+    40% {
+        transform: scale(0.75, 1.25);
+    }
+
+    50% {
+        transform: scale(1.15, 0.85);
+    }
+
+    65% {
+        transform: scale(0.95, 1.05);
+    }
+
+    75% {
+        transform: scale(1.05, 0.95);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes jelly-42 {
+    from {
+        transform: scale(1, 1);
+    }
+
+    30% {
+        transform: scale(1.25, 0.75);
+    }
+
+    40% {
+        transform: scale(0.75, 1.25);
+    }
+
+    50% {
+        transform: scale(1.15, 0.85);
+    }
+
+    65% {
+        transform: scale(0.95, 1.05);
+    }
+
+    75% {
+        transform: scale(1.05, 0.95);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+.date-picker{
+  margin-top: 1.3rem;
+}

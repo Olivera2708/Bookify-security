@@ -1,0 +1,85 @@
+.report-card {
+    margin-top: 3vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 84%;
+    min-height: 15rem;
+    border-radius: 1.5em;
+    background-color: #D8EBDE;
+    display: flex;
+    flex-flow: column;
+}
+
+.reason {
+    display: block;
+    padding: 2rem 3rem;
+}
+
+.users-holder {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    padding: 2rem 3rem;
+}
+
+.user {
+
+}
+
+.button-block {
+    width: 8rem;
+    height: 2rem;
+    border: transparent;
+    border-radius: 2rem;
+    background-color: #2e4057;
+    color: whitesmoke;
+}
+
+.button-block:hover {
+    background-color: #326268;
+}
+
+.button-dismiss {
+    width: 8rem;
+    height: 2rem;
+    border: transparent;
+    border-radius: 2rem;
+    background-color: whitesmoke;
+    color: #2e4057;
+    font-weight: bolder;
+}
+
+.button-dismiss:hover {
+    color: whitesmoke;
+    background-color: dimgrey;
+    font-weight: normal;
+}
+.button-holder {
+    display: flex;
+    flex-flow: row;
+    justify-content: end;
+    gap: 1rem;
+    padding: 2rem 3rem;
+}
+
+.title-underline {
+    margin: auto;
+    background-color: #A29D92;
+    height: 4px;
+    width: 90%;
+    box-shadow: black;
+    border-radius: 20px;
+}
+
+.information {
+    vertical-align: center;
+}
+
+.divider{
+    height: inherit;
+    width: 1px;
+    background-color: #A29D92;
+    display: block;
+    box-shadow: black;
+    border-radius: 20px;
+}

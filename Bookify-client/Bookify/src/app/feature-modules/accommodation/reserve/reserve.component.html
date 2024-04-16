@@ -1,0 +1,14 @@
+<div id="reserve">
+  <p class="subcategory">Reserve</p>
+  <hr/>
+  <div id="reservation-set">
+    <app-datapicker-range #dateComponent></app-datapicker-range>
+    <div class="inline">
+      <span class="material-symbols-outlined icon">person</span>
+      <input type="number" [(ngModel)]="persons" min="1">
+    </div>
+    <div>
+      <button id="reserve-button" (click)="onReservePress()">Reserve</button>
+    </div>
+  </div>
+</div>

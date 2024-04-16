@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+    <div class="wrapper-item">
+        <mat-label>Property Name</mat-label>
+        <mat-form-field>
+            <input matInput name="propertyName" required formControlName="propertyName">
+            <mat-error *ngIf="form.get('propertyName')!.hasError('required')">Property Name is required</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="wrapper-item">
+        <mat-label>Description</mat-label>
+        <mat-form-field class="description">
+            <textarea matInput name="description" formControlName="description" required></textarea>
+            <mat-error *ngIf="form.get('description')!.hasError('required')">Description is required</mat-error>
+        </mat-form-field>
+    </div>
+</form>

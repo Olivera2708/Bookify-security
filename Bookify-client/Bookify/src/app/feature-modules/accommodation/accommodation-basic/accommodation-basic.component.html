@@ -1,0 +1,19 @@
+<div class="accommodation-card">
+  <div class="column-left">
+    <img class="accommodation-image" [src]="image">
+  </div>
+  <div class="column-center">
+    <p class="subtitle">{{basicAccommodation.type.toLocaleUpperCase()}}</p>
+    <div class="inline">
+      <p class="title">{{basicAccommodation.name}}</p>
+      <meter class="average-rating" min="0" max="5" style="--percent: calc({{basicAccommodation.avgRating}}/5*100%);"></meter>
+    </div>
+    <p class="subtitle">{{basicAccommodation.address.address}}, {{basicAccommodation.address.city}}, {{basicAccommodation.address.country}}</p>
+    <p class="description">{{basicAccommodation.description}}</p>
+  </div>
+  <div class="column-right">
+    <p class="price-per">{{basicAccommodation.priceOne}} per {{basicAccommodation.pricePer.toLowerCase()}}</p>
+    <p class="price">{{basicAccommodation.totalPrice}} EUR</p>
+    <button class="details-button" [routerLink]="['/accommodation/details', basicAccommodation.id]">Details</button>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="main">
+  <div class="front">
+    <img src="../../../../assets/images/landing.png" class="landing"/>
+    <p id="moto">Live life with no excuses, travel with no regret.</p>
+    <p id="person">- Oscar Wilde</p>
+    <app-search class="search-bar" (buttonPressed)="handleButtonPress($event)"></app-search>
+    <p class="subtitle top-dest">Top Destinations</p>
+  </div>
+  <div id="top-destinations">
+    <div class="list">
+      <div class="background-top-dest margin-right" id="sydney">
+        <p class="name-top-dest">Sydney, Australia</p>
+      </div>
+      <div class="background-top-dest margin-right" id="budapest">
+        <p class="name-top-dest">Budapest, Hungary</p>
+      </div>
+      <div class="background-top-dest" id="copenhagen">
+        <p class="name-top-dest">Copenhagen, Denmark</p>
+      </div>
+    </div>
+  </div>
+  <div id="top-accommodation">
+    <p class="subtitle top-acc">Most popular properties</p>
+    <div class="list-accommodations">
+      @for (basicAccommodation of accommodations; track basicAccommodation.id) {
+        <app-top-accommodation [accommodation]="basicAccommodation"></app-top-accommodation>
+      }
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

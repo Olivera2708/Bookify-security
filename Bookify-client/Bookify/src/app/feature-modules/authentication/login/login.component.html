@@ -1,0 +1,37 @@
+<div class="login-container">
+    <div class="login-login">
+        <div class="background">
+            <img src="../../../../assets/images/background-image.png" alt="image255165" class="background-image" />
+            <div class="overlay"></div>
+        </div>
+        <form [formGroup]="credentialsForm" class="login-form">
+            <div>
+                <img src="../../../../assets/images/logo_login_reg.png" alt="image276070" class="logo" />
+            </div>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter your email</mat-label>
+                <input matInput placeholder="pat@example.com" required formControlName="email">
+                @if (credentialsForm.controls['email']?.invalid) {
+                <mat-error>{{getErrorMessage()}}</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Enter your password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <p class="forgot-password" routerLink="/forgot-password">Forgot your password?</p>
+
+            <button mat-raised-button type="submit" class="login-button button" (click)="login()">LOG IN</button>
+            <div>
+                <p class="account">Don't have an account?</p>
+                <p class="sign-up" routerLink="/registration">Sign up</p>
+            </div>
+        </form>
+    </div>
+</div>

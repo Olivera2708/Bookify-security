@@ -1,0 +1,101 @@
+<div id="account">
+  <div id="account-information" class="card">
+    <div class="horizontal">
+      <label class="acc-title">Account information</label>
+      <button id="logout" mat-button (click)="OnLogoutClick()">LOGOUT</button>
+    </div>
+    <div class="title-underline"></div>
+    <div class="vertical-flex">
+      <div id="account-pic">
+        <img alt="" class="image" [src]="image"/>
+        <div class="edit-button">
+          <label for="fileInput">
+            <span class="material-symbols-outlined">edit</span>
+          </label>
+          <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" class="custom-file-input"/>
+        </div>
+      </div>
+      <div>
+        <form>
+          <div class="acc-input">
+            <label class="acc-input-labels">Email</label>
+            <mat-form-field class="full-width">
+              <input matInput type="text" value="{{account.email}}" disabled="true">
+            </mat-form-field>
+          </div>
+        </form>
+        <div class="button-holder">
+          <button mat-button (click)="OnPasswordChangeClick()">CHANGE PASSWORD</button>
+          <button mat-button (click)="OnDeleteAccountClick()" >DELETE ACCOUNT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="user-information" class="card">
+    <label class="acc-title">User information</label>
+    <div class="title-underline bottom-margin"></div>
+    <form [formGroup]="userInfoForm">
+      <div class="acc-input">
+        <label class="acc-input-labels" for="firstname">First Name</label>
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput type="text"
+                 formControlName="firstname"
+                 name="firstname" id="firstname">
+        </mat-form-field>
+      </div>
+      <div class="acc-input">
+        <label class="acc-input-labels" for="lastname">Last Name</label>
+        <mat-form-field class="full-width">
+          <input matInput type="text"
+                 formControlName="lastname"
+                 name="lastname" id="lastname">
+        </mat-form-field>
+      </div>
+      <div class="acc-input">
+        <label class="acc-input-labels">Country</label>
+        <mat-form-field class="full-width">
+          <mat-select formControlName="country">
+            <mat-option *ngFor="let country of countries | async" [value]="country">{{ country }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="acc-input">
+        <label class="acc-input-labels" for="city">City</label>
+        <mat-form-field class="full-width">
+          <input matInput
+                 formControlName="city"
+                 name="city" id="city">
+        </mat-form-field>
+      </div>
+      <div class="acc-input">
+        <label class="acc-input-labels" for="street">Street Address</label>
+        <mat-form-field class="full-width">
+          <input matInput
+                 formControlName="address"
+                 name="street" id="street">
+        </mat-form-field>
+      </div>
+      <div class="acc-input">
+        <label class="acc-input-labels" for="zipcode">Zip Code</label>
+        <mat-form-field class="full-width">
+          <input matInput type="tel"
+                 formControlName="zipcode"
+                 name="zipcode" id="zipcode">
+        </mat-form-field>
+      </div>
+      <div class="acc-input">
+        <label class="acc-input-labels" for="phone">Phone</label>
+        <mat-form-field class="full-width">
+          <input matInput type="tel"
+                 formControlName="phone"
+                 name="phone" id="phone">
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="button-holder-horizontal">
+      <button mat-button (click)="OnEditClick()" [ngClass]="{disabled: !isDisabled}" [disabled]="!isDisabled">EDIT ACCOUNT</button>
+      <button mat-button (click)="OnSaveClick()" [ngClass]="{disabled: isDisabled}" [disabled]="isDisabled">SAVE CHANGES</button>
+      <button mat-button (click)="OnCancelClick()" [ngClass]="{disabled: isDisabled}" [disabled]="isDisabled">CANCEL</button>
+    </div>
+  </div>
+</div>

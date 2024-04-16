@@ -1,0 +1,109 @@
+#moto {
+  position: absolute;
+  top: 34vh;
+  left: 15vw;
+  color: whitesmoke;
+  font-size: xxx-large;
+}
+
+#person {
+  position: absolute;
+  top: 44vh;
+  left: 60vw;
+  color: whitesmoke;
+  font-size: xx-large;
+}
+
+.landing {
+  width: 100%;
+  height: 110vh;
+  mask-image: linear-gradient(to bottom, rgba(255,255,255,1) 80%,rgba(0,0,0,0) 100%);
+}
+
+.search-bar {
+  width: 100%;
+  position: absolute;
+  top: 70vh;
+  left: 0;
+  right: 0;
+}
+
+.subtitle {
+  font-size: x-large;
+  top: 86vh;
+  margin: 0 0 0 14vw;
+}
+
+.top-dest {
+  color: white;
+  position: absolute;
+  margin-top: 6vh;
+}
+
+.top-acc {
+  color: black;
+}
+
+.list {
+  display: flex;
+  width: 80%;
+  margin: auto;
+  justify-content: center;
+}
+
+.margin-right {
+  margin-right: 4.5rem;
+}
+
+#top-destinations {
+  margin-top: -12vh;
+}
+
+#top-accommodation {
+  margin-top: 4rem;
+}
+
+.main {
+  margin: 0;
+  padding: 0;
+}
+
+.background-top-dest {
+  width: 18vw;
+  height: 12vw;
+  background-size: cover;
+  border-radius: 1rem;
+  position: relative;
+}
+
+.name-top-dest {
+  font-size: 1.2vw;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0.5rem;
+}
+
+#budapest {
+  background-image: url("../../../../assets/images/budapest.jpg");
+}
+
+#sydney {
+  background-image: url("../../../../assets/images/sydney.jpg");
+}
+
+#copenhagen {
+  background-image: url("../../../../assets/images/copenhagen.jpg");
+}
+
+.list-accommodations {
+  display: flex;
+  width: 80%;
+  margin: auto;
+  justify-content: center;
+}
+
+.list-accommodations > * {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}

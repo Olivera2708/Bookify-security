@@ -1,0 +1,71 @@
+<div>
+  <div class="inline title-main">
+    <span
+      class="material-symbols-outlined favorite"
+      id="favorite-button"
+      (click)="addToFavorites()"
+      >
+      <ng-container *ngIf="!isFavorite; else fullHeart">&#9825;</ng-container>
+      <ng-template #fullHeart>&#9829;</ng-template>
+    </span>
+    <p id="hotel-name">{{ accommodation?.name }}</p>
+    <meter id="accRating" class="average-rating" min="0" max="5" style="--percent: calc({{accommodation?.avgRating}}/5*100%);"></meter>
+  </div>
+
+  <div id="carousel">
+    <app-carousel></app-carousel>
+  </div>
+
+  <div class="two-part">
+    <div id="amenities">
+      <p class="subcategory white">Amenities</p>
+      <hr class="white-back"/>
+      <div id="amenities-list">
+        @for (amenities of amenitiesList; track amenities) {
+        <div class="amenities-wrapper">
+          <span class="material-symbols-outlined amenities-icon">{{ amenities[1] }}</span>
+          <p class="amenities-name">{{ amenities[0] }}</p>
+        </div>
+        }
+      </div>
+    </div>
+    <div id="location">
+      <p class="subcategory white">Location</p>
+      <hr class="white-back"/>
+      <div id="map">
+        <app-map></app-map>
+      </div>
+      <p id="address">{{accommodation?.address?.address}}, {{accommodation?.address?.city}}, {{accommodation?.address?.country}}</p>
+    </div>
+  </div>
+  <div class="two-part">
+    <div id="description">
+      <p class="subcategory">Description</p>
+      <hr/>
+      <p id="desc">{{accommodation?.description}}</p>
+    </div>
+    <div id="owner">
+      <p class="subcategory">Owner</p>
+      <hr/>
+      <div id="owner-profile" [routerLink]="['/owner',accommodation?.owner?.id]">
+        <div id="account-pic">
+          <img alt="" class="image" [src]="ownerImage"/>
+        </div>
+        <div id="owner-info">
+          <div class="inline no-margin">
+            <p id="owner-name">{{accommodation?.owner?.firstName}} {{accommodation?.owner?.lastName}}</p>
+            <meter id="ownerRating" class="average-rating small" min="0" max="5" style="--percent: calc({{accommodation?.owner?.avgRating}}/5*100%);"></meter>
+          </div>
+          <p id="owner-number">{{accommodation?.owner?.phone}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="two-part" id="reserve-comp">
+    <app-reserve (buttonPressed)="reservePressed($event)"></app-reserve>
+  </div>
+  <div class="reviews">
+    <app-accommodation-new-review *ngIf="role==='GUEST'"></app-accommodation-new-review>
+    <app-accommodation-reviews [ownerId]="accommodation?.owner?.id"></app-accommodation-reviews>
+  </div>
+</div>

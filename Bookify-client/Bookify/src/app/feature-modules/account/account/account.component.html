@@ -1,0 +1,6 @@
+<div id="account-page">
+  <app-user-information></app-user-information>
+  <app-notification-settings></app-notification-settings>
+  <app-notifications></app-notifications>
+  <app-comments-ratings *ngIf="role==='OWNER'"></app-comments-ratings>
+</div>

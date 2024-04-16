@@ -1,0 +1,16 @@
+<div class="page">
+  <h2 class="title">Users</h2>
+  <div class="title-underline"></div>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab label="All users">
+    <div class="card-holder" *ngFor="let user of allUsers">
+      <app-users-card [user]="user"></app-users-card>
+    </div>
+    </mat-tab>
+    <mat-tab label="Reported users">
+    <div class="card-holder" *ngFor="let report of allReports">
+      <app-reported-users-card [report]="report"></app-reported-users-card>
+    </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
