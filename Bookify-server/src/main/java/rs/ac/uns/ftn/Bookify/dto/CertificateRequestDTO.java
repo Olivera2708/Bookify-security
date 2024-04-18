@@ -10,7 +10,9 @@ import java.security.KeyPair;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CertificateRequestDTO {
+    private Long id;
     private Long userId;
     private Boolean isCA;
-    private KeyPair keyPair;
+    private String publicKey;
+    private String privateKey;
 }

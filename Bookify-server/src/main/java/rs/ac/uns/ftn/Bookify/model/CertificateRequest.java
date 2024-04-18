@@ -21,6 +21,11 @@ public class CertificateRequest {
 
     private Long userId;
     private Boolean isCA;
-    private KeyPair keyPair;
-    private CertificateRequestStatus status;
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String publicKey;
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String privateKey;
+    private CertificateRequestStatus status = CertificateRequestStatus.PENDING;
 }

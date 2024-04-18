@@ -81,9 +81,9 @@ public class WebSecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/api/v1/accommodations/image/{imageId}","/api/v1/accommodations/search", "/api/v1/accommodations/details/{accommodationId}",
                             "/api/v1/accommodations/top-accommodations", "/api/v1/accommodations/top-locations", "/api/v1/users/image/{imageId}", "/api/v1/users/forgot-password/{email}",
                             "/api/v1/accommodations/images/{accommodationId}", "/api/v1/reviews/accommodation/{accommodationId}", "/api/v1/reviews/owner/{ownerId}", "/api/v1/users/user/{userId}",
-                            "/api/v1/reviews/owner/{ownerId}", "/api/v1/reviews/owner/{ownerId}/rating", "/api/v1/reviews/accommodation/{accommodationId}/rating").permitAll()
-                    .requestMatchers(HttpMethod.POST,"/api/v1/users/login", "/api/v1/users", "/api/v1/accommodations/filter", "/api/v1/users/mobile", "/sendMessageRest").permitAll()
-                    .requestMatchers(HttpMethod.PUT, "/api/v1/users/activate-account").permitAll()
+                            "/api/v1/reviews/owner/{ownerId}", "/api/v1/reviews/owner/{ownerId}/rating", "/api/v1/reviews/accommodation/{accommodationId}/rating", "/api/v1/certificate/requests").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/api/v1/users/login", "/api/v1/users", "/api/v1/accommodations/filter", "/api/v1/users/mobile", "/sendMessageRest", "/api/v1/certificate/request").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/api/v1/users/activate-account", "/api/v1/certificate/request/reject/{requestId}").permitAll()
                     .anyRequest().authenticated()
             ;
         });
