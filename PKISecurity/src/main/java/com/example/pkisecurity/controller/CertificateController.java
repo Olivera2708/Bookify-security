@@ -1,0 +1,77 @@
+package com.example.pkisecurity.controller;
+
+import com.example.pkisecurity.dto.CertificateRequestDTO;
+import com.example.pkisecurity.dto.IssuerDTO;
+import com.example.pkisecurity.dto.RootDTO;
+import com.example.pkisecurity.mapper.CertificateRequestDTOMapper;
+import com.example.pkisecurity.model.CertificateRequest;
+import com.example.pkisecurity.service.interfaces.ICertificateRequestService;
+import com.example.pkisecurity.service.interfaces.ICertificateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.KeyPair;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/v1/certificate")
+public class CertificateController {
+
+    @Autowired
+    private ICertificateService certificateService;
+    @Autowired
+    private ICertificateRequestService certificateRequestService;
+
+    @PostMapping("/request")
+    public ResponseEntity<CertificateRequestDTO> createCertificateRequest(@RequestBody CertificateRequestDTO certificateRequestDTO) {
+        if (certificateRequestDTO.getPublicKey() == null || certificateRequestDTO.getPrivateKey() == null) {
+            KeyPair keyPair = certificateService.generateKeyPair();
+            String publicKeyStr = Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
+            String privateKeyStr = Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
+            certificateRequestDTO.setPublicKey(publicKeyStr);
+            certificateRequestDTO.setPrivateKey(privateKeyStr);
+        }
+
+        certificateRequestService.save(CertificateRequestDTOMapper.fromDTOtoCertificateRequest(certificateRequestDTO));
+        return new ResponseEntity<>(certificateRequestDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/requests")
+    public ResponseEntity<Collection<CertificateRequestDTO>> getAllCertificateRequests() {
+        Collection<CertificateRequest> certificateRequests = certificateRequestService.getAllRequests();
+
+        Collection<CertificateRequestDTO> certificateRequestsDTO = certificateRequests.stream()
+                .map(CertificateRequestDTOMapper::fromCertificateRequestDTO)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(certificateRequestsDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("/request/reject/{requestId}")
+    public ResponseEntity<CertificateRequestDTO> rejectCertificateRequest(@PathVariable Long requestId) {
+        CertificateRequest certificateRequest = certificateRequestService.rejectCertificateRequest(requestId);
+        CertificateRequestDTO certificateRequestDTO = CertificateRequestDTOMapper.fromCertificateRequestDTO(certificateRequest);
+
+        return new ResponseEntity<>(certificateRequestDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/root")
+    public ResponseEntity<Void> createRoot(@RequestBody RootDTO rootDTO){
+        certificateService.createRoot(rootDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/request/possibleIssuers")
+    public ResponseEntity<Collection<IssuerDTO>> certificatePossibleIssuers(@PathVariable Long requestId, @RequestBody IssuerDTO issuer) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/request/accept/{requestId}")
+    public ResponseEntity<CertificateRequestDTO> acceptCertificateRequest(@PathVariable Long requestId, @RequestBody IssuerDTO issuer) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+}
