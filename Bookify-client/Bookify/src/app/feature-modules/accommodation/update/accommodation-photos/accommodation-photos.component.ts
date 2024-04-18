@@ -48,7 +48,6 @@ export class AccommodationPhotosComponent implements OnChanges {
     this.selectedImagesObject = this.selectedImagesObject.filter(img => img !== image);
     this.photosChanged.emit(this.selectedImagesObject);
     if(image.id){
-      console.log(image.id);
       this.accommodationService.deleteImage(image.id).subscribe();
     }
   }

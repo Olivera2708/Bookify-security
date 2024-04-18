@@ -25,7 +25,6 @@ export class OwnerPageComponent {
     });
     this.reviewService.getUserDTO(this.ownerId).subscribe({
       next: (owner: UserDTO) => {
-        console.log(owner);
         this.type = owner.type;
       }
     })

@@ -96,7 +96,6 @@ export class AccommodationPageComponent implements OnInit {
           this.getAccommodationPhotos(id);
           const address = this.accommodation.address.address + ", " + this.accommodation.address.city + ", " + this.accommodation.address.zipCode + ", " + this.accommodation.address.country;
           this.mapComponent.search(address);
-          console.log(data);
           this.accommodationService.checkIfInFavorites(this.authenticationService.getUserId(), this.accommodation.id).subscribe({
             next: (data) => {
               this.isFavorite = data;

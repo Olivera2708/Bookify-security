@@ -4,5 +4,6 @@ export const environment = {
   apiUser: 'http://localhost:8080/api/v1/users',
   apiMobile: 'http://192.168.1.5:8080/api/v1/users',
   apiReview: 'http://localhost:8080/api/v1/reviews',
-  apiSocket: 'http://localhost:8080/socket'
+  apiSocket: 'http://localhost:8080/socket',
+  apiPKI: 'http://localhost:8081/api/v1/certificate'
 }
