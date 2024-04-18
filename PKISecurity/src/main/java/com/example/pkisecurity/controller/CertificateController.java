@@ -1,5 +1,6 @@
 package com.example.pkisecurity.controller;
 
+import com.example.pkisecurity.dto.CertificateDTO;
 import com.example.pkisecurity.dto.CertificateRequestDTO;
 import com.example.pkisecurity.dto.IssuerDTO;
 import com.example.pkisecurity.dto.RootDTO;
@@ -52,19 +53,14 @@ public class CertificateController {
         return new ResponseEntity<>(certificateRequestDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/root")
-    public ResponseEntity<Void> createRoot(@RequestBody RootDTO rootDTO){
-        certificateService.createRoot(rootDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping("/request/possibleIssuers")
-    public ResponseEntity<Collection<IssuerDTO>> certificatePossibleIssuers(@PathVariable Long requestId, @RequestBody IssuerDTO issuer) {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PutMapping("/request/accept/{requestId}")
     public ResponseEntity<CertificateRequestDTO> acceptCertificateRequest(@PathVariable Long requestId, @RequestBody IssuerDTO issuer) {
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<CertificateDTO> createCertificate(@RequestBody CertificateDTO certificateDTO){
+        certificateService.createCertificate(certificateDTO);
+        return new ResponseEntity<>(certificateDTO, HttpStatus.CREATED);
     }
 }

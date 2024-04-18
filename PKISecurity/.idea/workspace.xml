@@ -5,13 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c42135f4-321c-474d-bc8b-309d50df197d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/CustomUserDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-server/scripts/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/scripts/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-server/scripts/drop_all.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/scripts/drop_all.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -22,7 +30,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -47,28 +55,34 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "feature/pki",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Dell/Desktop/security/Bookify-security/PKISecurity",
+    "last_opened_file_path": "/Users/olivera/Documents/Bezbednost/PKISecurity/src/main/resources/static",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/static" />
       <recent name="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service" />
       <recent name="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service/interface" />
       <recent name="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository" />
       <recent name="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/interfaces" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.pkisecurity.dto" />
       <recent name="com.example.pkisecurity.utils" />
       <recent name="com.example.pkisecurity.model" />
       <recent name="com.example.pkisecurity.mapper" />
       <recent name="com.example.pkisecurity.enumerations" />
-      <recent name="com.example.pkisecurity.dto" />
     </key>
   </component>
   <component name="RunManager">
