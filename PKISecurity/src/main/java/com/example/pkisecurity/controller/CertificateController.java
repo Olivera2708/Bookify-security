@@ -26,18 +26,11 @@ public class CertificateController {
     @Autowired
     private ICertificateRequestService certificateRequestService;
 
-    @PostMapping("/request")
-    public ResponseEntity<CertificateRequestDTO> createCertificateRequest(@RequestBody CertificateRequestDTO certificateRequestDTO) {
-        if (certificateRequestDTO.getPublicKey() == null || certificateRequestDTO.getPrivateKey() == null) {
-            KeyPair keyPair = certificateService.generateKeyPair();
-            String publicKeyStr = Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
-            String privateKeyStr = Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
-            certificateRequestDTO.setPublicKey(publicKeyStr);
-            certificateRequestDTO.setPrivateKey(privateKeyStr);
-        }
-
-        certificateRequestService.save(CertificateRequestDTOMapper.fromDTOtoCertificateRequest(certificateRequestDTO));
-        return new ResponseEntity<>(certificateRequestDTO, HttpStatus.CREATED);
+    @PostMapping("/request/{userId}")
+    public ResponseEntity<CertificateRequestDTO> createCertificateRequest(@PathVariable Long userId) {
+        CertificateRequest certificateRequest = new CertificateRequest(userId);
+        certificateRequestService.save(certificateRequest);
+        return new ResponseEntity<>(CertificateRequestDTOMapper.fromCertificateRequestDTO(certificateRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/requests")

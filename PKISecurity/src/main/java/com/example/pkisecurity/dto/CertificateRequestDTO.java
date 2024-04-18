@@ -1,5 +1,6 @@
 package com.example.pkisecurity.dto;
 
+import com.example.pkisecurity.enumerations.CertificateRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CertificateRequestDTO {
-    private Long id;
     private Long userId;
-    private Boolean isCA;
-    private String publicKey;
-    private String privateKey;
+    private CertificateRequestStatus status;
 }

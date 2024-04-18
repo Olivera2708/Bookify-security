@@ -16,14 +16,10 @@ public class CertificateRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long userId;
-    private Boolean isCA;
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String publicKey;
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String privateKey;
     private CertificateRequestStatus status = CertificateRequestStatus.PENDING;
+
+    public CertificateRequest(Long userId){
+        this.userId = userId;
+    }
 }

@@ -5,23 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c42135f4-321c-474d-bc8b-309d50df197d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/PkiSecurityApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/interfaces/ICertificateRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/interfaces/ICertificateRequestRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/keystores/KeyStoreReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/keystores/KeyStoreWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service/CertificateRequestService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service/CertificateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service/interfaces/ICertificateRequestService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service/interfaces/ICertificateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/pkisecurity/PkiSecurityApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/CustomUserDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/src/main/java/rs/ac/uns/ftn/Bookify/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,18 +14,21 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+        <option name="mavenHome" value="Use Maven wrapper" />
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2fHLyZs0v1GGcowOB11nNSDtRYJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -53,11 +41,13 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.PkiSecurityApplication.executor": "Run",
-    "git-widget-placeholder": "main",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feature/pki",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/olivera/Documents/Bezbednost/PKISecurity/src/main/java/com/example/pkisecurity/service",
+    "last_opened_file_path": "C:/Users/Dell/Desktop/security/Bookify-security/PKISecurity",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -107,6 +97,7 @@
       <option name="presentableId" value="Default" />
       <updated>1713453314094</updated>
       <workItem from="1713453315248" duration="1662000" />
+      <workItem from="1713459345920" duration="1953000" />
     </task>
     <servers />
   </component>
