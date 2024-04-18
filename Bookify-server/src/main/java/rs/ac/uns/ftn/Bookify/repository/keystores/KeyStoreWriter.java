@@ -15,48 +15,37 @@ import java.security.cert.CertificateException;
 public class KeyStoreWriter {
 
     private KeyStore keyStore;
+    private String keyStorePath = "src/main/resources/static/keystore.jks";
+
+    public void createNewKeyStore(char[] password) {
+        try {
+            keyStore.load(null, password);
+            saveKeyStore(password);
+        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public KeyStoreWriter() {
         try {
             keyStore = KeyStore.getInstance("JKS", "SUN");
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
+        } catch (KeyStoreException | NoSuchProviderException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadKeyStore(String fileName, char[] password) {
+    public void loadKeyStore(char[] password) {
         try {
-            if(fileName != null) {
-                keyStore.load(new FileInputStream(fileName), password);
-            } else {
-                //Ako je cilj kreirati novi KeyStore poziva se i dalje load, pri cemu je prvi parametar null
-                keyStore.load(null, password);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            keyStore.load(new FileInputStream(keyStorePath), password);
+        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
+            createNewKeyStore(password);
         }
     }
 
-    public void saveKeyStore(String fileName, char[] password) {
+    public void saveKeyStore(char[] password) {
         try {
-            keyStore.store(new FileOutputStream(fileName), password);
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            keyStore.store(new FileOutputStream(keyStorePath), password);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
             e.printStackTrace();
         }
     }

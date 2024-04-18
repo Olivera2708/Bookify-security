@@ -4,14 +4,24 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.springframework.stereotype.Service;
+import rs.ac.uns.ftn.Bookify.config.utils.CertificateGenerator;
 import rs.ac.uns.ftn.Bookify.dto.RootDTO;
+import rs.ac.uns.ftn.Bookify.model.Issuer;
 import rs.ac.uns.ftn.Bookify.model.Subject;
+import rs.ac.uns.ftn.Bookify.repository.keystores.KeyStoreWriter;
 import rs.ac.uns.ftn.Bookify.service.interfaces.ICertificateService;
 
 import java.security.*;
+import java.security.cert.X509Certificate;
+import java.util.Calendar;
+import java.util.Date;
+
+import static rs.ac.uns.ftn.Bookify.BookifyApplication.keyStoreWriter;
+
 
 @Service
 public class CertificateService implements ICertificateService {
+
     @Override
     public KeyPair generateKeyPair() {
         try {
@@ -30,7 +40,22 @@ public class CertificateService implements ICertificateService {
         X500Name x500Name = createX500Name(rootDTO);
         KeyPair keyPair = generateKeyPair();
         Subject subject = new Subject(keyPair.getPublic(), x500Name);
-        //sacuvaj privatni u jks
+        Issuer issuer = new Issuer(keyPair.getPrivate(), keyPair.getPublic(), x500Name);
+        X509Certificate x509Certificate = CertificateGenerator.generateCertificate(subject, issuer, new Date(), getEndDate(5), "0");
+        saveCertificate(rootDTO.getEmail(), keyPair.getPrivate(), rootDTO.getKeyStorePassword().toCharArray(), x509Certificate);
+    }
+
+    private void saveCertificate(String alias, PrivateKey privateKey, char[] password, java.security.cert.Certificate certificate){
+        keyStoreWriter.loadKeyStore(password);
+        keyStoreWriter.write(alias, privateKey, password, certificate);
+        keyStoreWriter.saveKeyStore(password);
+    }
+
+    private Date getEndDate(int years){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.YEAR, years);
+        return calendar.getTime();
     }
 
     @Override

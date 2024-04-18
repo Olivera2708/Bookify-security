@@ -65,9 +65,9 @@ public class CertificateController {
     }
 
     @PostMapping("/root")
-    public ResponseEntity<CertificateDTO> createRoot(@RequestBody RootDTO rootDTO){
+    public ResponseEntity<Void> createRoot(@RequestBody RootDTO rootDTO){
         certificateService.createRoot(rootDTO);
-        return new ResponseEntity<CertificateDTO>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/request/possibleIssuers")

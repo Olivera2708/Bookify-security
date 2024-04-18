@@ -13,4 +13,5 @@ public class RootDTO {
     private String country;
     private String organization;
     private String organizationUnit;
+    private String keyStorePassword;
 }
