@@ -13,7 +13,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
-public class JSONParser {
+public class JSONParserPrivateKey {
     private static JSONArray keystoreConfigs;
 
     private static void setupConfig(String filename){
@@ -24,44 +24,6 @@ public class JSONParser {
             throw new RuntimeException(e);
         }
         keystoreConfigs = new JSONArray(jsonText);
-    }
-
-    public static String getKSFile(String alias) {
-        setupConfig("key-store-password.json");
-        for (int i = 0; i < keystoreConfigs.length(); i++) {
-            JSONObject ksConfig = keystoreConfigs.getJSONObject(i);
-            JSONArray aliases = ksConfig.getJSONArray("aliases");
-            for (int j = 0; j < aliases.length(); j++) {
-                if (aliases.getString(j).equals(alias)) {
-                    return ksConfig.getString("file-name");
-                }
-            }
-        }
-        return null;
-    }
-
-    public static String getKSPass(String alias) {
-        setupConfig("key-store-password.json");
-        for (int i = 0; i < keystoreConfigs.length(); i++) {
-            JSONObject ksConfig = keystoreConfigs.getJSONObject(i);
-            JSONArray aliases = ksConfig.getJSONArray("aliases");
-            for (int j = 0; j < aliases.length(); j++) {
-                if (aliases.getString(j).equals(alias)) {
-                    return ksConfig.getString("password");
-                }
-            }
-        }
-        return null;
-    }
-    public static String getKSPassByFileName(String fileName) {
-        setupConfig("key-store-password.json");
-        for (int i = 0; i < keystoreConfigs.length(); i++) {
-            JSONObject ksConfig = keystoreConfigs.getJSONObject(i);
-            if (ksConfig.getString("file-name").equals(fileName)) {
-                return ksConfig.getString("password");
-            }
-        }
-        return null;
     }
 
     public static PrivateKey getPrivateKey(String serialNumber) {
@@ -99,21 +61,8 @@ public class JSONParser {
         }
     }
 
-    public static boolean doesFileExistInJSON(String keyStoreName){
-        setupConfig("key-store-password.json");
-
-        for (int i = 0; i < keystoreConfigs.length(); i++) {
-            JSONObject ksConfig = keystoreConfigs.getJSONObject(i);
-            String fileName = ksConfig.getString("file-name");
-            if (fileName.equals(keyStoreName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static void saveSubjectPrivateKey(String serialNumber, PrivateKey privateKeyPEM) {
-        setupConfig("private-key.json");
+        setupConfig("private-keys.json");
 
         JSONObject newKey = new JSONObject();
         newKey.put("serial-number", serialNumber);
@@ -125,10 +74,9 @@ public class JSONParser {
         keystoreConfigs.put(newKey);
 
         try {
-            Files.writeString(Paths.get("src/main/resources/static/private-key.json"), keystoreConfigs.toString(4));
+            Files.writeString(Paths.get("src/main/resources/static/private-keys.json"), keystoreConfigs.toString(4));
         } catch (IOException e) {
             throw new RuntimeException("Failed to save updated keys to file", e);
         }
     }
-
 }

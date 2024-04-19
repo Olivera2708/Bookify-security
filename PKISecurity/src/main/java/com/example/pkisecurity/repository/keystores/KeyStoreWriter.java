@@ -29,12 +29,16 @@ public class KeyStoreWriter {
 
     public void loadKeyStore(String fileName, char[] password) {
         try {
-            if(fileName != null) {
-                keyStore.load(new FileInputStream(path+fileName), password);
-            } else {
-                //Ako je cilj kreirati novi KeyStore poziva se i dalje load, pri cemu je prvi parametar null
-                keyStore.load(null, password);
-            }
+            keyStore.load(new FileInputStream(path + fileName), password);
+        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
+            createNewKeyStore(fileName, password);
+        }
+    }
+
+    public void createNewKeyStore(String fileName, char[] password) {
+        try {
+            keyStore.load(null, password);
+            saveKeyStore(fileName, password);
         } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
             e.printStackTrace();
         }

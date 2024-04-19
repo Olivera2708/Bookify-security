@@ -23,7 +23,8 @@ import java.util.UUID;
 
 import static com.example.pkisecurity.PkiSecurityApplication.keyStoreReader;
 import static com.example.pkisecurity.PkiSecurityApplication.keyStoreWriter;
-import static com.example.pkisecurity.repository.json.JSONParser.*;
+import static com.example.pkisecurity.repository.json.JSONParserPrivateKey.*;
+import static com.example.pkisecurity.repository.json.JSONParserKeyStore.*;
 
 
 @Service
@@ -59,7 +60,7 @@ public class CertificateService implements ICertificateService {
         keyStoreWriter.loadKeyStore(nextKSName, password);
         keyStoreWriter.write(alias, certificate);
         keyStoreWriter.saveKeyStore(nextKSName, password);
-
+        saveKeyStorePassword(alias, nextKSName, new String(password));
     }
 
     public Date getEndDate(int years) {
@@ -71,20 +72,17 @@ public class CertificateService implements ICertificateService {
 
     @Override
     public void createCertificate(CertificateDTO certificateDTO) {
-
         X500Name x500Name = createX500Name(certificateDTO.getSubject());
         KeyPair keyPair = generateKeyPair();
         Subject subject = new Subject(keyPair.getPublic(), x500Name);
 
-
         Issuer issuer = getNextIssuer(certificateDTO.getIssuerCertificateAlias());
-
 
         X509Certificate x509Certificate = CertificateGenerator.generateCertificate(subject,
                 issuer,
                 certificateDTO.getIssued(),
                 certificateDTO.getExpires(),
-                UUID.randomUUID().toString());
+                UUID.randomUUID().toString().replace("-", ""));
 
         String nextKSName = getKeyStoreName(certificateDTO.getIssuerCertificateAlias(), subject);
         char[] ksPass = getPassword(nextKSName);
@@ -92,8 +90,6 @@ public class CertificateService implements ICertificateService {
         saveCertificate(x509Certificate.getSerialNumber().toString(), ksPass, x509Certificate, nextKSName);
         saveSubjectPrivateKey(x509Certificate.getSerialNumber().toString(), keyPair.getPrivate());
     }
-
-
 
     private String getKeyStoreName(String issuersAlias, Subject subject) {
         String file = getKSFile(issuersAlias);
@@ -108,7 +104,7 @@ public class CertificateService implements ICertificateService {
     private char[] getPassword(String filename) {
         if (doesFileExistInJSON(filename))
             getKSPassByFileName(filename);
-        return UUID.randomUUID().toString().toCharArray();
+        return UUID.randomUUID().toString().replace("-", "").toCharArray();
     }
 
     @Override

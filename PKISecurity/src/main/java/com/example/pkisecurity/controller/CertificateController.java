@@ -73,7 +73,7 @@ public class CertificateController {
         CertificateDTO certificateDTO = new CertificateDTO("root", new SubjectDTO("bookify","bookify.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date() );
 
         certificateService.createCertificate(certificateDTO);
-        keyStoreReader.readAllCertificates("src/main/resources/static/root.jks","2uCr0iUaP0kbBLv");
+        keyStoreReader.readAllCertificates("root.jks","2uCr0iUaP0kbBLv");
         return new ResponseEntity(HttpStatus.OK);
     }
 }

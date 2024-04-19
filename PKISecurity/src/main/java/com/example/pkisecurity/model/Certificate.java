@@ -21,7 +21,7 @@ public class Certificate {
     public Certificate(Subject subject, Issuer issuer, Date issued, Date expires, X509Certificate x509Certificate) {
         this.subject = subject;
         this.issuer = issuer;
-        this.serialNumber = UUID.randomUUID().toString();
+        this.serialNumber = UUID.randomUUID().toString().replace("-", "");
         this.issued = issued;
         this.expires = expires;
         this.x509Certificate = x509Certificate;

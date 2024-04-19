@@ -2,10 +2,7 @@ package com.example.pkisecurity.repository.keystores;
 
 
 import com.example.pkisecurity.model.Issuer;
-import org.bouncycastle.asn1.x500.RDN;
 import org.bouncycastle.asn1.x500.X500Name;
-import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.asn1.x500.style.IETFUtils;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import static com.example.pkisecurity.repository.json.JSONParser.getPrivateKey;
+import static com.example.pkisecurity.repository.json.JSONParserPrivateKey.getPrivateKey;
 
 @Component
 public class KeyStoreReader {
@@ -42,7 +39,7 @@ public class KeyStoreReader {
 
     public Issuer getNextIssuer(String keyStoreFile, char[] password, String alias) {
         try {
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path+keyStoreFile));
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path + keyStoreFile));
             keyStore.load(in, password);
 
             X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
@@ -61,13 +58,14 @@ public class KeyStoreReader {
         try {
             KeyStore ks = KeyStore.getInstance("JKS", "SUN");
 
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path+keyStoreFile));
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path + keyStoreFile));
             ks.load(in, keyStorePass.toCharArray());
 
-            if(ks.isCertificateEntry(alias)) {
+            if (ks.isCertificateEntry(alias)) {
                 return (X509Certificate) ks.getCertificate(alias);
             }
-        } catch (KeyStoreException | NoSuchProviderException | NoSuchAlgorithmException | CertificateException | IOException e) {
+        } catch (KeyStoreException | NoSuchProviderException | NoSuchAlgorithmException | CertificateException |
+                 IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -77,7 +75,7 @@ public class KeyStoreReader {
         List<X509Certificate> certificates = new ArrayList<>();
         try {
             KeyStore ks = KeyStore.getInstance("JKS");
-            try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(path+keyStoreFile))) {
+            try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(path + keyStoreFile))) {
                 ks.load(in, keyStorePass.toCharArray());
             }
 
