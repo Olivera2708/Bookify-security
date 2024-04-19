@@ -100,7 +100,7 @@
       <updated>1713453314094</updated>
       <workItem from="1713453315248" duration="1662000" />
       <workItem from="1713459345920" duration="1953000" />
-      <workItem from="1713476315044" duration="12015000" />
+      <workItem from="1713476315044" duration="14360000" />
     </task>
     <servers />
   </component>
@@ -112,13 +112,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/keystores/KeyStoreReader.java</url>
-          <line>117</line>
+          <line>104</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service/CertificateService.java</url>
-          <line>72</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/controller/CertificateController.java</url>
