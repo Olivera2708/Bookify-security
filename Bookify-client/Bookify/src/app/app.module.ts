@@ -18,30 +18,38 @@ import { ReviewModule } from './feature-modules/review/review.module';
 import { ReservationModule } from './feature-modules/reservation/reservation.module';
 import { CertificateManagerComponent } from './feature-modules/sysadmin/certificate-manager/certificate-manager.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from "@angular/material/sort";
+import {MatTreeModule} from "@angular/material/tree";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
     AppComponent,
     CertificateManagerComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    LayoutModule,
-    AccountModule,
-    BrowserAnimationsModule,
-    AuthenticationModule,
-    CarouselComponent,
-    NgbModule,
-    HttpClientModule,
-    DatapickerRangeComponent,
-    AccommodationModule,
-    ReservationModule,
-    SharedModule,
-    AdministrationModule,
-    ReviewModule,
-    MatTableModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        LayoutModule,
+        AccountModule,
+        BrowserAnimationsModule,
+        AuthenticationModule,
+        CarouselComponent,
+        NgbModule,
+        HttpClientModule,
+        DatapickerRangeComponent,
+        AccommodationModule,
+        ReservationModule,
+        SharedModule,
+        AdministrationModule,
+        ReviewModule,
+        MatTableModule,
+        MatSortModule,
+        MatTreeModule,
+        MatIconModule,
+        MatButtonModule
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
     provideClientHydration(withNoHttpTransferCache()),
