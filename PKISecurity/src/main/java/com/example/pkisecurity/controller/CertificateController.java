@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import static com.example.pkisecurity.PkiSecurityApplication.keyStoreReader;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/v1/certificate")
 public class CertificateController {
 

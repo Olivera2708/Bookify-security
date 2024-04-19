@@ -17,6 +17,7 @@ import { AdministrationModule } from "./feature-modules/administration/administr
 import { ReviewModule } from './feature-modules/review/review.module';
 import { ReservationModule } from './feature-modules/reservation/reservation.module';
 import { CertificateManagerComponent } from './feature-modules/sysadmin/certificate-manager/certificate-manager.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CertificateManagerComponent } from './feature-modules/sysadmin/certific
     ReservationModule,
     SharedModule,
     AdministrationModule,
-    ReviewModule
+    ReviewModule,
+    MatTableModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },

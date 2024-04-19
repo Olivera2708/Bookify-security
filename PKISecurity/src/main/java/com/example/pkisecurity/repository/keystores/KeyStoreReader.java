@@ -26,7 +26,6 @@ public class KeyStoreReader {
     private KeyStore keyStore;
     private final String path = "src/main/resources/static/";
 
-
     public KeyStoreReader() {
         try {
             keyStore = KeyStore.getInstance("JKS", "SUN");
@@ -52,7 +51,6 @@ public class KeyStoreReader {
         }
         return null;
     }
-
 
     public X509Certificate readCertificate(String keyStoreFile, String keyStorePass, String alias) {
         try {
@@ -93,5 +91,4 @@ public class KeyStoreReader {
         }
         return certificates;
     }
-
 }
