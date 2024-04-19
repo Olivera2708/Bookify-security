@@ -53,12 +53,22 @@ public class JSONParser {
         }
         return null;
     }
+    public static String getKSPassByFileName(String fileName) {
+        setupConfig("key-store-password.json");
+        for (int i = 0; i < keystoreConfigs.length(); i++) {
+            JSONObject ksConfig = keystoreConfigs.getJSONObject(i);
+            if (ksConfig.getString("file-name").equals(fileName)) {
+                return ksConfig.getString("password");
+            }
+        }
+        return null;
+    }
 
-    public static PrivateKey getPrivateKey(String email) {
+    public static PrivateKey getPrivateKey(String serialNumber) {
         setupConfig("private-keys.json");
         for (int i = 0; i < keystoreConfigs.length(); i++) {
             JSONObject keyConfig = keystoreConfigs.getJSONObject(i);
-            if (keyConfig.getString("email").equals(email)) {
+            if (keyConfig.getString("serial-number").equals(serialNumber)) {
                 String privateKeyPEM = keyConfig.getString("private-key");
                 return decodePrivateKey(privateKeyPEM);
             }
@@ -74,8 +84,42 @@ public class JSONParser {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePrivate(keySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.err.println("Failed to decode private key: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
     }
+
+    public static boolean doesFileExistInJSON(String keyStoreName){
+        setupConfig("key-store-password.json");
+
+        for (int i = 0; i < keystoreConfigs.length(); i++) {
+            JSONObject ksConfig = keystoreConfigs.getJSONObject(i);
+            String fileName = ksConfig.getString("file-name");
+            if (fileName.equals(keyStoreName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void saveSubjectPrivateKey(String serialNumber, PrivateKey privateKeyPEM) {
+        setupConfig("private-key.json");
+
+        JSONObject newKey = new JSONObject();
+        newKey.put("serial-number", serialNumber);
+
+        byte[] encoded = privateKeyPEM.getEncoded();
+        String base64Encoded = Base64.getEncoder().encodeToString(encoded);
+        newKey.put("private-key", base64Encoded);
+
+        keystoreConfigs.put(newKey);
+
+        try {
+            Files.writeString(Paths.get("src/main/resources/static/private-key.json"), keystoreConfigs.toString(4));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save updated keys to file", e);
+        }
+    }
+
 }

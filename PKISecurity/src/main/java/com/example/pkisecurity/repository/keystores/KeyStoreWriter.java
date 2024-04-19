@@ -3,6 +3,7 @@ package com.example.pkisecurity.repository.keystores;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.*;
@@ -14,44 +15,42 @@ import java.security.cert.CertificateException;
 public class KeyStoreWriter {
 
     private KeyStore keyStore;
-    private String keyStorePath = "src/main/resources/static/keystore.jks";
-
-    public void createNewKeyStore(char[] password) {
-        try {
-            keyStore.load(null, password);
-            saveKeyStore(password);
-        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private final String path = "src/main/resources/static/";
 
     public KeyStoreWriter() {
         try {
             keyStore = KeyStore.getInstance("JKS", "SUN");
-        } catch (KeyStoreException | NoSuchProviderException e) {
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadKeyStore(char[] password) {
+    public void loadKeyStore(String fileName, char[] password) {
         try {
-            keyStore.load(new FileInputStream(keyStorePath), password);
+            if(fileName != null) {
+                keyStore.load(new FileInputStream(path+fileName), password);
+            } else {
+                //Ako je cilj kreirati novi KeyStore poziva se i dalje load, pri cemu je prvi parametar null
+                keyStore.load(null, password);
+            }
         } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
-            createNewKeyStore(password);
+            e.printStackTrace();
         }
     }
 
-    public void saveKeyStore(char[] password) {
+    public void saveKeyStore(String fileName, char[] password) {
         try {
-            keyStore.store(new FileOutputStream(keyStorePath), password);
+            keyStore.store(new FileOutputStream(path+fileName), password);
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void write(String alias, PrivateKey privateKey, char[] password, Certificate certificate) {
+    public void write(String alias, java.security.cert.Certificate certificate) {
         try {
-            keyStore.setKeyEntry(alias, privateKey, password, new Certificate[] {certificate});
+            keyStore.setCertificateEntry(alias, certificate);
         } catch (KeyStoreException e) {
             e.printStackTrace();
         }

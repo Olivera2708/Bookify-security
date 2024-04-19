@@ -70,7 +70,9 @@ public class CertificateController {
 
     @GetMapping("/test-read")
     public ResponseEntity readTest(){
-        certificateService.getCertificate("root");
+        CertificateDTO certificateDTO = new CertificateDTO("root", new SubjectDTO("bookify","bookify.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date() );
+
+        certificateService.createCertificate(certificateDTO);
         keyStoreReader.readAllCertificates("src/main/resources/static/root.jks","2uCr0iUaP0kbBLv");
         return new ResponseEntity(HttpStatus.OK);
     }
