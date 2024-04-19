@@ -1,48 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CertificateService } from '../certificate.service';
 import { TableElement } from '../model/table.data';
-import { forkJoin } from 'rxjs';
+import { elementAt, forkJoin } from 'rxjs';
 import {MatSort, Sort} from "@angular/material/sort";
 import { MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
 import {FlatTreeControl} from "@angular/cdk/tree";
+import { BasicCertificateDTO } from '../model/basicCertificate.dto';
+import { MatDialog } from '@angular/material/dialog';
+import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 
-
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
+export interface CertificateTreeNode {
+  certificate: BasicCertificateDTO;
+  children: CertificateTreeNode[];
 }
 
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-  },
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-      },
-      {
-        name: 'Orange',
-        children: [{name: 'Pumpkins', children: [{name: 'Broccoli', children: [{name: 'Broccoli'}, {name: 'Brussels sprouts', children: [{name: 'Broccoli'}, {name: 'Brussels sprouts', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli', children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}, {name: 'Brussels sprouts'}],}],}],}, {name: 'Brussels sprouts'}],}, {name: 'Carrots'}],
-      },
-    ],
-  },
-];
-
-/** Flat node with expandable and level information */
 interface ExampleFlatNode {
   expandable: boolean;
-  name: string;
+  name: any;
   level: number;
 }
-
-
-
 
 @Component({
   selector: 'app-certificate-manager',
@@ -53,11 +31,10 @@ export class CertificateManagerComponent implements OnInit {
   displayedColumns: string[] = ['name', 'email', 'status', 'reject'];
   dataSource: MatTableDataSource<TableElement>;
   currentRowClick: any = null;
-  //////////////////////
-  private _transformer = (node: FoodNode, level: number) => {
+  private _transformer = (node: CertificateTreeNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
-      name: node.name,
+      name: node,
       level: level,
     };
   };
@@ -76,14 +53,13 @@ export class CertificateManagerComponent implements OnInit {
   dataSource1 = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-  ////////////////////
 
   constructor(
     private certificateService: CertificateService,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    public dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource<TableElement>();
-    this.dataSource1.data = TREE_DATA;
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -100,7 +76,7 @@ export class CertificateManagerComponent implements OnInit {
   loadCertificates(){
     this.certificateService.getAllCertificates().subscribe({
       next: (data) => {
-        console.log(data);
+        this.dataSource1.data = this.createCertificateTree(data);
       }
     })
   }
@@ -127,7 +103,7 @@ export class CertificateManagerComponent implements OnInit {
             data.push(tableElement);
           });
 
-          this.dataSource.data = data; // Update MatTableDataSource with new data
+          this.dataSource.data = data;
         });
       }
     });
@@ -156,6 +132,59 @@ export class CertificateManagerComponent implements OnInit {
             row.status = "REJECTED"
         });
       }
+    });
+  }
+
+  findRootCertificate(certificates: BasicCertificateDTO[]): BasicCertificateDTO | undefined {
+    return certificates.find(cert => cert.issuerEmail === cert.subject.email);
+  }
+
+  buildCertificateTree(rootCertificate: BasicCertificateDTO, allCertificates: BasicCertificateDTO[]): CertificateTreeNode {
+    const rootNode: CertificateTreeNode = {
+      certificate: rootCertificate,
+      children: []
+    };
+  
+    function attachChildren(node: CertificateTreeNode) {
+      allCertificates.forEach(cert => {
+        if (cert.issuerEmail === node.certificate.subject.email) {
+          const childNode: CertificateTreeNode = {
+            certificate: cert,
+            children: []
+          };
+          node.children.push(childNode);
+          attachChildren(childNode);
+        }
+      });
+    }
+  
+    attachChildren(rootNode);
+    return rootNode;
+  }
+
+  createCertificateTree(certificates: BasicCertificateDTO[]): CertificateTreeNode[] {
+    const rootCert = this.findRootCertificate(certificates);
+    certificates = certificates.filter(element => element !== rootCert);
+    if (!rootCert) {
+      console.error("No root certificate found.");
+      return [];
+    }
+    return [this.buildCertificateTree(rootCert, certificates)];
+  }
+
+  extensionsContainsCA(node : any){
+    if(node.certificate.extensions.includes('CA')){
+      return true;
+    }
+    return false;
+  }
+
+  createCertificate(node: any) {
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: { node: node, request: this.currentRowClick}
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      
     });
   }
 }

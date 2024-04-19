@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Create certificate - <span *ngIf="!data.request">Intermediate</span><span *ngIf="data.request">End entity</span></h1>
+<div mat-dialog-content>
+    <form [formGroup]="form">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input id="name" name="name" formControlName="name" matInput>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Country</mat-label>
+            <input matInput id="country" name="country" formControlName="country">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Organization</mat-label>
+            <input matInput id="organization" name="organization" formControlName="organization">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Organization unit</mat-label>
+            <input matInput id="organizationUnit" name="organizationUnit" formControlName="organizationUnit">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput id="email" name="email" formControlName="email">
+        </mat-form-field>
+        <mat-label>Extensions</mat-label>
+        <div class="inline-type">
+            @for (label of extensionsCheckbox; track label) {
+            <div class="checkbox-wrapper-42 checkbox-type">
+                <input id="cbx-{{ label }}" type="checkbox" checked />
+                <label class="cbx" for="cbx-{{ label }}"></label>
+                <label class="lbl" for="cbx-{{ label }}">{{ label }}</label>
+            </div>
+            }
+        </div>
+        <mat-form-field>
+            <mat-label>Duration (year)</mat-label>
+            <input matInput id="duration" name="duration" formControlName="duration" type="number" min="1" max="{{maxYear}}">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button id="submit" (click)="onSubmitClick()">Submit</button>
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+</div>
