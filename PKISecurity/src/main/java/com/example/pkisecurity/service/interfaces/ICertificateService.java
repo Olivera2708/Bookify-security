@@ -1,5 +1,6 @@
 package com.example.pkisecurity.service.interfaces;
 
+import com.example.pkisecurity.dto.BasicCertificateDTO;
 import com.example.pkisecurity.dto.CertificateDTO;
 import com.example.pkisecurity.dto.SubjectDTO;
 import com.example.pkisecurity.model.Issuer;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.security.Certificate;
 import java.security.KeyPair;
 import java.security.cert.X509Certificate;
+import java.util.Collection;
 
 @Service
 public interface ICertificateService {
@@ -21,4 +23,6 @@ public interface ICertificateService {
     X509Certificate getCertificate(String alias);
 
     Issuer getNextIssuer(String alias);
+
+    Collection<BasicCertificateDTO> getAllCertificates();
 }

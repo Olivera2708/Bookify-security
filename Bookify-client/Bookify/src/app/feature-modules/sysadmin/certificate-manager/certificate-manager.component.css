@@ -78,3 +78,20 @@ mat-tree-node {
   position: absolute;
   width: 100vw;
 }
+
+.inline {
+  display: flex;
+}
+
+.child {
+  margin-left: 0.8rem;
+  color: #4d4d4d;
+  cursor: pointer;
+}
+
+.reject {
+  z-index: 2;
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+}

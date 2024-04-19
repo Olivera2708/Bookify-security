@@ -1,10 +1,6 @@
 package com.example.pkisecurity.controller;
 
-import com.example.pkisecurity.dto.CertificateDTO;
-import com.example.pkisecurity.dto.CertificateRequestDTO;
-import com.example.pkisecurity.dto.IssuerDTO;
-import com.example.pkisecurity.dto.SubjectDTO;
-import com.example.pkisecurity.enumerations.Extension;
+import com.example.pkisecurity.dto.*;
 import com.example.pkisecurity.mapper.CertificateRequestDTOMapper;
 import com.example.pkisecurity.model.CertificateRequest;
 import com.example.pkisecurity.service.interfaces.ICertificateRequestService;
@@ -17,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.example.pkisecurity.PkiSecurityApplication.keyStoreReader;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -69,12 +62,22 @@ public class CertificateController {
         return new ResponseEntity<>(certificateDTO, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<Collection<BasicCertificateDTO>> getAllCertificates() {
+        Collection<BasicCertificateDTO> basicCertificates = certificateService.getAllCertificates();
+        return new ResponseEntity<>(basicCertificates, HttpStatus.OK);
+    }
+
     @GetMapping("/test-read")
     public ResponseEntity readTest(){
-        CertificateDTO certificateDTO = new CertificateDTO("root", new SubjectDTO("bookify","bookify.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date() );
-
-        certificateService.createCertificate(certificateDTO);
-        keyStoreReader.readAllCertificates("root.jks","2uCr0iUaP0kbBLv");
+//        CertificateDTO certificateDTO123 = new CertificateDTO("root", new SubjectDTO("bookify","bookify.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
+//        certificateService.createCertificate(certificateDTO123);
+//        CertificateDTO certificateDTO = new CertificateDTO("137771131808395199342628611820242162821", new SubjectDTO("bookify2","bookify2.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
+//        certificateService.createCertificate(certificateDTO);
+        CertificateDTO certificateDTO1 = new CertificateDTO("137771131808395199342628611820242162821", new SubjectDTO("bookify3","bookify3.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
+        certificateService.createCertificate(certificateDTO1);
+        CertificateDTO certificateDTO2 = new CertificateDTO("137771131808395199342628611820242162821", new SubjectDTO("bookify4","bookify4.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
+        certificateService.createCertificate(certificateDTO2);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

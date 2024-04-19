@@ -1,6 +1,6 @@
 export interface TableElement {
-    name: string;
-    email: string;
-    status: string;
-  }
-  
+  id: number,
+  name: string;
+  email: string;
+  status: string;
+}

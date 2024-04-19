@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c42135f4-321c-474d-bc8b-309d50df197d" name="Changes" comment="" />
+    <list default="true" id="c42135f4-321c-474d-bc8b-309d50df197d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/certificate-manager/certificate-manager.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/certificate-manager/certificate-manager.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/certificate-manager/certificate-manager.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/certificate-manager/certificate-manager.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/certificate-manager/certificate-manager.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/certificate-manager/certificate-manager.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bookify-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-server/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -115,11 +120,21 @@
           <option name="timeStamp" value="17" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/controller/CertificateController.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="33" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/keystores/KeyStoreWriter.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/json/JSONParserKeyStore.java</url>
+          <line>69</line>
+          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="certificate.getSerialNumber()" language="JAVA" custom="java.math.BigInteger" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

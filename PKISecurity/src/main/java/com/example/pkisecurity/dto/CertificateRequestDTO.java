@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CertificateRequestDTO {
+    private Long id;
     private Long userId;
     private CertificateRequestStatus status;
 }

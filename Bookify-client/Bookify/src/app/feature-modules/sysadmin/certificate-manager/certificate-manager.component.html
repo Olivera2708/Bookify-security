@@ -2,12 +2,15 @@
   <h1>Certificate Manager</h1>
   <div id="view">
     <div id="left">
-      <h3>Certificates</h3>
+      <div class="inline">
+        <h3>Certificates</h3>
+      </div>
       <div id="tree">
         <mat-tree [dataSource]="dataSource1" [treeControl]="treeControl">
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
             <button mat-icon-button disabled></button>
             {{node.name}}
+            <span class="material-symbols-outlined child">add_box</span>
           </mat-tree-node>
           <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
             <button mat-icon-button matTreeNodeToggle
@@ -17,6 +20,7 @@
               </mat-icon>
             </button>
             {{node.name}}
+            <span class="material-symbols-outlined child">add_box</span>
           </mat-tree-node>
         </mat-tree>
         <div id = "fake">
@@ -44,6 +48,15 @@
               Status
             </th>
             <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="reject">
+            <th mat-header-cell *matHeaderCellDef class = "reject">
+              Reject
+            </th>
+            <td mat-cell *matCellDef="let element" class = "reject">
+              <span class="material-symbols-outlined" *ngIf="element.status === 'PENDING'" (click)="reject(element)">disabled_by_default</span>
+            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

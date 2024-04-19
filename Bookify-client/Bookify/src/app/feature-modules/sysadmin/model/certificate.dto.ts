@@ -1,5 +1,5 @@
 export interface CertificateDTO {
-    userId: number,
-    status: string
-  }
-  
+  id: number,
+  userId: number,
+  status: string
+}

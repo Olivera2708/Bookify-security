@@ -50,7 +50,7 @@ interface ExampleFlatNode {
   styleUrls: ['./certificate-manager.component.css']
 })
 export class CertificateManagerComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'email', 'status'];
+  displayedColumns: string[] = ['name', 'email', 'status', 'reject'];
   dataSource: MatTableDataSource<TableElement>;
   currentRowClick: any = null;
   //////////////////////
@@ -93,8 +93,20 @@ export class CertificateManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource.sort = this.sort; // Bind MatSort to MatTableDataSource
+    this.loadRequests();
+    this.loadCertificates();
+  }
 
+  loadCertificates(){
+    this.certificateService.getAllCertificates().subscribe({
+      next: (data) => {
+        console.log(data);
+      }
+    })
+  }
+
+  loadRequests(){
+    this.dataSource.sort = this.sort; // Bind MatSort to MatTableDataSource
     this.certificateService.getCertificateRequests().subscribe({
       next: (certificates) => {
         let observables = certificates.map(element =>
@@ -107,6 +119,7 @@ export class CertificateManagerComponent implements OnInit {
           certificates.forEach((element, index) => {
             let user = users[index];
             let tableElement: TableElement = {
+              id: element.id,
               name: user.firstName + " " + user.lastName,
               email: user.email,
               status: element.status
@@ -133,5 +146,16 @@ export class CertificateManagerComponent implements OnInit {
       this.currentRowClick = null;
     else
       this.currentRowClick = row;
+  }
+
+  reject(element : any){
+    this.certificateService.rejectCertificateRequest(element.id).subscribe({
+      next: (data) => {
+        this.dataSource.data.forEach((row, index) => {
+          if (row.id === element.id)
+            row.status = "REJECTED"
+        });
+      }
+    });
   }
 }

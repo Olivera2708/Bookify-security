@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PrivateKey;
-import java.util.ArrayList;
-import java.util.Base64;
+import java.util.*;
 
 public class JSONParserKeyStore {
 
@@ -110,5 +109,15 @@ public class JSONParserKeyStore {
             }
         }
         return null;
+    }
+
+    public static Map<String, String> getAllFileNames(){
+        loadFile();
+        Map<String, String> fileNames = new HashMap<>();
+        for (int i = 0; i < keystoreConfigs.length(); i++) {
+            JSONObject key = keystoreConfigs.getJSONObject(i);
+            fileNames.put(key.getString("file-name"), key.getString("password"));
+        }
+        return fileNames;
     }
 }
