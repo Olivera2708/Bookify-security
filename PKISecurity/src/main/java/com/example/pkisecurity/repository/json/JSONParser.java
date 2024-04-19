@@ -76,17 +76,26 @@ public class JSONParser {
         return null;
     }
 
-    private static PrivateKey decodePrivateKey(String key) {
+    public static PrivateKey decodePrivateKey(String keyPEM) {
+        // Remove the first and last lines
+        String privateKeyPEM = keyPEM.replaceAll("-----BEGIN PRIVATE KEY-----", "")
+                .replaceAll("-----END PRIVATE KEY-----", "")
+                .replaceAll("\\s", "");  // Remove all whitespace including newlines
+
+        // Base64 decode the data
+        byte[] encoded = Base64.getDecoder().decode(privateKeyPEM);
+
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
+        KeyFactory keyFactory = null;
         try {
-            key = key.replace("\n", "").replace("\r", "").replace("-----BEGIN PRIVATE KEY-----", "").replace("-----END PRIVATE KEY-----", "");
-            byte[] decodedKey = Base64.getDecoder().decode(key);
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            keyFactory = KeyFactory.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        try {
             return keyFactory.generatePrivate(keySpec);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            System.err.println("Failed to decode private key: " + e.getMessage());
-            e.printStackTrace();
-            return null;
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 

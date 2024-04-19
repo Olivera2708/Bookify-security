@@ -100,7 +100,7 @@
       <updated>1713453314094</updated>
       <workItem from="1713453315248" duration="1662000" />
       <workItem from="1713459345920" duration="1953000" />
-      <workItem from="1713476315044" duration="20574000" />
+      <workItem from="1713476315044" duration="22312000" />
     </task>
     <servers />
   </component>
@@ -115,12 +115,16 @@
           <line>47</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/json/JSONParser.java</url>
-          <line>72</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.security.spec.InvalidKeySpecException" package="java.security.spec" />
+          <option name="timeStamp" value="17" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="keyFactory.generatePrivate(keySpec);" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
