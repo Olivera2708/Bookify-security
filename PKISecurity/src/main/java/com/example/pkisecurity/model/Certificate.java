@@ -1,15 +1,13 @@
 package com.example.pkisecurity.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class Certificate {
 
     private Subject subject;
@@ -19,4 +17,15 @@ public class Certificate {
     private Date expires;
 
     private X509Certificate x509Certificate;
+
+    public Certificate(Subject subject, Issuer issuer, Date issued, Date expires, X509Certificate x509Certificate) {
+        this.subject = subject;
+        this.issuer = issuer;
+        this.serialNumber = UUID.randomUUID().toString();
+        this.issued = issued;
+        this.expires = expires;
+        this.x509Certificate = x509Certificate;
+    }
+
+
 }

@@ -13,8 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CertificateDTO {
-    private IssuerDTO issuerDTO;
-    private Subject subject;
+    private String issuerCertificateAlias;
+    private SubjectDTO subject;
     private List<Extension> extensions;
     private Date issued;
     private Date expires;

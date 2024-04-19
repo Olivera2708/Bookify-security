@@ -3,7 +3,8 @@ package com.example.pkisecurity.controller;
 import com.example.pkisecurity.dto.CertificateDTO;
 import com.example.pkisecurity.dto.CertificateRequestDTO;
 import com.example.pkisecurity.dto.IssuerDTO;
-import com.example.pkisecurity.dto.RootDTO;
+import com.example.pkisecurity.dto.SubjectDTO;
+import com.example.pkisecurity.enumerations.Extension;
 import com.example.pkisecurity.mapper.CertificateRequestDTOMapper;
 import com.example.pkisecurity.model.CertificateRequest;
 import com.example.pkisecurity.service.interfaces.ICertificateRequestService;
@@ -13,10 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.KeyPair;
-import java.util.Base64;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.pkisecurity.PkiSecurityApplication.keyStoreReader;
 
 @RestController
 @RequestMapping("/api/v1/certificate")
@@ -62,5 +66,12 @@ public class CertificateController {
     public ResponseEntity<CertificateDTO> createCertificate(@RequestBody CertificateDTO certificateDTO){
         certificateService.createCertificate(certificateDTO);
         return new ResponseEntity<>(certificateDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/test-read")
+    public ResponseEntity readTest(){
+        certificateService.getCertificate("root");
+        keyStoreReader.readAllCertificates("src/main/resources/static/root.jks","2uCr0iUaP0kbBLv");
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
