@@ -6,6 +6,7 @@ import { TableElement } from '../model/table.data';
 import {CreateCertificateDTO} from "../model/createcertificate.dto";
 import {CertificateService} from "../certificate.service";
 import {NgxSpinnerService} from "ngx-spinner";
+import {environment} from "../../../../env/env";
 
 @Component({
   selector: 'app-form-dialog',
@@ -63,7 +64,9 @@ export class FormDialogComponent {
           next: (data) => {
             this.spinner.hide("create-spinner");
             this.spinnerVisibleFor(2, "success-spinner")
-            this.dialogRef.close(data);
+
+            setTimeout(() => {this.dialogRef.close(data);}, (2000));
+
           },error: (data) =>{
             this.spinner.hide("create-spinner");
             this.spinnerVisibleFor(2, "fail-spinner")
@@ -86,7 +89,7 @@ export class FormDialogComponent {
     expiresDate.setFullYear(expiresDate.getFullYear() + durationYears);
 
     return {
-      issuerCertificateAlias: this.data.node.certificate.subjectCertificateAlias,
+      issuerCertificateAlias: this.getIssuerAlias(),
       subject: {
         name: this.form.get('name')!.value,
         country: this.form.get('country')!.value,
@@ -98,6 +101,11 @@ export class FormDialogComponent {
       issued: new Date(),
       expires: expiresDate
     };
+  }
+
+  getIssuerAlias(){
+    if (this.data.node.certificate.subjectCertificateAlias === environment.rootAlias) return "root";
+    return this.data.node.certificate.subjectCertificateAlias
   }
 
   validateDuration(): ValidatorFn {
