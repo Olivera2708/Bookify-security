@@ -1,44 +1,79 @@
-<h1 mat-dialog-title>Create certificate - <span *ngIf="!data.request">Intermediate</span><span *ngIf="data.request">End entity</span></h1>
-<div mat-dialog-content>
-    <form [formGroup]="form">
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input id="name" name="name" formControlName="name" matInput>
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Country</mat-label>
-            <input matInput id="country" name="country" formControlName="country">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Organization</mat-label>
-            <input matInput id="organization" name="organization" formControlName="organization">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Organization unit</mat-label>
-            <input matInput id="organizationUnit" name="organizationUnit" formControlName="organizationUnit">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput id="email" name="email" formControlName="email">
-        </mat-form-field>
-        <mat-label>Extensions</mat-label>
-        <div class="inline-type">
-            @for (label of extensionsCheckbox; track label) {
-            <div class="checkbox-wrapper-42 checkbox-type">
-                <input id="cbx-{{ label }}" type="checkbox" checked />
-                <label class="cbx" for="cbx-{{ label }}"></label>
-                <label class="lbl" for="cbx-{{ label }}">{{ label }}</label>
-            </div>
-            }
-        </div>
-        <mat-form-field>
+<div id="main">
+  <h1>Certificate creation - <span *ngIf="!data.request">Intermediate</span><span *ngIf="data.request">For {{data.request.name}}</span></h1>
+  <div mat-dialog-content>
+      <form [formGroup]="form">
+        <div class ="enter-data">
+          <div class = "center-data">
+          <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input id="name" name="name" formControlName="name" matInput>
+          </mat-form-field>
+          <mat-form-field>
+              <mat-label>Country (two-letter)</mat-label>
+              <input matInput id="country" name="country" formControlName="country">
+          </mat-form-field>
+          </div>
+          <div class = "center-data">
+          <mat-form-field>
+              <mat-label>Organization</mat-label>
+              <input matInput id="organization" name="organization" formControlName="organization">
+          </mat-form-field>
+          <mat-form-field>
+              <mat-label>Organization unit</mat-label>
+              <input matInput id="organizationUnit" name="organizationUnit" formControlName="organizationUnit">
+          </mat-form-field>
+          </div>
+          <div class = "center-data">
+          <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput id="email" name="email" formControlName="email">
+          </mat-form-field>
+          <mat-form-field>
             <mat-label>Duration (year)</mat-label>
             <input matInput id="duration" name="duration" formControlName="duration" type="number" min="1" max="{{maxYear}}">
-        </mat-form-field>
-    </form>
-</div>
-<div mat-dialog-actions>
+          </mat-form-field>
+          </div>
+        </div>
+        <br>
+          <mat-label class="extensions">Extensions</mat-label>
+          <div class="inline-type">
+            <div class="checkbox-wrapper-42 checkbox-type">
+              <input id="cbx-CA" type="checkbox" checked />
+              <label class="cbx" for="cbx-CA"></label>
+              <label class="lbl" for="cbx-CA">{{ convertExtension("CA") }}</label>
+              <label class="lbl-small">{{ getExtensionDescription("CA") }}</label>
+            </div>
+            <div class="checkbox-wrapper-42 checkbox-type">
+              <input id="cbx-DIGITAL_SIGNATURE" type="checkbox" checked />
+              <label class="cbx" for="cbx-DIGITAL_SIGNATURE"></label>
+              <label class="lbl" for="cbx-DIGITAL_SIGNATURE">{{ convertExtension("DIGITAL_SIGNATURE") }}</label>
+              <label class="lbl-small">{{ getExtensionDescription("DIGITAL_SIGNATURE") }}</label>
+            </div>
+            <div class="checkbox-wrapper-42 checkbox-type">
+              <input id="cbx-KEY_ENCIPHERMENT" type="checkbox" checked />
+              <label class="cbx" for="cbx-KEY_ENCIPHERMENT"></label>
+              <label class="lbl" for="cbx-KEY_ENCIPHERMENT">{{ convertExtension("KEY_ENCIPHERMENT") }}</label>
+              <label class="lbl-small">{{ getExtensionDescription("KEY_ENCIPHERMENT") }}</label>
+            </div>
+          </div>
+        <div class="inline-type">
+            <div class="checkbox-wrapper-42 checkbox-type">
+              <input id="cbx-CERTIFICATE_SIGN" type="checkbox" checked />
+              <label class="cbx" for="cbx-CERTIFICATE_SIGN"></label>
+              <label class="lbl" for="cbx-CERTIFICATE_SIGN">{{ convertExtension("CERTIFICATE_SIGN") }}</label>
+              <label class="lbl-small">{{ getExtensionDescription("CERTIFICATE_SIGN") }}</label>
+            </div>
+            <div class="checkbox-wrapper-42 checkbox-type">
+              <input id="cbx-CRL_SIGN" type="checkbox" checked />
+              <label class="cbx" for="cbx-CRL_SIGN"></label>
+              <label class="lbl" for="cbx-CRL_SIGN">{{ convertExtension("CRL_SIGN") }}</label>
+              <label class="lbl-small">{{ getExtensionDescription("CRL_SIGN") }}</label>
+            </div>
+        </div>
+      </form>
+  </div>
+  <div mat-dialog-actions class="dialog-actions">
+      <button mat-button (click)="onCancelClick()">Cancel</button>
     <button mat-button id="submit" (click)="onSubmitClick()">Submit</button>
-    <button mat-button (click)="onCancelClick()">Cancel</button>
+  </div>
 </div>

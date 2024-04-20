@@ -95,3 +95,8 @@ mat-tree-node {
   margin: 0 auto;
   text-align: center;
 }
+
+matTreeNodePadding {
+  padding-left: 4px;
+}
+
