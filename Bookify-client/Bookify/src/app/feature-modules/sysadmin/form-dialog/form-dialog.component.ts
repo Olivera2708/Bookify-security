@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CertificateTreeNode } from '../certificate-manager/certificate-manager.component';
 import { TableElement } from '../model/table.data';
-import {CreateCertificateDTO} from "../model/createcertificate.dto";
-import {CertificateService} from "../certificate.service";
-import {NgxSpinnerService} from "ngx-spinner";
-import {environment} from "../../../../env/env";
+import { CreateCertificateDTO } from "../model/createcertificate.dto";
+import { CertificateService } from "../certificate.service";
+import { NgxSpinnerService } from "ngx-spinner";
+import { environment } from "../../../../env/env";
 
 @Component({
   selector: 'app-form-dialog',
@@ -28,14 +28,18 @@ export class FormDialogComponent {
   maxYear: number;
 
   constructor(public dialogRef: MatDialogRef<FormDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { node: CertificateTreeNode, request: TableElement},
-              private certificateService: CertificateService,
-              private spinner : NgxSpinnerService) {
-    this.extensionsCheckbox = this.data.node.certificate.extensions;
-    this.maxYear = Math.floor((new Date(data.node.certificate.expires).getTime() - new Date().getTime())/(1000*60*60*24*365));
+    @Inject(MAT_DIALOG_DATA) public data: { node: CertificateTreeNode, request: TableElement },
+    private certificateService: CertificateService,
+    private spinner: NgxSpinnerService) {
+    if (data.request) {
+      this.extensionsCheckbox = ["DIGITAL_SIGNATURE"]
+    } else {
+      this.extensionsCheckbox = this.data.node.certificate.extensions;
+    }
+    this.maxYear = Math.floor((new Date(data.node.certificate.expires).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24 * 365));
   }
 
-  convertExtension(extension : string) : string {
+  convertExtension(extension: string): string {
     if (extension === "CA") return "Certificate Authority";
     if (extension === "DIGITAL_SIGNATURE") return "Digital Signature";
     if (extension === "KEY_ENCIPHERMENT") return "Key Enchipherment";
@@ -44,7 +48,7 @@ export class FormDialogComponent {
     return extension
   }
 
-  getExtensionDescription(extension : string) : string {
+  getExtensionDescription(extension: string): string {
     if (extension === "CA") return "Extension specifies whether a certificate is authorized to sign other certificates within a PKI.";
     if (extension === "DIGITAL_SIGNATURE") return "Indicates that the public key can be used for digital signatures. This is commonly used in certificates for signing data or messages.";
     if (extension === "KEY_ENCIPHERMENT") return "Indicates that the public key can be used for encrypting session keys used in secure communication protocols like TLS/SSL.";
@@ -53,28 +57,32 @@ export class FormDialogComponent {
     return "";
   }
 
-  onSubmitClick(): void {
-    if (this.form.valid) {
+  trackByFn(index: number, item: string): number {
+    return index;
+  }
 
-      this.spinner.show("create-spinner");
+  onSubmitClick(): void {
+    if (this.form.valid && this.getCheckedExtensions().length>0) {
+
+      // this.spinner.show("create-spinner");
       const createCertificateDTO = this.initializeCreateCertificateDTO();
 
-      this.certificateService.createCertificate(createCertificateDTO)
-        .subscribe({
-          next: (data) => {
-            this.spinner.hide("create-spinner");
-            this.spinnerVisibleFor(2, "success-spinner")
+      // this.certificateService.createCertificate(createCertificateDTO)
+      //   .subscribe({
+      //     next: (data) => {
+      //       this.spinner.hide("create-spinner");
+      //       this.spinnerVisibleFor(2, "success-spinner")
 
-            setTimeout(() => {this.dialogRef.close(data);}, (2000));
+      //       setTimeout(() => {this.dialogRef.close(data);}, (2000));
 
-          },error: (data) =>{
-            this.spinner.hide("create-spinner");
-            this.spinnerVisibleFor(2, "fail-spinner")
-          }
-        });
+      //     },error: (data) =>{
+      //       this.spinner.hide("create-spinner");
+      //       this.spinnerVisibleFor(2, "fail-spinner")
+      //     }
+      //   });
     }
   }
-  spinnerVisibleFor(seconds : number, spinnerName : string){
+  spinnerVisibleFor(seconds: number, spinnerName: string) {
     this.spinner.show(spinnerName);
     setTimeout(() => {
       this.spinner.hide(spinnerName);
@@ -103,7 +111,7 @@ export class FormDialogComponent {
     };
   }
 
-  getIssuerAlias(){
+  getIssuerAlias() {
     if (this.data.node.certificate.subjectCertificateAlias === environment.rootAlias) return "root";
     return this.data.node.certificate.subjectCertificateAlias
   }
@@ -131,7 +139,7 @@ export class FormDialogComponent {
       const matchingControl = abstractControl.get(matchingControlName);
 
       if (control?.value !== matchingControl?.value) {
-        const error = {confirmedValidator: 'Passwords do not match.'};
+        const error = { confirmedValidator: 'Passwords do not match.' };
         matchingControl?.setErrors(error);
         return error;
       } else {
@@ -145,9 +153,9 @@ export class FormDialogComponent {
     return this.data.node.certificate.extensions.includes(extension);
   }
 
-  getCheckedExtensions() : string[] {
+  getCheckedExtensions(): string[] {
     let result: string[] = []
-    for (const el of this.extensionsCheckbox){
+    for (const el of this.extensionsCheckbox) {
       const c = document.getElementById("cbx-" + el) as HTMLInputElement;
       if (c.checked)
         result.push(el);

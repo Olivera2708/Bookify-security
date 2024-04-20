@@ -10,6 +10,7 @@ import {FlatTreeControl} from "@angular/cdk/tree";
 import { BasicCertificateDTO } from '../model/basicCertificate.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
+import { DetailsDialogComponent } from '../details-dialog/details-dialog.component';
 
 export interface CertificateTreeNode {
   certificate: BasicCertificateDTO;
@@ -82,7 +83,7 @@ export class CertificateManagerComponent implements OnInit {
   }
 
   loadRequests(){
-    this.dataSource.sort = this.sort; // Bind MatSort to MatTableDataSource
+    this.dataSource.sort = this.sort;
     this.certificateService.getCertificateRequests().subscribe({
       next: (certificates) => {
         let observables = certificates.map(element =>
@@ -181,6 +182,16 @@ export class CertificateManagerComponent implements OnInit {
 
   createCertificate(node: any) {
     const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: { node: node, request: this.currentRowClick}
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result !== undefined)
+        this.loadCertificates()
+    });
+  }
+
+  showDetails(node: any) {
+    const dialogRef = this.dialog.open(DetailsDialogComponent, {
       data: { node: node, request: this.currentRowClick}
     });
     dialogRef.afterClosed().subscribe((result) => {

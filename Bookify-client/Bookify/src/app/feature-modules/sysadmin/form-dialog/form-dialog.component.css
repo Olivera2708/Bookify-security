@@ -133,6 +133,15 @@ mat-slider {
   margin: 0.8rem 0 0 0;
 }
 
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex > div {
+  width: 33%;
+}
+
 .checkbox-wrapper-42 input[type="checkbox"] {
   display: none;
   visibility: hidden;
@@ -150,7 +159,7 @@ mat-slider {
   top: 1px;
   width: 17px;
   height: 17px;
-  border: 2px solid whitesmoke;
+  border: 2px solid rgb(97, 97, 97);
   border-radius: 3px;
   vertical-align: middle;
   transition: background 0.1s ease;

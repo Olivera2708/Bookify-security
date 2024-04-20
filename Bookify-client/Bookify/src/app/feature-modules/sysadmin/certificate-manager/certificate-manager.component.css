@@ -100,3 +100,6 @@ matTreeNodePadding {
   padding-left: 4px;
 }
 
+.cert-name {
+  cursor: pointer;
+}

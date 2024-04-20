@@ -26,13 +26,15 @@ import { FormDialogComponent } from './feature-modules/sysadmin/form-dialog/form
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from './infrastructure/material/material.module';
 import {NgxSpinnerModule} from "ngx-spinner";
+import { DetailsDialogComponent } from './feature-modules/sysadmin/details-dialog/details-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CertificateManagerComponent,
     FormDialogComponent,
-    FormDialogComponent
+    FormDialogComponent,
+    DetailsDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,9 @@
         <mat-tree [dataSource]="dataSource1" [treeControl]="treeControl">
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding matTreeNodePaddingIndent="25">
             <button mat-icon-button disabled></button>
-            {{node.name.certificate.subject.name}}
+            <span class="cert-name" (click)="showDetails(node.name)">
+              {{node.name.certificate.subject.name}}
+            </span>
             <span class="material-symbols-outlined child" *ngIf="extensionsContainsCA(node.name)" (click)="createCertificate(node.name)">add_box</span>
           </mat-tree-node>
           <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="25">
@@ -19,7 +21,9 @@
                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
               </mat-icon>
             </button>
-            {{node.name.certificate.subject.name}}
+            <span class="cert-name" (click)="showDetails(node.name)">
+              {{node.name.certificate.subject.name}}
+            </span>
             <span class="material-symbols-outlined child" (click)="createCertificate(node.name)">add_box</span>
           </mat-tree-node>
         </mat-tree>
