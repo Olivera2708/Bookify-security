@@ -7,7 +7,6 @@ import com.example.pkisecurity.model.Issuer;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.springframework.stereotype.Service;
 
-import java.security.Certificate;
 import java.security.KeyPair;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
