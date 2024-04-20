@@ -13,12 +13,18 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
+import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
+import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 
 import java.security.*;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.*;
 
@@ -83,7 +89,8 @@ public class CertificateService implements ICertificateService {
                 issuer,
                 certificateDTO.getIssued(),
                 certificateDTO.getExpires(),
-                UUID.randomUUID().toString().replace("-", ""));
+                UUID.randomUUID().toString().replace("-", ""),
+                certificateDTO.getExtensions());
 
         String nextKSName = getKeyStoreName(certificateDTO.getIssuerCertificateAlias(), subject);
         char[] ksPass = getPassword(nextKSName);
@@ -91,6 +98,24 @@ public class CertificateService implements ICertificateService {
         saveCertificate(x509Certificate.getSerialNumber().toString(), ksPass, x509Certificate, nextKSName);
         saveSubjectPrivateKey(x509Certificate.getSerialNumber().toString(), keyPair.getPrivate());
     }
+
+//    private X509Certificate signCertificate(X509v3CertificateBuilder certBuilder, PrivateKey issuerPrivateKey) {
+//        try {
+//            // Content signer
+//            ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256WithRSA")
+//                    .build(issuerPrivateKey);
+//
+//            // Generate certificate
+//            return new JcaX509ExtensionUtils()
+//                    .createAuthorityKeyIdentifier(certBuilder.getPublicKey())
+//                    .setIssuerKeyIdentifier(new JcaX509ExtensionUtils().createSubjectKeyIdentifier(certBuilder.getPublicKey()))
+//                    .sign(certBuilder.build(contentSigner));
+//        } catch (CertificateException | OperatorCreationException | CertificateEncodingException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("Error signing certificate: " + e.getMessage());
+//        }
+//    }
+
 
     private String getKeyStoreName(String issuersAlias, Subject subject) {
         String file = getKSFile(issuersAlias);

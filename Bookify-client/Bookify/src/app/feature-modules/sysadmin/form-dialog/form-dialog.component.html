@@ -37,19 +37,19 @@
         <br>
           <mat-label class="extensions">Extensions</mat-label>
           <div class="inline-type">
-            <div class="checkbox-wrapper-42 checkbox-type">
+            <div class="checkbox-wrapper-42 checkbox-type" *ngIf="extensionsContains('CA')">
               <input id="cbx-CA" type="checkbox" checked />
               <label class="cbx" for="cbx-CA"></label>
               <label class="lbl" for="cbx-CA">{{ convertExtension("CA") }}</label>
               <label class="lbl-small">{{ getExtensionDescription("CA") }}</label>
             </div>
-            <div class="checkbox-wrapper-42 checkbox-type">
+            <div class="checkbox-wrapper-42 checkbox-type" *ngIf="extensionsContains('DIGITAL_SIGNATURE')">
               <input id="cbx-DIGITAL_SIGNATURE" type="checkbox" checked />
               <label class="cbx" for="cbx-DIGITAL_SIGNATURE"></label>
               <label class="lbl" for="cbx-DIGITAL_SIGNATURE">{{ convertExtension("DIGITAL_SIGNATURE") }}</label>
               <label class="lbl-small">{{ getExtensionDescription("DIGITAL_SIGNATURE") }}</label>
             </div>
-            <div class="checkbox-wrapper-42 checkbox-type">
+            <div class="checkbox-wrapper-42 checkbox-type" *ngIf="extensionsContains('KEY_ENCIPHERMENT')">
               <input id="cbx-KEY_ENCIPHERMENT" type="checkbox" checked />
               <label class="cbx" for="cbx-KEY_ENCIPHERMENT"></label>
               <label class="lbl" for="cbx-KEY_ENCIPHERMENT">{{ convertExtension("KEY_ENCIPHERMENT") }}</label>
@@ -57,13 +57,13 @@
             </div>
           </div>
         <div class="inline-type">
-            <div class="checkbox-wrapper-42 checkbox-type">
+            <div class="checkbox-wrapper-42 checkbox-type" *ngIf="extensionsContains('CERTIFICATE_SIGN')">
               <input id="cbx-CERTIFICATE_SIGN" type="checkbox" checked />
               <label class="cbx" for="cbx-CERTIFICATE_SIGN"></label>
               <label class="lbl" for="cbx-CERTIFICATE_SIGN">{{ convertExtension("CERTIFICATE_SIGN") }}</label>
               <label class="lbl-small">{{ getExtensionDescription("CERTIFICATE_SIGN") }}</label>
             </div>
-            <div class="checkbox-wrapper-42 checkbox-type">
+            <div class="checkbox-wrapper-42 checkbox-type" *ngIf="extensionsContains('CRL_SIGN')">
               <input id="cbx-CRL_SIGN" type="checkbox" checked />
               <label class="cbx" for="cbx-CRL_SIGN"></label>
               <label class="lbl" for="cbx-CRL_SIGN">{{ convertExtension("CRL_SIGN") }}</label>

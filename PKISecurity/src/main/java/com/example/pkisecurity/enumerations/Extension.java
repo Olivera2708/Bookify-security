@@ -1,5 +1,8 @@
 package com.example.pkisecurity.enumerations;
 
+import lombok.Getter;
+
+@Getter
 public enum Extension {
     DIGITAL_SIGNATURE("Indicates that the public key can be used for digital signatures. This is commonly used in certificates for signing data or messages."),
     KEY_ENCIPHERMENT("Indicates that the public key can be used for encrypting session keys used in secure communication protocols like TLS/SSL."),
@@ -13,7 +16,4 @@ public enum Extension {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
 }

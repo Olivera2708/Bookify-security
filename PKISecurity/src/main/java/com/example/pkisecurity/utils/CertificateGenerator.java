@@ -1,7 +1,9 @@
 package com.example.pkisecurity.utils;
 
+import com.example.pkisecurity.enumerations.Extension;
 import com.example.pkisecurity.model.Issuer;
 import com.example.pkisecurity.model.Subject;
+import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -17,6 +19,7 @@ import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class CertificateGenerator {
@@ -24,7 +27,7 @@ public class CertificateGenerator {
         Security.addProvider(new BouncyCastleProvider());
     }
 
-    public static X509Certificate generateCertificate(Subject subject, Issuer issuer, Date startDate, Date endDate, String serialNumber) {
+    public static X509Certificate generateCertificate(Subject subject, Issuer issuer, Date startDate, Date endDate, String serialNumber, List<Extension> extensions) {
         try {
             JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
             builder = builder.setProvider("BC");
@@ -38,6 +41,9 @@ public class CertificateGenerator {
                     subject.getX500Name(),
                     subject.getPublicKey());
 
+            for(Extension extension : extensions)
+                certGen.addExtension(ExtensionUtils.createExtension(extension));
+
             X509CertificateHolder certHolder = certGen.build(contentSigner);
             JcaX509CertificateConverter certConverter = new JcaX509CertificateConverter();
             certConverter = certConverter.setProvider("BC");
@@ -46,6 +52,8 @@ public class CertificateGenerator {
 
         } catch (IllegalStateException | OperatorCreationException | IllegalArgumentException | CertificateException e) {
             e.printStackTrace();
+        } catch (CertIOException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }

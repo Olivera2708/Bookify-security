@@ -97,7 +97,7 @@ export class FormDialogComponent {
         organizationUnit: this.form.get('organizationUnit')!.value,
         email: this.form.get('email')!.value
       },
-      extensions: this.extensionsCheckbox,
+      extensions: this.getCheckedExtensions(),
       issued: new Date(),
       expires: expiresDate
     };
@@ -139,5 +139,19 @@ export class FormDialogComponent {
         return null;
       }
     }
+  }
+
+  extensionsContains(extension: string) {
+    return this.data.node.certificate.extensions.includes(extension);
+  }
+
+  getCheckedExtensions() : string[] {
+    let result: string[] = []
+    for (const el of this.extensionsCheckbox){
+      const c = document.getElementById("cbx-" + el) as HTMLInputElement;
+      if (c.checked)
+        result.push(el);
+    }
+    return result;
   }
 }
