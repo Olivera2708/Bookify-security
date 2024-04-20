@@ -144,7 +144,7 @@ export class CertificateManagerComponent implements OnInit {
       certificate: rootCertificate,
       children: []
     };
-  
+
     function attachChildren(node: CertificateTreeNode) {
       allCertificates.forEach(cert => {
         if (cert.issuerEmail === node.certificate.subject.email) {
@@ -157,7 +157,7 @@ export class CertificateManagerComponent implements OnInit {
         }
       });
     }
-  
+
     attachChildren(rootNode);
     return rootNode;
   }
@@ -184,7 +184,8 @@ export class CertificateManagerComponent implements OnInit {
       data: { node: node, request: this.currentRowClick}
     });
     dialogRef.afterClosed().subscribe((result) => {
-      
+      if(result !== undefined)
+        this.loadCertificates()
     });
   }
 }

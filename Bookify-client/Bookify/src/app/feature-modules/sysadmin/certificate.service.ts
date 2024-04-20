@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../env/env';
 import { CertUserDTO } from './model/cert.user.dto';
 import {BasicCertificateDTO} from "./model/basicCertificate.dto";
+import {CreateCertificateDTO} from "./model/createcertificate.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +30,7 @@ export class CertificateService {
     return this.httpClient.get<BasicCertificateDTO[]>(environment.apiPKI);
   }
 
+  createCertificate(certificateDTO: CreateCertificateDTO): Observable<CreateCertificateDTO> {
+    return this.httpClient.post<CreateCertificateDTO>(environment.apiPKI + "/create", certificateDTO);
+  }
 }

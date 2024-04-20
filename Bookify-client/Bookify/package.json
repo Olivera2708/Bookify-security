@@ -36,6 +36,7 @@
     "leaflet": "^1.9.4",
     "moment": "^2.29.4",
     "ng-bootstrap": "^1.6.3",
+    "ngx-spinner": "^16.0.2",
     "rxjs": "~7.8.0",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",

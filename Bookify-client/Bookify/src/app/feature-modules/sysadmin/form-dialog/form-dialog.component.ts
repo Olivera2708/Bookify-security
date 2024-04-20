@@ -1,8 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CertificateTreeNode } from '../certificate-manager/certificate-manager.component';
 import { TableElement } from '../model/table.data';
+import {CreateCertificateDTO} from "../model/createcertificate.dto";
+import {CertificateService} from "../certificate.service";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-form-dialog',
@@ -12,18 +15,21 @@ import { TableElement } from '../model/table.data';
 export class FormDialogComponent {
   form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required, Validators.maxLength(2), Validators.minLength(2)]),
     organization: new FormControl('', [Validators.required]),
     organizationUnit: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     extensions: new FormControl(''),
-    duration: new FormControl(''),
+    duration: new FormControl('', [this.validateDuration()]),
   });
 
   extensionsCheckbox: string[] = [];
   maxYear: number;
 
-  constructor(public dialogRef: MatDialogRef<FormDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { node: CertificateTreeNode, request: TableElement}) {
+  constructor(public dialogRef: MatDialogRef<FormDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: { node: CertificateTreeNode, request: TableElement},
+              private certificateService: CertificateService,
+              private spinner : NgxSpinnerService) {
     this.extensionsCheckbox = this.data.node.certificate.extensions;
     this.maxYear = Math.floor((new Date(data.node.certificate.expires).getTime() - new Date().getTime())/(1000*60*60*24*365));
   }
@@ -47,10 +53,64 @@ export class FormDialogComponent {
   }
 
   onSubmitClick(): void {
-    // if (this.passwordForm.valid) {
-    //   this.data.password = this.passwordForm.get('password')?.value;
-    //   this.dialogRef.close(this.data);
-    // }
+    if (this.form.valid) {
+
+      this.spinner.show("create-spinner");
+      const createCertificateDTO = this.initializeCreateCertificateDTO();
+
+      this.certificateService.createCertificate(createCertificateDTO)
+        .subscribe({
+          next: (data) => {
+            this.spinner.hide("create-spinner");
+            this.spinnerVisibleFor(2, "success-spinner")
+            this.dialogRef.close(data);
+          },error: (data) =>{
+            this.spinner.hide("create-spinner");
+            this.spinnerVisibleFor(2, "fail-spinner")
+          }
+        });
+    }
+  }
+  spinnerVisibleFor(seconds : number, spinnerName : string){
+    this.spinner.show(spinnerName);
+    setTimeout(() => {
+      this.spinner.hide(spinnerName);
+    }, (seconds * 1000));
+  }
+
+  initializeCreateCertificateDTO(): CreateCertificateDTO {
+    let durationYears: number = this.form.get('duration')!.value;
+    if (durationYears === 0) durationYears = this.maxYear;
+
+    const expiresDate: Date = new Date();
+    expiresDate.setFullYear(expiresDate.getFullYear() + durationYears);
+
+    return {
+      issuerCertificateAlias: this.data.node.certificate.subjectCertificateAlias,
+      subject: {
+        name: this.form.get('name')!.value,
+        country: this.form.get('country')!.value,
+        organization: this.form.get('organization')!.value,
+        organizationUnit: this.form.get('organizationUnit')!.value,
+        email: this.form.get('email')!.value
+      },
+      extensions: this.extensionsCheckbox,
+      issued: new Date(),
+      expires: expiresDate
+    };
+  }
+
+  validateDuration(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const duration: number = control.value;
+      const maxYear: number = this.maxYear;
+
+      if (!Number.isInteger(duration) || duration < 0 || duration > maxYear) {
+        return { invalidDuration: true };
+      }
+
+      return null;
+    };
   }
 
   onCancelClick(): void {

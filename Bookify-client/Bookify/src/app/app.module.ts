@@ -25,6 +25,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { FormDialogComponent } from './feature-modules/sysadmin/form-dialog/form-dialog.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from './infrastructure/material/material.module';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,9 @@ import { MaterialModule } from './infrastructure/material/material.module';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
