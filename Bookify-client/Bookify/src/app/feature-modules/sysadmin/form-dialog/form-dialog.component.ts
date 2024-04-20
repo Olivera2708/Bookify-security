@@ -37,6 +37,10 @@ export class FormDialogComponent {
       this.extensionsCheckbox = this.data.node.certificate.extensions;
     }
     this.maxYear = Math.floor((new Date(data.node.certificate.expires).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24 * 365));
+    if(data.request){
+      this.form.get("name")?.setValue(data.request.name);
+      this.form.get("email")?.setValue(data.request.email);
+    }
   }
 
   convertExtension(extension: string): string {
@@ -64,22 +68,22 @@ export class FormDialogComponent {
   onSubmitClick(): void {
     if (this.form.valid && this.getCheckedExtensions().length>0) {
 
-      // this.spinner.show("create-spinner");
+      this.spinner.show("create-spinner");
       const createCertificateDTO = this.initializeCreateCertificateDTO();
 
-      // this.certificateService.createCertificate(createCertificateDTO)
-      //   .subscribe({
-      //     next: (data) => {
-      //       this.spinner.hide("create-spinner");
-      //       this.spinnerVisibleFor(2, "success-spinner")
+      this.certificateService.createCertificate(createCertificateDTO)
+        .subscribe({
+          next: (data) => {
+            this.spinner.hide("create-spinner");
+            this.spinnerVisibleFor(2, "success-spinner")
 
-      //       setTimeout(() => {this.dialogRef.close(data);}, (2000));
+            setTimeout(() => {this.dialogRef.close(data);}, (2000));
 
-      //     },error: (data) =>{
-      //       this.spinner.hide("create-spinner");
-      //       this.spinnerVisibleFor(2, "fail-spinner")
-      //     }
-      //   });
+          },error: (data) =>{
+            this.spinner.hide("create-spinner");
+            this.spinnerVisibleFor(2, "fail-spinner")
+          }
+        });
     }
   }
   spinnerVisibleFor(seconds: number, spinnerName: string) {
