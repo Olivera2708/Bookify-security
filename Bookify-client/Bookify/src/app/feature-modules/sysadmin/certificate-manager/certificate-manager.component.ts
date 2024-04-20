@@ -29,7 +29,7 @@ interface ExampleFlatNode {
   styleUrls: ['./certificate-manager.component.css']
 })
 export class CertificateManagerComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'email', 'status', 'reject'];
+  displayedColumns: string[] = ['name', "app", 'email', 'status', 'reject'];
   dataSource: MatTableDataSource<TableElement>;
   currentRowClick: any = null;
   private _transformer = (node: CertificateTreeNode, level: number) => {
@@ -99,6 +99,7 @@ export class CertificateManagerComponent implements OnInit {
               id: element.id,
               name: user.firstName + " " + user.lastName,
               email: user.email,
+              app: element.appName,
               status: element.status
             };
             data.push(tableElement);
@@ -121,7 +122,7 @@ export class CertificateManagerComponent implements OnInit {
   rowClick(row: any){
     if (this.currentRowClick == row)
       this.currentRowClick = null;
-    else
+    else if (row.status == "PENDING")
       this.currentRowClick = row;
   }
 
@@ -129,8 +130,10 @@ export class CertificateManagerComponent implements OnInit {
     this.certificateService.rejectCertificateRequest(element.id).subscribe({
       next: (data) => {
         this.dataSource.data.forEach((row, index) => {
-          if (row.id === element.id)
+          if (row.id === element.id) {
             row.status = "REJECTED"
+            this.currentRowClick = null;
+          }
         });
       }
     });

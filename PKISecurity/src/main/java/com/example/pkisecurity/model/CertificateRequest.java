@@ -14,8 +14,10 @@ public class CertificateRequest {
     private Long id;
     private Long userId;
     private CertificateRequestStatus status = CertificateRequestStatus.PENDING;
+    private String appName;
 
-    public CertificateRequest(Long userId){
+    public CertificateRequest(Long userId, String appName){
         this.userId = userId;
+        this.appName = appName;
     }
 }
