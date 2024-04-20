@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c42135f4-321c-474d-bc8b-309d50df197d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/form-dialog/form-dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Bookify-client/Bookify/src/app/feature-modules/sysadmin/form-dialog/form-dialog.component.ts" afterDir="false" />
-    </list>
+    <list default="true" id="c42135f4-321c-474d-bc8b-309d50df197d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +40,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.PkiSecurityApplication.executor": "Debug",
+    "Spring Boot.PkiSecurityApplication.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "feature/pki",
     "kotlin-language-version-configured": "true",
@@ -119,19 +117,9 @@
           <option name="timeStamp" value="17" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/keystores/KeyStoreWriter.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/repository/json/JSONParserKeyStore.java</url>
           <line>68</line>
           <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/utils/CertificateGenerator.java</url>
-          <line>44</line>
-          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -139,6 +127,7 @@
       <configuration name="SpringBootApplicationConfigurationType">
         <watch expression="keyFactory.generatePrivate(keySpec);" />
         <watch expression="keyFactory.generatePrivate(keySpec)" />
+        <watch expression="new org.bouncycastle.asn1.x509.Extension(org.bouncycastle.asn1.x509.Extension.basicConstraints, true, new BasicConstraints(isCA).getEncoded())" />
       </configuration>
     </watches-manager>
   </component>

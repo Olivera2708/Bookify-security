@@ -3,6 +3,8 @@ package com.example.pkisecurity.utils;
 import com.example.pkisecurity.enumerations.Extension;
 import com.example.pkisecurity.model.Issuer;
 import com.example.pkisecurity.model.Subject;
+import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
@@ -41,8 +43,19 @@ public class CertificateGenerator {
                     subject.getX500Name(),
                     subject.getPublicKey());
 
-            for(Extension extension : extensions)
-                certGen.addExtension(ExtensionUtils.createExtension(extension));
+            if(extensions.contains(Extension.CA)){
+                extensions.remove(Extension.CA);
+                certGen.addExtension(org.bouncycastle.asn1.x509.Extension.basicConstraints, true, new BasicConstraints(true));
+            }
+            if(!extensions.isEmpty()){
+                int keyUsageFlags = ExtensionUtils.createExtension(extensions.get(0));
+                for(int i = 1; i < extensions.size(); i++){
+                    keyUsageFlags |= ExtensionUtils.createExtension(extensions.get(i));
+                }
+                KeyUsage keyUsage = new KeyUsage(keyUsageFlags);
+                certGen.addExtension(org.bouncycastle.asn1.x509.Extension.keyUsage, false, keyUsage);
+            }
+
 
             X509CertificateHolder certHolder = certGen.build(contentSigner);
             JcaX509CertificateConverter certConverter = new JcaX509CertificateConverter();
