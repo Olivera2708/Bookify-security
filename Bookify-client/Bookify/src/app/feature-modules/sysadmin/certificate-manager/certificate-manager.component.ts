@@ -82,6 +82,15 @@ export class CertificateManagerComponent implements OnInit {
     })
   }
 
+  verifyCertificate(alias: string) : boolean {
+    this.certificateService.verifyCertificate(alias).subscribe({
+      next: (data) => {
+        return data;
+      }
+    })
+    return false;
+  }
+
   loadRequests(){
     this.dataSource.sort = this.sort;
     this.certificateService.getCertificateRequests().subscribe({

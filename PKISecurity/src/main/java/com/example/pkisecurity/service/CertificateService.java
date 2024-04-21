@@ -222,7 +222,7 @@ public class CertificateService implements ICertificateService {
             throw new RuntimeException(e);
         }
     }
-    
+
     private CRLReason convertReason(String reason) {
         return switch (reason) {
             case "UNSPECIFIED" -> CRLReason.UNSPECIFIED;

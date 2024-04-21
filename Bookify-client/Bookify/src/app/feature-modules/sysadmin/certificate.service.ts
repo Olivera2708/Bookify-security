@@ -51,4 +51,8 @@ export class CertificateService {
           "?CA=" + ca +
           "&serialNumber=" + serialNumber, {});
   }
+
+  verifyCertificate(alias: string) : Observable<boolean> {
+    return this.httpClient.get<boolean>(environment.apiPKI + "/verify?alias=" + alias);
+  }
 }
