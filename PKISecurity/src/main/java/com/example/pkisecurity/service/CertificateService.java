@@ -284,6 +284,18 @@ public class CertificateService implements ICertificateService {
 
     }
 
+    @Override
+    public Boolean doesValidCertificateExistForEmail(String email) {
+        for (BasicCertificateDTO certificateDTO : getAllCertificates()){
+            if (certificateDTO.getSubject().getEmail().equals(email)){
+                if(verifyCertificate(certificateDTO.getSubjectCertificateAlias())){
+
+                }
+            }
+        }
+        return null;
+    }
+
     private static X509CRL getCRL() throws IOException, CRLException {
         FileInputStream crlInputStream = null;
         crlInputStream = new FileInputStream("src/main/resources/static/crl.pem");

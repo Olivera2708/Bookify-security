@@ -87,6 +87,12 @@ public class CertificateController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
+    @GetMapping("/exists/{email}")
+    public ResponseEntity<Boolean> doesValidCertificateExistForEmail(@PathVariable("email") String email) {
+        return new ResponseEntity<>(certificateService.doesValidCertificateExistForEmail(email), HttpStatus.OK);
+    }
+
+
     @GetMapping("/verify")
     public ResponseEntity<Boolean> activate(@RequestParam("alias") String alias) {
         return new ResponseEntity<>(certificateService.verifyCertificate(alias), HttpStatus.OK);
