@@ -83,6 +83,11 @@
               "buildTarget": "Bookify:build:development"
             }
           },
+          "options": {
+            "ssl": true,
+            "sslKey": "O:\\Fakultet\\III_GODINA\\VI_SEMESTAR\\RACUNARSKA_BEZBEDNOST\\resources\\static\\private_key.pem",
+            "sslCert": "O:\\Fakultet\\III_GODINA\\VI_SEMESTAR\\RACUNARSKA_BEZBEDNOST\\resources\\static\\root.pem"
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {

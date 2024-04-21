@@ -4,6 +4,7 @@ package com.example.pkisecurity.repository.keystores;
 import com.example.pkisecurity.model.Issuer;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedInputStream;
@@ -24,7 +25,9 @@ import static com.example.pkisecurity.repository.json.JSONParserPrivateKey.getPr
 @Component
 public class KeyStoreReader {
     private KeyStore keyStore;
-    private final String path = "src/main/resources/static/";
+
+    @Value("${SECURITY_PATH}")
+    private String path;
 
     public KeyStoreReader() {
         try {

@@ -26,6 +26,7 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.json.JSONArray;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -38,6 +39,7 @@ import static com.example.pkisecurity.PkiSecurityApplication.keyStoreReader;
 import static com.example.pkisecurity.PkiSecurityApplication.keyStoreWriter;
 import static com.example.pkisecurity.repository.json.JSONParserPrivateKey.*;
 import static com.example.pkisecurity.repository.json.JSONParserKeyStore.*;
+import static com.example.pkisecurity.utils.ApplicationProperties.SECURITY_PATH;
 
 
 @Service
@@ -216,7 +218,7 @@ public class CertificateService implements ICertificateService {
         } catch (Exception e) {
             crl = generateCRL(pk, CACertificate, revokingCertificate.getSerialNumber(), convertReason(reason));
         }
-        try (FileOutputStream fos = new FileOutputStream("src/main/resources/static/crl.pem")) {
+        try (FileOutputStream fos = new FileOutputStream(SECURITY_PATH+"crl.pem")) {
             fos.write(crl.getEncoded());
         } catch (IOException | CRLException e) {
             throw new RuntimeException(e);
@@ -298,7 +300,7 @@ public class CertificateService implements ICertificateService {
 
     private static X509CRL getCRL() throws IOException, CRLException {
         FileInputStream crlInputStream = null;
-        crlInputStream = new FileInputStream("src/main/resources/static/crl.pem");
+        crlInputStream = new FileInputStream(SECURITY_PATH+"crl.pem");
         X509CRLHolder crlHolder = new X509CRLHolder(crlInputStream);
         JcaX509CRLConverter converter = new JcaX509CRLConverter();
         return converter.getCRL(crlHolder);
@@ -311,7 +313,7 @@ public class CertificateService implements ICertificateService {
         ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
         X509CRLHolder extendedCRL = crlBuilder.build(contentSigner);
         byte[] extendedCRLBytes = extendedCRL.getEncoded();
-        FileOutputStream outputStream = new FileOutputStream("src/main/resources/static/crl.pem");
+        FileOutputStream outputStream = new FileOutputStream(SECURITY_PATH+"crl.pem");
         outputStream.write(extendedCRLBytes);
         outputStream.close();
     }
@@ -335,7 +337,7 @@ public class CertificateService implements ICertificateService {
         ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
         X509CRLHolder newCRL = crlBuilder.build(contentSigner);
 
-        FileOutputStream outputStream = new FileOutputStream("src/main/resources/static/crl.pem", false);
+        FileOutputStream outputStream = new FileOutputStream(SECURITY_PATH+"crl.pem", false);
         outputStream.write(newCRL.getEncoded());
         outputStream.close();
     }

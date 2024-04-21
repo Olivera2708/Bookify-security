@@ -2,6 +2,7 @@ package com.example.pkisecurity.repository.json;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,13 +14,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
+import static com.example.pkisecurity.utils.ApplicationProperties.SECURITY_PATH;
+
 public class JSONParserPrivateKey {
     private static JSONArray keystoreConfigs;
+
 
     private static void setupConfig(String filename){
         String jsonText = null;
         try {
-            jsonText = new String(Files.readAllBytes(Paths.get("src/main/resources/static/"+filename)));
+            jsonText = new String(Files.readAllBytes(Paths.get(SECURITY_PATH+filename)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +76,7 @@ public class JSONParserPrivateKey {
         keystoreConfigs.put(newKey);
 
         try {
-            Files.writeString(Paths.get("src/main/resources/static/private-keys.json"), keystoreConfigs.toString(4));
+            Files.writeString(Paths.get(SECURITY_PATH+"private-keys.json"), keystoreConfigs.toString(4));
         } catch (IOException e) {
             throw new RuntimeException("Failed to save updated keys to file", e);
         }

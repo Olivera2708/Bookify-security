@@ -1,5 +1,6 @@
 package com.example.pkisecurity.repository.keystores;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
@@ -15,7 +16,9 @@ import java.security.cert.CertificateException;
 public class KeyStoreWriter {
 
     private KeyStore keyStore;
-    private final String path = "src/main/resources/static/";
+
+    @Value("${SECURITY_PATH}")
+    private String path;
 
     public KeyStoreWriter() {
         try {

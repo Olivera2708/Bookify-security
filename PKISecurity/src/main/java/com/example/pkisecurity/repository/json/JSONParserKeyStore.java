@@ -1,7 +1,9 @@
 package com.example.pkisecurity.repository.json;
 
+import com.example.pkisecurity.utils.ApplicationProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,11 +11,15 @@ import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.util.*;
 
+import static com.example.pkisecurity.utils.ApplicationProperties.SECURITY_PATH;
+
 public class JSONParserKeyStore {
 
     private static JSONArray keystoreConfigs;
 
-    private static final String path = "src/main/resources/static/key-store-password.json";
+
+
+    private static final String path = SECURITY_PATH+"key-store-password.json";
 
     private static void loadFile() {
         String jsonText = null;

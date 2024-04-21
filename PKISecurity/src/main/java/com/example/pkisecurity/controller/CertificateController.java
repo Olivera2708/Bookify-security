@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/api/v1/certificate")
 public class CertificateController {
 
