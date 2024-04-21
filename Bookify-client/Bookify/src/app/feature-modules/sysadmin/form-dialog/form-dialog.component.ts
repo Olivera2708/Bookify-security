@@ -66,6 +66,12 @@ export class FormDialogComponent {
   }
 
   onSubmitClick(): void {
+
+    if(this.certificateService.userHasValidCertificate(this.form.get("email")?.value)){
+      alert("User already has a valid certificate. ");
+      return;
+    }
+
     if (this.form.valid && this.getCheckedExtensions().length>0) {
       this.spinner.show("create-spinner");
       const createCertificateDTO = this.initializeCreateCertificateDTO();
@@ -116,7 +122,6 @@ export class FormDialogComponent {
   }
 
   getIssuerAlias() {
-    if (this.data.node.certificate.subjectCertificateAlias === environment.rootAlias) return "root";
     return this.data.node.certificate.subjectCertificateAlias
   }
 

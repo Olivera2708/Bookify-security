@@ -161,9 +161,9 @@ public class CertificateService implements ICertificateService {
         if (certificate.getNotAfter().before(new Date()) || isCertificateRevoked(alias)) {
             return false;
         }
-        if (alias.equals("root")) return true;
         try {
             String issuerAlias = getIssuerAlias(certificate);
+            if (alias.equals(issuerAlias)) return true;
             verifySignature(issuerAlias, certificate);
             return verifyCertificate(issuerAlias);
         } catch (CertificateException | NoSuchAlgorithmException | SignatureException | InvalidKeyException |
@@ -181,21 +181,14 @@ public class CertificateService implements ICertificateService {
     }
 
     private void verifySignature(String issuerAlias, X509Certificate certificate) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
-        if(issuerAlias.equals("134536562068545571209477243422665279291207643568")){
-            issuerAlias = "root";
-        }
         X509Certificate issuerCertificate = getCertificate(issuerAlias);
         certificate.verify(issuerCertificate.getPublicKey());
     }
 
     private String getAliasForEmail(String email) {
         for (BasicCertificateDTO certificate : getAllCertificates()) {
-            String alias = certificate.getSubjectCertificateAlias();
-            if (certificate.getIssuerEmail().equals(certificate.getSubject().getEmail())) {
-                 alias = "root";
-            }
             if(certificate.getSubject().getEmail().equals(email))
-                return alias;
+                return certificate.getSubjectCertificateAlias();
         }
         return null;
     }
@@ -292,6 +285,22 @@ public class CertificateService implements ICertificateService {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean doesValidCertificateExistForCertificateSubject(String serialNumber) {
+        X509Certificate certificate = getCertificate(serialNumber);
+        X500Name subject = null;
+        try {
+            subject = (new JcaX509CertificateHolder(certificate)).getSubject();
+        } catch (CertificateEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        RDN issuerEmailRDN = subject.getRDNs(BCStyle.E)[0];
+
+        String issuerEmail = IETFUtils.valueToString(issuerEmailRDN.getFirst().getValue());
+
+        return doesValidCertificateExistForEmail(issuerEmail);
     }
 
     private static X509CRL getCRL() throws IOException, CRLException {

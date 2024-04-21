@@ -89,14 +89,8 @@ export class CertificateManagerComponent implements OnInit {
   }
 
   verifyCertificate(alias: string) : void {
-    if (alias === environment.rootAlias){
-      alias = "root";
-    }
     this.certificateService.verifyCertificate(alias).subscribe({
       next: (data) => {
-        if(alias === "root"){
-          alias = environment.rootAlias;
-        }
         this.validateMap[alias] = data;
       }
     })

@@ -86,8 +86,12 @@ public class CertificateController {
 
     @PutMapping("/restore")
     public ResponseEntity<Boolean> activate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber) {
-        certificateService.removeCertificateFromCRL(CA, serialNumber);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+
+        if(!certificateService.doesValidCertificateExistForCertificateSubject(serialNumber)){
+            certificateService.removeCertificateFromCRL(CA, serialNumber);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/exists/{email}")

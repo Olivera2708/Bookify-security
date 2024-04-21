@@ -59,4 +59,8 @@ export class CertificateService {
   approveCertificateRequest(requestId: number) : Observable<CertificateRequestDto> {
     return this.httpClient.put<CertificateRequestDto>(environment.apiPKI + "/request/accept/" + requestId, {});
   }
+
+  userHasValidCertificate(email: string) {
+    return this.httpClient.get<boolean>(environment.apiPKI + "/exist/" + email);
+  }
 }

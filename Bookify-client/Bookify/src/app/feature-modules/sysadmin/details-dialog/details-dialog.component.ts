@@ -70,16 +70,17 @@ export class DetailsDialogComponent implements OnInit {
   }
 
   restoreClick(){
-    this.certificateService.restoreCertificate("root", this.data.node.certificate.subjectCertificateAlias).subscribe({
+
+    this.certificateService.restoreCertificate(environment.rootAlias, this.data.node.certificate.subjectCertificateAlias).subscribe({
       next: (data) => {
         this.isRevoked = false;
-      }
+      }, error: (data) =>{
+        alert("This user already has valid certificate.")
+    }
     })
   }
 
   checkRevoked(serialNumber : string) {
-    if (serialNumber == environment.rootAlias)
-      serialNumber = "root";
     this.certificateService.isCertificateRevoked(serialNumber).subscribe({
       next : (data) => {
         this.isRevoked = data;

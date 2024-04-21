@@ -36,4 +36,5 @@ public interface ICertificateService {
     public void removeCertificateFromCRL(String CAalias, String revokingSerialNumber);
     Boolean doesValidCertificateExistForEmail(String email);
 
+    boolean doesValidCertificateExistForCertificateSubject(String serialNumber);
 }

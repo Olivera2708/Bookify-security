@@ -4,6 +4,7 @@ import {FormDialogComponent} from "../form-dialog/form-dialog.component";
 import {CertificateService} from "../certificate.service";
 import {CertificateTreeNode} from "../certificate-manager/certificate-manager.component";
 import {TableElement} from "../model/table.data";
+import {environment} from "../../../../env/env";
 
 @Component({
   selector: 'app-revoke-dialog',
@@ -32,7 +33,7 @@ export class RevokeDialogComponent {
 
   revokeClick(){
     if (this.selectedReason != undefined) {
-      this.certificateService.revokeCertificate("root", this.data.node.certificate.subjectCertificateAlias, this.toReason(this.selectedReason)).subscribe({
+      this.certificateService.revokeCertificate(environment.rootAlias, this.data.node.certificate.subjectCertificateAlias, this.toReason(this.selectedReason)).subscribe({
         next: (data) => {
           this.dialogRef.close(true);
         }
