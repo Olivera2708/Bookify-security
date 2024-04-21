@@ -12,4 +12,5 @@ public class CertificateRequestDTO {
     private Long id;
     private Long userId;
     private CertificateRequestStatus status;
+    private String appName;
 }

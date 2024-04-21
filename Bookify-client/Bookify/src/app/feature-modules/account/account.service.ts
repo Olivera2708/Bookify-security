@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Account} from "./model/account";
 import {environment} from "../../../env/env";
+import {CertificateRequestDTO} from "./model/CertificateRequestDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,9 @@ export class AccountService {
   }
   getAccountImageId(userId: number | undefined): Observable<number>{
     return this.httpClient.get<number>(environment.apiHost + "users/account-pic/" + userId);
+  }
+
+  sendCertificateRequest(userId: number): Observable<CertificateRequestDTO> {
+    return this.httpClient.post<CertificateRequestDTO>(environment.apiPKI + "/request/Bookify/" + userId, {});
   }
 }

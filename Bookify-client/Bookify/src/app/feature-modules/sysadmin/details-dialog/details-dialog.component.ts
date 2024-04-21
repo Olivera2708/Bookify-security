@@ -57,4 +57,8 @@ export class DetailsDialogComponent {
   onCancelClick(): void {
     this.dialogRef.close();
   }
+
+  revokeClick(){
+    
+  }
 }

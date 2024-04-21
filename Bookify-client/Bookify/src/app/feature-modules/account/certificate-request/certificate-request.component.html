@@ -1,0 +1,7 @@
+<div id="notification-settings" class="card">
+  <label class="acc-title">Certificate</label>
+  <div class="inline">
+    <p id="status"><span *ngIf="status !== ''">Status: {{status}}</span></p>
+    <button mat-button (click)="requestCertificate()">REQUEST CERTIFICATE</button>
+  </div>
+</div>

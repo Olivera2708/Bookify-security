@@ -11,6 +11,7 @@ import { PasswordChangeDialogComponent } from './password-change-dialog/password
 import { AccountDeleteDialogComponent } from './account-delete-dialog/account-delete-dialog.component';
 import { ReviewModule } from '../review/review.module';
 import { NotificationCardComponent } from './notification-card/notification-card.component';
+import { CertificateRequestComponent } from './certificate-request/certificate-request.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NotificationCardComponent } from './notification-card/notification-card
     NotificationSettingsComponent,
     PasswordChangeDialogComponent,
     AccountDeleteDialogComponent,
-    NotificationCardComponent
+    NotificationCardComponent,
+    CertificateRequestComponent
   ],
   imports: [
     CommonModule,

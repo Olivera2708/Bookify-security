@@ -26,9 +26,9 @@ public class CertificateController {
     @Autowired
     private ICertificateRequestService certificateRequestService;
 
-    @PostMapping("/request/{userId}")
-    public ResponseEntity<CertificateRequestDTO> createCertificateRequest(@PathVariable Long userId) {
-        CertificateRequest certificateRequest = new CertificateRequest(userId);
+    @PostMapping("/request/{appName}/{userId}")
+    public ResponseEntity<CertificateRequestDTO> createCertificateRequest(@PathVariable String appName, @PathVariable Long userId) {
+        CertificateRequest certificateRequest = new CertificateRequest(userId, appName);
         certificateRequestService.save(certificateRequest);
         return new ResponseEntity<>(CertificateRequestDTOMapper.fromCertificateRequestDTO(certificateRequest), HttpStatus.CREATED);
     }

@@ -15,5 +15,4 @@ public enum Extension {
     Extension(String description) {
         this.description = description;
     }
-
 }
