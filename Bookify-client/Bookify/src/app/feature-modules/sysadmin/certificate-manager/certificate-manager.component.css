@@ -102,6 +102,7 @@ matTreeNodePadding {
 
 .invalid {
   color: darkred;
+  margin-left: 1rem;
 }
 
 .cert-name {

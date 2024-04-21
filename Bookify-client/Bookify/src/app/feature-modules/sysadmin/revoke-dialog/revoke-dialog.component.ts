@@ -34,7 +34,7 @@ export class RevokeDialogComponent {
     if (this.selectedReason != undefined) {
       this.certificateService.revokeCertificate("root", this.data.node.certificate.subjectCertificateAlias, this.toReason(this.selectedReason)).subscribe({
         next: (data) => {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
         }
       });
     }

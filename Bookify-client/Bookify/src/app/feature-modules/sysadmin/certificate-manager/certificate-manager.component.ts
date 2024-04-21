@@ -11,6 +11,7 @@ import { BasicCertificateDTO } from '../model/basicCertificate.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { DetailsDialogComponent } from '../details-dialog/details-dialog.component';
+import {environment} from "../../../../env/env";
 
 export interface CertificateTreeNode {
   certificate: BasicCertificateDTO;
@@ -32,6 +33,7 @@ export class CertificateManagerComponent implements OnInit {
   displayedColumns: string[] = ['name', "app", 'email', 'status', 'reject'];
   dataSource: MatTableDataSource<TableElement>;
   currentRowClick: any = null;
+  validateMap : any = {};
   private _transformer = (node: CertificateTreeNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -39,6 +41,7 @@ export class CertificateManagerComponent implements OnInit {
       level: level,
     };
   };
+
 
   treeControl = new FlatTreeControl<ExampleFlatNode>(
     node => node.level,
@@ -78,17 +81,25 @@ export class CertificateManagerComponent implements OnInit {
     this.certificateService.getAllCertificates().subscribe({
       next: (data) => {
         this.dataSource1.data = this.createCertificateTree(data);
+        data.forEach((cert, index)=> {
+          this.verifyCertificate(cert.subjectCertificateAlias);
+        })
       }
     })
   }
 
-  verifyCertificate(alias: string) : boolean {
+  verifyCertificate(alias: string) : void {
+    if (alias === environment.rootAlias){
+      alias = "root";
+    }
     this.certificateService.verifyCertificate(alias).subscribe({
       next: (data) => {
-        return data;
+        if(alias === "root"){
+          alias = environment.rootAlias;
+        }
+        this.validateMap[alias] = data;
       }
     })
-    return false;
   }
 
   loadRequests(){
@@ -207,8 +218,7 @@ export class CertificateManagerComponent implements OnInit {
       data: { node: node, request: this.currentRowClick}
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result !== undefined)
-        this.loadCertificates()
+      this.loadCertificates()
     });
   }
 }

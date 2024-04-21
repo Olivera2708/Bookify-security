@@ -12,7 +12,7 @@
             <span class="cert-name" (click)="showDetails(node.name)">
               {{node.name.certificate.subject.name}}
             </span>
-            <span class="material-symbols-outlined invalid">warning</span>
+            <span class="material-symbols-outlined invalid" *ngIf="!validateMap[node.name.certificate.subjectCertificateAlias]">warning</span>
             <span class="material-symbols-outlined child" *ngIf="extensionsContainsCA(node.name)" (click)="createCertificate(node.name)">add_box</span>
           </mat-tree-node>
           <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="25">
@@ -25,6 +25,8 @@
             <span class="cert-name" (click)="showDetails(node.name)">
               {{node.name.certificate.subject.name}}
             </span>
+            <span class="material-symbols-outlined invalid" *ngIf="!validateMap[node.name.certificate.subjectCertificateAlias]">warning</span>
+
             <span class="material-symbols-outlined child" (click)="createCertificate(node.name)">add_box</span>
           </mat-tree-node>
         </mat-tree>

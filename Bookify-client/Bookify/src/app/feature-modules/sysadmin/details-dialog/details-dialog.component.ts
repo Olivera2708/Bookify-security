@@ -16,7 +16,6 @@ import {environment} from "../../../../env/env";
 export class DetailsDialogComponent implements OnInit {
   extensionsCheckbox: string[] = [];
   isRevoked : boolean;
-
   constructor(public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { node: CertificateTreeNode, request: TableElement },
     private certificateService: CertificateService,
@@ -64,7 +63,10 @@ export class DetailsDialogComponent implements OnInit {
 
   revokeClick(){
     const dialogRef = this.dialog.open(RevokeDialogComponent, {data: this.data});
-    this.dialogRef.close();
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result !== undefined)
+        this.dialogRef.close();
+    });
   }
 
   restoreClick(){
