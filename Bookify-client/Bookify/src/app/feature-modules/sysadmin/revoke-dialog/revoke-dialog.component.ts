@@ -31,11 +31,12 @@ export class RevokeDialogComponent {
   }
 
   revokeClick(){
-    //ne znam sta ide ovde
-    this.certificateService.revokeCertificate("", "", this.toReason("")).subscribe({
-      next: (data) => {
-
-      }
-    });
+    if (this.selectedReason != undefined) {
+      this.certificateService.revokeCertificate("root", this.data.node.certificate.subjectCertificateAlias, this.toReason(this.selectedReason)).subscribe({
+        next: (data) => {
+          this.dialogRef.close();
+        }
+      });
+    }
   }
 }

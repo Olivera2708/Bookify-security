@@ -70,15 +70,15 @@ public class CertificateController {
     }
 
     @PostMapping("/revoke")
-    public ResponseEntity<CertificateRequestDTO> revokeCertificate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber, @RequestParam("Reason") String reason) {
+    public ResponseEntity<CertificateRequestDTO> revokeCertificate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber, @RequestParam("reason") String reason) {
         certificateService.revokeCertificate(CA, serialNumber, reason);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/checkRevocation")
     public ResponseEntity<Boolean> isRevoked(@RequestParam("serialNumber") String serialNumber) {
-        certificateService.isCertificateRevoked(serialNumber);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        boolean val = certificateService.isCertificateRevoked(serialNumber);
+        return new ResponseEntity<>(val, HttpStatus.OK);
     }
 
     @PutMapping("/restore")

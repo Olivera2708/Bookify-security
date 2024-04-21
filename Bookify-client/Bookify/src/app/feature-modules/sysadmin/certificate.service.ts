@@ -36,7 +36,7 @@ export class CertificateService {
   }
 
   revokeCertificate(ca: string, serialNumber: string, reason: string) : Observable<CertificateRequestDto> {
-    return this.httpClient.post<CertificateRequestDto>(environment.apiPKI + "/reason" +
+    return this.httpClient.post<CertificateRequestDto>(environment.apiPKI + "/revoke" +
         "?CA=" + ca +
         "&serialNumber=" + serialNumber +
         "&reason=" + reason, {});

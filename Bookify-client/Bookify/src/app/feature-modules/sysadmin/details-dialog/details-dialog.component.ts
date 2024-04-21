@@ -6,6 +6,7 @@ import { TableElement } from '../model/table.data';
 import { CertificateService } from '../certificate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {RevokeDialogComponent} from "../revoke-dialog/revoke-dialog.component";
+import {environment} from "../../../../env/env";
 
 @Component({
   selector: 'app-details-dialog',
@@ -24,7 +25,7 @@ export class DetailsDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-        this.checkRevoked("");
+        this.checkRevoked(this.data.node.certificate.subjectCertificateAlias);
     }
 
   formatDate(date: Date): string {
@@ -63,21 +64,26 @@ export class DetailsDialogComponent implements OnInit {
 
   revokeClick(){
     const dialogRef = this.dialog.open(RevokeDialogComponent, {data: this.data});
+    this.dialogRef.close();
   }
 
   restoreClick(){
-    this.certificateService.restoreCertificate("", "").subscribe({
+    this.certificateService.restoreCertificate("root", this.data.node.certificate.subjectCertificateAlias).subscribe({
       next: (data) => {
-        this.isRevoked = true;
+        this.isRevoked = false;
       }
     })
   }
 
   checkRevoked(serialNumber : string) {
+    if (serialNumber == environment.rootAlias)
+      serialNumber = "root";
     this.certificateService.isCertificateRevoked(serialNumber).subscribe({
       next : (data) => {
         this.isRevoked = data;
       }
     });
   }
+
+  protected readonly environment = environment;
 }
