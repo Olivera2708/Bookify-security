@@ -21,6 +21,11 @@ mat-form-field {
     justify-content: center;
 }
 
+.revoke {
+  background-color: #1c2a3a;
+  color: whitesmoke;
+}
+
 .center-data {
     display: flex;
     justify-content: center;
