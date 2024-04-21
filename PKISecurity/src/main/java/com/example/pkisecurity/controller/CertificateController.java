@@ -70,18 +70,18 @@ public class CertificateController {
     }
 
     @PostMapping("/revoke")
-    public ResponseEntity<CertificateRequestDTO> revokeCertificate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber) {
-        certificateService.revokeCertificate(CA, serialNumber, CRLReason.CERTIFICATE_HOLD);
+    public ResponseEntity<CertificateRequestDTO> revokeCertificate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber, @RequestParam("Reason") String reason) {
+        certificateService.revokeCertificate(CA, serialNumber, reason);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/isrevoked")
+    @GetMapping("/checkRevocation")
     public ResponseEntity<Boolean> isRevoked(@RequestParam("serialNumber") String serialNumber) {
         certificateService.isCertificateRevoked(serialNumber);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @GetMapping("/activete")
+    @PutMapping("/restore")
     public ResponseEntity<Boolean> activate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber) {
         certificateService.removeCertificateFromCRL(CA, serialNumber);
         return new ResponseEntity<>(true, HttpStatus.OK);

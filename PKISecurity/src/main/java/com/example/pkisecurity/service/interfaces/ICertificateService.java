@@ -31,7 +31,7 @@ public interface ICertificateService {
 
     Boolean verifyCertificate(Certificate certificate);
 
-    void revokeCertificate(String CA, String serialNumber, CRLReason reason);
+    void revokeCertificate(String CA, String serialNumber, String reason);
     public boolean isCertificateRevoked(String alias);
     public void removeCertificateFromCRL(String CAalias, String revokingSerialNumber);
 }

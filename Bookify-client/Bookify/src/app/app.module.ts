@@ -27,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from './infrastructure/material/material.module';
 import {NgxSpinnerModule} from "ngx-spinner";
 import { DetailsDialogComponent } from './feature-modules/sysadmin/details-dialog/details-dialog.component';
+import { RevokeDialogComponent } from './feature-modules/sysadmin/revoke-dialog/revoke-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DetailsDialogComponent } from './feature-modules/sysadmin/details-dialo
     CertificateManagerComponent,
     FormDialogComponent,
     FormDialogComponent,
-    DetailsDialogComponent
+    DetailsDialogComponent,
+    RevokeDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,28 +1,31 @@
-import { Component, Inject } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { environment } from '../../../../env/env';
-import { CreateCertificateDTO } from '../model/createcertificate.dto';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { CertificateTreeNode } from '../certificate-manager/certificate-manager.component';
 import { TableElement } from '../model/table.data';
 import { CertificateService } from '../certificate.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {RevokeDialogComponent} from "../revoke-dialog/revoke-dialog.component";
 
 @Component({
   selector: 'app-details-dialog',
   templateUrl: './details-dialog.component.html',
   styleUrl: './details-dialog.component.css'
 })
-export class DetailsDialogComponent {
+export class DetailsDialogComponent implements OnInit {
   extensionsCheckbox: string[] = [];
+  isRevoked : boolean;
 
   constructor(public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { node: CertificateTreeNode, request: TableElement },
     private certificateService: CertificateService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService, public dialog: MatDialog) {
     this.extensionsCheckbox = this.data.node.certificate.extensions;
   }
+
+  ngOnInit(): void {
+        this.checkRevoked("");
+    }
 
   formatDate(date: Date): string {
     date = new Date(date)
@@ -59,6 +62,22 @@ export class DetailsDialogComponent {
   }
 
   revokeClick(){
-    
+    const dialogRef = this.dialog.open(RevokeDialogComponent, {data: this.data});
+  }
+
+  restoreClick(){
+    this.certificateService.restoreCertificate("", "").subscribe({
+      next: (data) => {
+        this.isRevoked = true;
+      }
+    })
+  }
+
+  checkRevoked(serialNumber : string) {
+    this.certificateService.isCertificateRevoked(serialNumber).subscribe({
+      next : (data) => {
+        this.isRevoked = data;
+      }
+    });
   }
 }

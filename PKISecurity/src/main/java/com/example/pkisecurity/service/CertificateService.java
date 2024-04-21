@@ -166,7 +166,7 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-    public void revokeCertificate(String CAalias, String revokingSerialNumber, CRLReason reason) {
+    public void revokeCertificate(String CAalias, String revokingSerialNumber, String reason) {
         X509Certificate CACertificate = getCertificate(CAalias);
         X509Certificate revokingCertificate = getCertificate(revokingSerialNumber);
 
@@ -178,13 +178,28 @@ public class CertificateService implements ICertificateService {
             extendCRL(pk, crl, revokingCertificate);
             return;
         } catch (Exception e) {
-            crl = generateCRL(pk, CACertificate, revokingCertificate.getSerialNumber(), reason);
+            crl = generateCRL(pk, CACertificate, revokingCertificate.getSerialNumber(), convertReason(reason));
         }
         try (FileOutputStream fos = new FileOutputStream("src/main/resources/static/crl.pem")) {
             fos.write(crl.getEncoded());
         } catch (IOException | CRLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private CRLReason convertReason(String reason) {
+        return switch (reason) {
+            case "UNSPECIFIED" -> CRLReason.UNSPECIFIED;
+            case "KEY_COMPROMISE" -> CRLReason.KEY_COMPROMISE;
+            case "CA_COMPROMISE" -> CRLReason.CA_COMPROMISE;
+            case "AFFILIATION_CHANGED" -> CRLReason.AFFILIATION_CHANGED;
+            case "SUPERSEDED" -> CRLReason.SUPERSEDED;
+            case "CESSATION_OF_OPERATION" -> CRLReason.CESSATION_OF_OPERATION;
+            case "CERTIFICATE_HOLD" -> CRLReason.CERTIFICATE_HOLD;
+            case "REMOVE_FROM_CRL" -> CRLReason.REMOVE_FROM_CRL;
+            case "PRIVILEGE_WITHDRAWN" -> CRLReason.PRIVILEGE_WITHDRAWN;
+            default -> CRLReason.AA_COMPROMISE;
+        };
     }
 
 
