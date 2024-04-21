@@ -160,8 +160,44 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-    public Boolean verifyCertificate(Certificate certificate) {
+    public Boolean verifyCertificate(String alias) {
+        X509Certificate certificate = getCertificate(alias);
+        if (certificate.getNotAfter().before(new Date()) || isCertificateRevoked(alias)) {
+            return false;
+        }
+        if (alias.equals("root")) return true;
+        try {
+            String issuerAlias = getIssuerAlias(certificate);
+            verifySignature(issuerAlias, certificate);
+            return verifyCertificate(issuerAlias);
+        } catch (CertificateException | NoSuchAlgorithmException | SignatureException | InvalidKeyException |
+                 NoSuchProviderException e) {
+            return false;
+        }
+    }
 
+    private String getIssuerAlias(X509Certificate certificate) throws CertificateEncodingException {
+        X500Name issuer = (new JcaX509CertificateHolder(certificate)).getIssuer();
+        RDN issuerEmailRDN = issuer.getRDNs(BCStyle.E)[0];
+        String issuerEmail = IETFUtils.valueToString(issuerEmailRDN.getFirst().getValue());
+        String issuerAlias = getAliasForEmail(issuerEmail);
+        return issuerAlias;
+    }
+
+    private void verifySignature(String issuerAlias, X509Certificate certificate) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
+        X509Certificate issuerCertificate = getCertificate(issuerAlias);
+        certificate.verify(issuerCertificate.getPublicKey());
+    }
+
+    private String getAliasForEmail(String email) {
+        for (BasicCertificateDTO certificate : getAllCertificates()) {
+            if (certificate.getSubject().getEmail().equals(email)) {
+                if (certificate.getIssuerEmail().equals(certificate.getSubject().getEmail())) {
+                    return "root";
+                }
+                return certificate.getSubjectCertificateAlias();
+            }
+        }
         return null;
     }
 
@@ -186,7 +222,7 @@ public class CertificateService implements ICertificateService {
             throw new RuntimeException(e);
         }
     }
-
+    
     private CRLReason convertReason(String reason) {
         return switch (reason) {
             case "UNSPECIFIED" -> CRLReason.UNSPECIFIED;
@@ -201,7 +237,6 @@ public class CertificateService implements ICertificateService {
             default -> CRLReason.AA_COMPROMISE;
         };
     }
-
 
     private X509CRL generateCRL(PrivateKey caPrivateKey, X509Certificate caCertificate, BigInteger serialNumber, CRLReason reason) {
         Date now = new Date();
@@ -283,15 +318,10 @@ public class CertificateService implements ICertificateService {
 
         revokedCertificates.forEach(revokedCert -> {
             crlBuilder.addCRLEntry(revokedCert.getSerialNumber(), existingCRL.getThisUpdate(), CRLReason.PRIVILEGE_WITHDRAWN.ordinal());
-//            crlBuilder.addCRLEntry(revokedCert.getSerialNumber(), crlHolder.getThisUpdate(), crlHolder.getNextUpdate(), crlHolder.getRevocationReason(revokedCert.getSerialNumber()));
         });
 
         ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
         X509CRLHolder newCRL = crlBuilder.build(contentSigner);
-
-//        FileOutputStream outputStream = new FileOutputStream("src/main/resources/static/crl.pem");
-//        outputStream.write(extendedCRLBytes);
-//        outputStream.close();
 
         FileOutputStream outputStream = new FileOutputStream("src/main/resources/static/crl.pem", false);
         outputStream.write(newCRL.getEncoded());

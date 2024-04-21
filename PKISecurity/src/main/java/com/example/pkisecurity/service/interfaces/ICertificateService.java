@@ -29,7 +29,7 @@ public interface ICertificateService {
 
     Collection<BasicCertificateDTO> getAllCertificates();
 
-    Boolean verifyCertificate(Certificate certificate);
+    Boolean verifyCertificate(String alias);
 
     void revokeCertificate(String CA, String serialNumber, String reason);
     public boolean isCertificateRevoked(String alias);
