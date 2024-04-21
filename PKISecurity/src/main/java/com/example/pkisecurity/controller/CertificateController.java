@@ -87,6 +87,11 @@ public class CertificateController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
+    @GetMapping("/verify")
+    public ResponseEntity<Boolean> activate(@RequestParam("alias") String alias) {
+        return new ResponseEntity<>(certificateService.verifyCertificate(alias), HttpStatus.OK);
+    }
+
     @GetMapping("/test-read")
     public ResponseEntity readTest(){
 //        CertificateDTO certificateDTO123 = new CertificateDTO("root", new SubjectDTO("bookify","bookify.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
