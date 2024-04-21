@@ -32,4 +32,12 @@ public class CertificateRequestService implements ICertificateRequestService {
         certificateRequestRepository.save(certificateRequest);
         return certificateRequest;
     }
+
+    @Override
+    public CertificateRequest acceptCertificateRequest(Long requestId) {
+        CertificateRequest certificateRequest = certificateRequestRepository.findById(requestId).get();
+        certificateRequest.setStatus(CertificateRequestStatus.APPROVED);
+        certificateRequestRepository.save(certificateRequest);
+        return certificateRequest;
+    }
 }

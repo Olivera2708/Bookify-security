@@ -12,4 +12,6 @@ public interface ICertificateRequestService {
     Collection<CertificateRequest> getAllRequests();
 
     CertificateRequest rejectCertificateRequest(Long requestId);
+
+    CertificateRequest acceptCertificateRequest(Long requestId);
 }

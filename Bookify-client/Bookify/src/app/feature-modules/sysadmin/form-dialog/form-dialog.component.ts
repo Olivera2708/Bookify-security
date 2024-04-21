@@ -67,7 +67,6 @@ export class FormDialogComponent {
 
   onSubmitClick(): void {
     if (this.form.valid && this.getCheckedExtensions().length>0) {
-
       this.spinner.show("create-spinner");
       const createCertificateDTO = this.initializeCreateCertificateDTO();
 
@@ -77,8 +76,12 @@ export class FormDialogComponent {
             this.spinner.hide("create-spinner");
             this.spinnerVisibleFor(2, "success-spinner")
 
-            setTimeout(() => {this.dialogRef.close(data);}, (2000));
+            this.certificateService.approveCertificateRequest(this.data.request.id).subscribe({
+              next: (data) => {
+              }
+            });
 
+            setTimeout(() => {this.dialogRef.close(data);}, (2000));
           },error: (data) =>{
             this.spinner.hide("create-spinner");
             this.spinnerVisibleFor(2, "fail-spinner")

@@ -53,8 +53,11 @@ public class CertificateController {
     }
 
     @PutMapping("/request/accept/{requestId}")
-    public ResponseEntity<CertificateRequestDTO> acceptCertificateRequest(@PathVariable Long requestId, @RequestBody IssuerDTO issuer) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<CertificateRequestDTO> acceptCertificateRequest(@PathVariable Long requestId) {
+        CertificateRequest certificateRequest = certificateRequestService.acceptCertificateRequest(requestId);
+        CertificateRequestDTO certificateRequestDTO = CertificateRequestDTOMapper.fromCertificateRequestDTO(certificateRequest);
+
+        return new ResponseEntity<>(certificateRequestDTO, HttpStatus.OK);
     }
 
     @PostMapping("/create")

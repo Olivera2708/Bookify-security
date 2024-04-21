@@ -55,4 +55,8 @@ export class CertificateService {
   verifyCertificate(alias: string) : Observable<boolean> {
     return this.httpClient.get<boolean>(environment.apiPKI + "/verify?alias=" + alias);
   }
+
+  approveCertificateRequest(requestId: number) : Observable<CertificateRequestDto> {
+    return this.httpClient.put<CertificateRequestDto>(environment.apiPKI + "/request/accept/" + requestId, {});
+  }
 }

@@ -208,8 +208,10 @@ export class CertificateManagerComponent implements OnInit {
       data: { node: node, request: this.currentRowClick}
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result !== undefined)
-        this.loadCertificates()
+      if(result !== undefined) {
+        this.loadCertificates();
+        this.loadRequests();
+      }
     });
   }
 
@@ -218,7 +220,7 @@ export class CertificateManagerComponent implements OnInit {
       data: { node: node, request: this.currentRowClick}
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.loadCertificates()
+      this.loadCertificates();
     });
   }
 }
