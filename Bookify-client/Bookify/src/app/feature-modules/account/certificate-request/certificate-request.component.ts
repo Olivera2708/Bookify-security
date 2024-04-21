@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {AccountService} from "../account.service";
 import {AuthenticationService} from "../../authentication/authentication.service";
 import {ChangeDetection} from "@angular/cli/lib/config/workspace-schema";
+import {Account} from "../model/account";
 
 @Component({
   selector: 'app-certificate-request',
@@ -16,13 +17,33 @@ export class CertificateRequestComponent{
 
   constructor(private authService: AuthenticationService, private accountService: AccountService){}
   requestCertificate() {
+    this.accountService.getUser(this.authService.getUserId()).subscribe({
+      next: (data) => {
+        this.doesUserHaveValidCertificate(data);
+      }
+    });
+  }
+
+  private doesUserHaveValidCertificate(data: Account) {
+    if (data.email != null) {
+      this.accountService.doesUserAlreadyHaveValidCertificate(data.email).subscribe({
+        next: (data) => {
+          if (data)
+            // bezbedno prenosenje sertifikata korisniku
+            this.status = "CERTIFIED";
+          else{
+            this.sendCertificateRequest();
+          }
+        }
+      });
+    }
+  }
+
+  private sendCertificateRequest() {
     this.accountService.sendCertificateRequest(this.authService.getUserId()).subscribe({
       next: (data) => {
-        //ako vec postoji onda treba status da bude GENERATED
-
-        //ovo je slucaj ako nema cert pa ceka na admina
         this.status = data.status;
       }
-    })
+    });
   }
 }

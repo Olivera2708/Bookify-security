@@ -45,4 +45,8 @@ export class AccountService {
   sendCertificateRequest(userId: number): Observable<CertificateRequestDTO> {
     return this.httpClient.post<CertificateRequestDTO>(environment.apiPKI + "/request/Bookify/" + userId, {});
   }
+  doesUserAlreadyHaveValidCertificate(userId: string): Observable<boolean>{
+    return this.httpClient.get<boolean>(environment.apiPKI + "/exists/" + userId);
+  }
+
 }

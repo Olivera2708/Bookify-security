@@ -1,11 +1,9 @@
 package com.example.pkisecurity.service;
 
-import ch.qos.logback.core.CoreConstants;
 import com.example.pkisecurity.dto.BasicCertificateDTO;
 import com.example.pkisecurity.dto.CertificateDTO;
 import com.example.pkisecurity.dto.SubjectDTO;
 import com.example.pkisecurity.enumerations.Extension;
-import com.example.pkisecurity.model.Certificate;
 import com.example.pkisecurity.model.Issuer;
 import com.example.pkisecurity.model.Subject;
 import com.example.pkisecurity.service.interfaces.ICertificateService;
@@ -15,7 +13,6 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
-import org.bouncycastle.asn1.x509.ExtensionsGenerator;
 import org.bouncycastle.cert.X509CRLEntryHolder;
 import org.bouncycastle.cert.X509CRLHolder;
 import org.bouncycastle.cert.X509v2CRLBuilder;
@@ -23,10 +20,7 @@ import org.bouncycastle.cert.jcajce.*;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
-import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemReader;
 import org.json.JSONArray;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -187,18 +181,21 @@ public class CertificateService implements ICertificateService {
     }
 
     private void verifySignature(String issuerAlias, X509Certificate certificate) throws CertificateException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
+        if(issuerAlias.equals("134536562068545571209477243422665279291207643568")){
+            issuerAlias = "root";
+        }
         X509Certificate issuerCertificate = getCertificate(issuerAlias);
         certificate.verify(issuerCertificate.getPublicKey());
     }
 
     private String getAliasForEmail(String email) {
         for (BasicCertificateDTO certificate : getAllCertificates()) {
-            if (certificate.getSubject().getEmail().equals(email)) {
-                if (certificate.getIssuerEmail().equals(certificate.getSubject().getEmail())) {
-                    return "root";
-                }
-                return certificate.getSubjectCertificateAlias();
+            String alias = certificate.getSubjectCertificateAlias();
+            if (certificate.getIssuerEmail().equals(certificate.getSubject().getEmail())) {
+                 alias = "root";
             }
+            if(certificate.getSubject().getEmail().equals(email))
+                return alias;
         }
         return null;
     }
@@ -213,7 +210,7 @@ public class CertificateService implements ICertificateService {
         X509CRL crl;
         try {
             crl = getCRL();
-            extendCRL(pk, crl, revokingCertificate);
+            extendCRL(pk, crl, revokingCertificate, convertReason(reason));
             return;
         } catch (Exception e) {
             crl = generateCRL(pk, CACertificate, revokingCertificate.getSerialNumber(), convertReason(reason));
@@ -264,7 +261,10 @@ public class CertificateService implements ICertificateService {
         try {
             X509Certificate x509Cert = getCertificate(alias);
             X509CRL crl = getCRL();
-            return crl != null && crl.isRevoked(x509Cert);
+
+            return crl != null && crl.getRevokedCertificate(x509Cert.getSerialNumber()) != null;
+//            return crl != null && crl.isRevoked(x509Cert);
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -289,13 +289,11 @@ public class CertificateService implements ICertificateService {
     @Override
     public Boolean doesValidCertificateExistForEmail(String email) {
         for (BasicCertificateDTO certificateDTO : getAllCertificates()){
-            if (certificateDTO.getSubject().getEmail().equals(email)){
-                if(verifyCertificate(certificateDTO.getSubjectCertificateAlias())){
-
-                }
+            if (certificateDTO.getSubject().getEmail().equals(email) && verifyCertificate(certificateDTO.getSubjectCertificateAlias())){
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
     private static X509CRL getCRL() throws IOException, CRLException {
@@ -307,9 +305,9 @@ public class CertificateService implements ICertificateService {
 
     }
 
-    public static void extendCRL(PrivateKey pk, X509CRL existingCRL, X509Certificate newCertificate) throws Exception {
+    public static void extendCRL(PrivateKey pk, X509CRL existingCRL, X509Certificate newCertificate, CRLReason crlReason) throws Exception {
         X509v2CRLBuilder crlBuilder = new JcaX509v2CRLBuilder(existingCRL);
-        crlBuilder.addCRLEntry(newCertificate.getSerialNumber(), existingCRL.getThisUpdate(), CRLReason.PRIVILEGE_WITHDRAWN.ordinal());
+        crlBuilder.addCRLEntry(newCertificate.getSerialNumber(), existingCRL.getThisUpdate(), crlReason.ordinal());
         ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
         X509CRLHolder extendedCRL = crlBuilder.build(contentSigner);
         byte[] extendedCRLBytes = extendedCRL.getEncoded();

@@ -85,8 +85,8 @@
           },
           "options": {
             "ssl": true,
-            "sslKey": "/Users/olivera/Documents/Bezbednost-tajne/private_key.pem",
-            "sslCert": "/Users/olivera/Documents/Bezbednost-tajne/root.pem"
+            "sslKey": "O:\\Fakultet\\III_GODINA\\VI_SEMESTAR\\RACUNARSKA_BEZBEDNOST\\resources\\static\\private_key.pem",
+            "sslCert": "O:\\Fakultet\\III_GODINA\\VI_SEMESTAR\\RACUNARSKA_BEZBEDNOST\\resources\\static\\root.pem"
           },
           "defaultConfiguration": "development"
         },
