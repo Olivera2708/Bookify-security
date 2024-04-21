@@ -39,12 +39,10 @@ public class JSONParserPrivateKey {
     }
 
     public static PrivateKey decodePrivateKey(String keyPEM) {
-        // Remove the first and last lines
         String privateKeyPEM = keyPEM.replaceAll("-----BEGIN PRIVATE KEY-----", "")
                 .replaceAll("-----END PRIVATE KEY-----", "")
                 .replaceAll("\\s", "");  // Remove all whitespace including newlines
 
-        // Base64 decode the data
         byte[] encoded = Base64.getDecoder().decode(privateKeyPEM);
 
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.cert.CRLReason;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -66,6 +67,24 @@ public class CertificateController {
     public ResponseEntity<Collection<BasicCertificateDTO>> getAllCertificates() {
         Collection<BasicCertificateDTO> basicCertificates = certificateService.getAllCertificates();
         return new ResponseEntity<>(basicCertificates, HttpStatus.OK);
+    }
+
+    @PostMapping("/revoke")
+    public ResponseEntity<CertificateRequestDTO> revokeCertificate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber) {
+        certificateService.revokeCertificate(CA, serialNumber, CRLReason.CERTIFICATE_HOLD);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/isrevoked")
+    public ResponseEntity<Boolean> isRevoked(@RequestParam("serialNumber") String serialNumber) {
+        certificateService.isCertificateRevoked(serialNumber);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @GetMapping("/activete")
+    public ResponseEntity<Boolean> activate(@RequestParam("CA") String CA, @RequestParam("serialNumber") String serialNumber) {
+        certificateService.removeCertificateFromCRL(CA, serialNumber);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @GetMapping("/test-read")

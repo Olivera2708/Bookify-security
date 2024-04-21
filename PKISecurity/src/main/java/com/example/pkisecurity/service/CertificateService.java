@@ -1,9 +1,11 @@
 package com.example.pkisecurity.service;
 
+import ch.qos.logback.core.CoreConstants;
 import com.example.pkisecurity.dto.BasicCertificateDTO;
 import com.example.pkisecurity.dto.CertificateDTO;
 import com.example.pkisecurity.dto.SubjectDTO;
 import com.example.pkisecurity.enumerations.Extension;
+import com.example.pkisecurity.model.Certificate;
 import com.example.pkisecurity.model.Issuer;
 import com.example.pkisecurity.model.Subject;
 import com.example.pkisecurity.service.interfaces.ICertificateService;
@@ -13,13 +15,23 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
+import org.bouncycastle.asn1.x509.ExtensionsGenerator;
+import org.bouncycastle.cert.X509CRLEntryHolder;
+import org.bouncycastle.cert.X509CRLHolder;
+import org.bouncycastle.cert.X509v2CRLBuilder;
+import org.bouncycastle.cert.jcajce.*;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemReader;
 import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.math.BigInteger;
 import java.security.*;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
+import java.security.cert.*;
 import java.util.*;
 
 import static com.example.pkisecurity.PkiSecurityApplication.keyStoreReader;
@@ -93,24 +105,6 @@ public class CertificateService implements ICertificateService {
         saveSubjectPrivateKey(x509Certificate.getSerialNumber().toString(), keyPair.getPrivate());
     }
 
-//    private X509Certificate signCertificate(X509v3CertificateBuilder certBuilder, PrivateKey issuerPrivateKey) {
-//        try {
-//            // Content signer
-//            ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256WithRSA")
-//                    .build(issuerPrivateKey);
-//
-//            // Generate certificate
-//            return new JcaX509ExtensionUtils()
-//                    .createAuthorityKeyIdentifier(certBuilder.getPublicKey())
-//                    .setIssuerKeyIdentifier(new JcaX509ExtensionUtils().createSubjectKeyIdentifier(certBuilder.getPublicKey()))
-//                    .sign(certBuilder.build(contentSigner));
-//        } catch (CertificateException | OperatorCreationException | CertificateEncodingException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("Error signing certificate: " + e.getMessage());
-//        }
-//    }
-
-
     private String getKeyStoreName(String issuersAlias, Subject subject) {
         String file = getKSFile(issuersAlias);
         if (file.equals("root.jks")) {
@@ -165,7 +159,131 @@ public class CertificateService implements ICertificateService {
         return certificates;
     }
 
-    private SubjectDTO getSubjectDTO(X500Name subject){
+    @Override
+    public Boolean verifyCertificate(Certificate certificate) {
+
+        return null;
+    }
+
+    @Override
+    public void revokeCertificate(String CAalias, String revokingSerialNumber, CRLReason reason) {
+        X509Certificate CACertificate = getCertificate(CAalias);
+        X509Certificate revokingCertificate = getCertificate(revokingSerialNumber);
+
+        PrivateKey pk = getPrivateKey(CACertificate.getSerialNumber().toString());
+
+        X509CRL crl;
+        try {
+            crl = getCRL();
+            extendCRL(pk, crl, revokingCertificate);
+            return;
+        } catch (Exception e) {
+            crl = generateCRL(pk, CACertificate, revokingCertificate.getSerialNumber(), reason);
+        }
+        try (FileOutputStream fos = new FileOutputStream("src/main/resources/static/crl.pem")) {
+            fos.write(crl.getEncoded());
+        } catch (IOException | CRLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    private X509CRL generateCRL(PrivateKey caPrivateKey, X509Certificate caCertificate, BigInteger serialNumber, CRLReason reason) {
+        Date now = new Date();
+        X500Name issuerName = X500Name.getInstance(caCertificate.getIssuerX500Principal().getEncoded());
+        X509v2CRLBuilder crlBuilder = new X509v2CRLBuilder(issuerName, now);
+        crlBuilder.setNextUpdate(new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000));
+
+        crlBuilder.addCRLEntry(serialNumber, now, reason.ordinal());
+
+        ContentSigner signer = null;
+        try {
+            signer = new JcaContentSignerBuilder("SHA256withRSA").build(caPrivateKey);
+
+            X509CRLHolder crlHolder = crlBuilder.build(signer);
+
+            return new JcaX509CRLConverter().setProvider("BC").getCRL(crlHolder);
+        } catch (CRLException | OperatorCreationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isCertificateRevoked(String alias) {
+        try {
+            X509Certificate x509Cert = getCertificate(alias);
+            X509CRL crl = getCRL();
+            return crl != null && crl.isRevoked(x509Cert);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public void removeCertificateFromCRL(String CAalias, String revokingSerialNumber) {
+        X509Certificate CACertificate = getCertificate(CAalias);
+        X509Certificate removingCertificate = getCertificate(revokingSerialNumber);
+
+        PrivateKey pk = getPrivateKey(CACertificate.getSerialNumber().toString());
+
+        try {
+            X509CRL crl = getCRL();
+            removeFromCRL(pk, crl, removingCertificate, CACertificate);
+        } catch (Exception e) {
+        }
+
+    }
+
+    private static X509CRL getCRL() throws IOException, CRLException {
+        FileInputStream crlInputStream = null;
+        crlInputStream = new FileInputStream("src/main/resources/static/crl.pem");
+        X509CRLHolder crlHolder = new X509CRLHolder(crlInputStream);
+        JcaX509CRLConverter converter = new JcaX509CRLConverter();
+        return converter.getCRL(crlHolder);
+
+    }
+
+    public static void extendCRL(PrivateKey pk, X509CRL existingCRL, X509Certificate newCertificate) throws Exception {
+        X509v2CRLBuilder crlBuilder = new JcaX509v2CRLBuilder(existingCRL);
+        crlBuilder.addCRLEntry(newCertificate.getSerialNumber(), existingCRL.getThisUpdate(), CRLReason.PRIVILEGE_WITHDRAWN.ordinal());
+        ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
+        X509CRLHolder extendedCRL = crlBuilder.build(contentSigner);
+        byte[] extendedCRLBytes = extendedCRL.getEncoded();
+        FileOutputStream outputStream = new FileOutputStream("src/main/resources/static/crl.pem");
+        outputStream.write(extendedCRLBytes);
+        outputStream.close();
+    }
+
+    public void removeFromCRL(PrivateKey pk, X509CRL existingCRL, X509Certificate certificateToRemove, X509Certificate caCertificate) throws Exception {
+        JcaX509CRLHolder crlHolder = new JcaX509CRLHolder(existingCRL);
+        X500Name issuerName = X500Name.getInstance(caCertificate.getIssuerX500Principal().getEncoded());
+        X509v2CRLBuilder crlBuilder = new X509v2CRLBuilder(issuerName, new Date());
+        List<X509CRLEntryHolder> revokedCertificates = new ArrayList<>();
+        for (Object cert : crlHolder.getRevokedCertificates()) {
+            X509CRLEntryHolder cert2 = (X509CRLEntryHolder) cert;
+            if (!cert2.getSerialNumber().equals(certificateToRemove.getSerialNumber())) {
+                revokedCertificates.add(cert2);
+            }
+        }
+
+        revokedCertificates.forEach(revokedCert -> {
+            crlBuilder.addCRLEntry(revokedCert.getSerialNumber(), existingCRL.getThisUpdate(), CRLReason.PRIVILEGE_WITHDRAWN.ordinal());
+//            crlBuilder.addCRLEntry(revokedCert.getSerialNumber(), crlHolder.getThisUpdate(), crlHolder.getNextUpdate(), crlHolder.getRevocationReason(revokedCert.getSerialNumber()));
+        });
+
+        ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
+        X509CRLHolder newCRL = crlBuilder.build(contentSigner);
+
+//        FileOutputStream outputStream = new FileOutputStream("src/main/resources/static/crl.pem");
+//        outputStream.write(extendedCRLBytes);
+//        outputStream.close();
+
+        FileOutputStream outputStream = new FileOutputStream("src/main/resources/static/crl.pem", false);
+        outputStream.write(newCRL.getEncoded());
+        outputStream.close();
+    }
+
+    private SubjectDTO getSubjectDTO(X500Name subject) {
         RDN subjectNameRDN = subject.getRDNs(BCStyle.CN)[0];
         RDN subjectEmailRDN = subject.getRDNs(BCStyle.E)[0];
         RDN countryRDN = subject.getRDNs(BCStyle.C)[0];

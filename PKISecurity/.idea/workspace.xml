@@ -121,13 +121,16 @@
           <line>68</line>
           <option name="timeStamp" value="39" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/pkisecurity/service/CertificateService.java</url>
+          <line>214</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="SpringBootApplicationConfigurationType">
-        <watch expression="keyFactory.generatePrivate(keySpec);" />
-        <watch expression="keyFactory.generatePrivate(keySpec)" />
-        <watch expression="new org.bouncycastle.asn1.x509.Extension(org.bouncycastle.asn1.x509.Extension.basicConstraints, true, new BasicConstraints(isCA).getEncoded())" />
+        <watch expression="crl.isRevoked(x509Cert)" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
