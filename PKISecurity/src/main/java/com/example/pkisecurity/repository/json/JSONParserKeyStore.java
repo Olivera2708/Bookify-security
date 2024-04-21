@@ -17,8 +17,6 @@ public class JSONParserKeyStore {
 
     private static JSONArray keystoreConfigs;
 
-
-
     private static final String path = SECURITY_PATH+"key-store-password.json";
 
     private static void loadFile() {

@@ -3,15 +3,20 @@ package com.example.pkisecurity.controller;
 import com.example.pkisecurity.dto.*;
 import com.example.pkisecurity.mapper.CertificateRequestDTOMapper;
 import com.example.pkisecurity.model.CertificateRequest;
+import com.example.pkisecurity.model.TransactionResponse;
 import com.example.pkisecurity.service.interfaces.ICertificateRequestService;
 import com.example.pkisecurity.service.interfaces.ICertificateService;
+import org.bouncycastle.jcajce.provider.asymmetric.X509;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.cert.CRLReason;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -31,6 +36,12 @@ public class CertificateController {
         CertificateRequest certificateRequest = new CertificateRequest(userId, appName);
         certificateRequestService.save(certificateRequest);
         return new ResponseEntity<>(CertificateRequestDTOMapper.fromCertificateRequestDTO(certificateRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/request")
+    public ResponseEntity<TransactionResponse> getCertificate(@RequestParam String email) throws CertificateEncodingException {
+        TransactionResponse response = certificateService.getTransactionResponse(email);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/requests")

@@ -1,9 +1,11 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Account} from "./model/account";
-import {environment} from "../../../env/env";
-import {CertificateRequestDTO} from "./model/CertificateRequestDTO";
+import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Account } from "./model/account";
+import { environment } from "../../../env/env";
+import { CertificateRequestDTO } from "./model/CertificateRequestDTO";
+import { TransactionResponse } from './model/transaction.respons.dto';
+import { X509Certificate } from 'crypto';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +21,11 @@ export class AccountService {
   }
 
   getAccountImage(imageId: number | undefined): Observable<Blob> {
-    return this.httpClient.get(environment.apiHost + "users/image/" + imageId, {responseType: "blob"});
+    return this.httpClient.get(environment.apiHost + "users/image/" + imageId, { responseType: "blob" });
   }
 
-  updatePassword(userId: number | undefined, newPassword: string): Observable<string>{
-      return this.httpClient.post(environment.apiHost + "users/" + userId + "/change-password", newPassword, {responseType: "text"});
+  updatePassword(userId: number | undefined, newPassword: string): Observable<string> {
+    return this.httpClient.post(environment.apiHost + "users/" + userId + "/change-password", newPassword, { responseType: "text" });
   }
 
   updateUser(account: Account): Observable<Account> {
@@ -35,18 +37,22 @@ export class AccountService {
     data.append('image', file);
     return this.httpClient.post<number>(environment.apiHost + "users/change-image/" + userId, data);
   }
-  deleteAccount(userId: number | undefined): Observable<string>{
-    return this.httpClient.delete(environment.apiHost + "users/" + userId, {responseType: "text"});
+  deleteAccount(userId: number | undefined): Observable<string> {
+    return this.httpClient.delete(environment.apiHost + "users/" + userId, { responseType: "text" });
   }
-  getAccountImageId(userId: number | undefined): Observable<number>{
+  getAccountImageId(userId: number | undefined): Observable<number> {
     return this.httpClient.get<number>(environment.apiHost + "users/account-pic/" + userId);
   }
 
   sendCertificateRequest(userId: number): Observable<CertificateRequestDTO> {
     return this.httpClient.post<CertificateRequestDTO>(environment.apiPKI + "/request/Bookify/" + userId, {});
   }
-  doesUserAlreadyHaveValidCertificate(userId: string): Observable<boolean>{
+
+  doesUserAlreadyHaveValidCertificate(userId: string): Observable<boolean> {
     return this.httpClient.get<boolean>(environment.apiPKI + "/exists/" + userId);
   }
 
+  getCertificate(email: string) : Observable<TransactionResponse> {
+    return this.httpClient.get<TransactionResponse>(environment.apiPKI + "/request?email=" + email);
+  }
 }

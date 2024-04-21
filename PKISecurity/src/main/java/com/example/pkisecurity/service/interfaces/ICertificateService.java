@@ -5,6 +5,7 @@ import com.example.pkisecurity.dto.CertificateDTO;
 import com.example.pkisecurity.dto.SubjectDTO;
 import com.example.pkisecurity.model.Certificate;
 import com.example.pkisecurity.model.Issuer;
+import com.example.pkisecurity.model.TransactionResponse;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +38,6 @@ public interface ICertificateService {
     Boolean doesValidCertificateExistForEmail(String email);
 
     boolean doesValidCertificateExistForCertificateSubject(String serialNumber);
+
+    public TransactionResponse getTransactionResponse(String email);
 }

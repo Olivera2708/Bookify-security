@@ -85,8 +85,8 @@
           },
           "options": {
             "ssl": true,
-            "sslKey": "O:\\Fakultet\\III_GODINA\\VI_SEMESTAR\\RACUNARSKA_BEZBEDNOST\\resources\\static\\private_key.pem",
-            "sslCert": "O:\\Fakultet\\III_GODINA\\VI_SEMESTAR\\RACUNARSKA_BEZBEDNOST\\resources\\static\\root.pem"
+            "sslKey": "C:\\Users\\Dell\\Desktop\\security\\podaci\\private_key.pem",
+            "sslCert": "C:\\Users\\Dell\\Desktop\\security\\podaci\\root.pem"
           },
           "defaultConfiguration": "development"
         },

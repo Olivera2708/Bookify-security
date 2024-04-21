@@ -6,6 +6,7 @@ import com.example.pkisecurity.dto.SubjectDTO;
 import com.example.pkisecurity.enumerations.Extension;
 import com.example.pkisecurity.model.Issuer;
 import com.example.pkisecurity.model.Subject;
+import com.example.pkisecurity.model.TransactionResponse;
 import com.example.pkisecurity.service.interfaces.ICertificateService;
 import com.example.pkisecurity.utils.CertificateGenerator;
 import org.bouncycastle.asn1.x500.RDN;
@@ -187,7 +188,7 @@ public class CertificateService implements ICertificateService {
 
     private String getAliasForEmail(String email) {
         for (BasicCertificateDTO certificate : getAllCertificates()) {
-            if(certificate.getSubject().getEmail().equals(email))
+            if (certificate.getSubject().getEmail().equals(email))
                 return certificate.getSubjectCertificateAlias();
         }
         return null;
@@ -208,7 +209,7 @@ public class CertificateService implements ICertificateService {
         } catch (Exception e) {
             crl = generateCRL(pk, CACertificate, revokingCertificate.getSerialNumber(), convertReason(reason));
         }
-        try (FileOutputStream fos = new FileOutputStream(SECURITY_PATH+"crl.pem")) {
+        try (FileOutputStream fos = new FileOutputStream(SECURITY_PATH + "crl.pem")) {
             fos.write(crl.getEncoded());
         } catch (IOException | CRLException e) {
             throw new RuntimeException(e);
@@ -254,7 +255,7 @@ public class CertificateService implements ICertificateService {
         try {
             X509Certificate x509Cert = getCertificate(alias);
             X509CRL crl = getCRL();
-            
+
             return crl != null && crl.getRevokedCertificate(x509Cert.getSerialNumber()) != null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -279,8 +280,8 @@ public class CertificateService implements ICertificateService {
 
     @Override
     public Boolean doesValidCertificateExistForEmail(String email) {
-        for (BasicCertificateDTO certificateDTO : getAllCertificates()){
-            if (certificateDTO.getSubject().getEmail().equals(email) && verifyCertificate(certificateDTO.getSubjectCertificateAlias())){
+        for (BasicCertificateDTO certificateDTO : getAllCertificates()) {
+            if (certificateDTO.getSubject().getEmail().equals(email) && verifyCertificate(certificateDTO.getSubjectCertificateAlias())) {
                 return true;
             }
         }
@@ -305,7 +306,7 @@ public class CertificateService implements ICertificateService {
 
     private static X509CRL getCRL() throws IOException, CRLException {
         FileInputStream crlInputStream = null;
-        crlInputStream = new FileInputStream(SECURITY_PATH+"crl.pem");
+        crlInputStream = new FileInputStream(SECURITY_PATH + "crl.pem");
         X509CRLHolder crlHolder = new X509CRLHolder(crlInputStream);
         JcaX509CRLConverter converter = new JcaX509CRLConverter();
         return converter.getCRL(crlHolder);
@@ -318,7 +319,7 @@ public class CertificateService implements ICertificateService {
         ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
         X509CRLHolder extendedCRL = crlBuilder.build(contentSigner);
         byte[] extendedCRLBytes = extendedCRL.getEncoded();
-        FileOutputStream outputStream = new FileOutputStream(SECURITY_PATH+"crl.pem");
+        FileOutputStream outputStream = new FileOutputStream(SECURITY_PATH + "crl.pem");
         outputStream.write(extendedCRLBytes);
         outputStream.close();
     }
@@ -342,7 +343,7 @@ public class CertificateService implements ICertificateService {
         ContentSigner contentSigner = new JcaContentSignerBuilder("SHA256withRSA").build(pk);
         X509CRLHolder newCRL = crlBuilder.build(contentSigner);
 
-        FileOutputStream outputStream = new FileOutputStream(SECURITY_PATH+"crl.pem", false);
+        FileOutputStream outputStream = new FileOutputStream(SECURITY_PATH + "crl.pem", false);
         outputStream.write(newCRL.getEncoded());
         outputStream.close();
     }
@@ -376,5 +377,48 @@ public class CertificateService implements ICertificateService {
             extensions.add(Extension.CA);
 
         return extensions;
+    }
+
+    @Override
+    public TransactionResponse getTransactionResponse(String email) {
+        X509Certificate certificate = getCertificateFromEmail(email);
+        PrivateKey privateKey = getPrivateKey("134536562068545571209477243422665279291207643568");
+        return makeTransaction(certificate, privateKey);
+    }
+
+    public X509Certificate getCertificateFromEmail(String email) {
+        for (BasicCertificateDTO certificateDTO : getAllCertificates()) {
+            if (certificateDTO.getSubject().getEmail().equals(email) && verifyCertificate(certificateDTO.getSubjectCertificateAlias())) {
+                return getCertificate(certificateDTO.getSubjectCertificateAlias());
+            }
+        }
+        return null;
+    }
+
+    public TransactionResponse makeTransaction(X509Certificate request, PrivateKey privateKey) {
+        byte[] digitalSignature = new byte[0];
+        try {
+            digitalSignature = generateDigitalSignature(request.getEncoded(), privateKey);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        X509Certificate root = getCertificate("134536562068545571209477243422665279291207643568");
+        TransactionResponse response = new TransactionResponse();
+        response.setPublicKey(root.getPublicKey().getEncoded());
+        response.setDigitalSignature(digitalSignature);
+        try {
+            response.setCertificate(Base64.getEncoder().encodeToString(request.getEncoded()));
+        } catch (CertificateEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        return response;
+    }
+
+    public byte[] generateDigitalSignature(byte[] data, PrivateKey privateKey) throws Exception {
+        Signature signature = Signature.getInstance("SHA256withRSA");
+        signature.initSign(privateKey);
+        signature.update(data);
+        return signature.sign();
     }
 }
