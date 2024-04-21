@@ -261,10 +261,8 @@ public class CertificateService implements ICertificateService {
         try {
             X509Certificate x509Cert = getCertificate(alias);
             X509CRL crl = getCRL();
-
+            
             return crl != null && crl.getRevokedCertificate(x509Cert.getSerialNumber()) != null;
-//            return crl != null && crl.isRevoked(x509Cert);
-
         } catch (Exception e) {
             e.printStackTrace();
             return false;

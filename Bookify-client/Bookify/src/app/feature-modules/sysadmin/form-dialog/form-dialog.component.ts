@@ -70,21 +70,18 @@ export class FormDialogComponent {
       this.spinner.show("create-spinner");
       const createCertificateDTO = this.initializeCreateCertificateDTO();
 
-      this.certificateService.createCertificate(createCertificateDTO)
-        .subscribe({
+      this.certificateService.createCertificate(createCertificateDTO).subscribe({
           next: (data) => {
             this.spinner.hide("create-spinner");
-            this.spinnerVisibleFor(2, "success-spinner")
-
+            this.spinnerVisibleFor(2, "success-spinner");
+            setTimeout(() => {this.dialogRef.close(data);}, (2000));
             this.certificateService.approveCertificateRequest(this.data.request.id).subscribe({
               next: (data) => {
               }
             });
-
-            setTimeout(() => {this.dialogRef.close(data);}, (2000));
           },error: (data) =>{
             this.spinner.hide("create-spinner");
-            this.spinnerVisibleFor(2, "fail-spinner")
+            this.spinnerVisibleFor(2, "fail-spinner");
           }
         });
     }
