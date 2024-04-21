@@ -26,7 +26,6 @@
               {{node.name.certificate.subject.name}}
             </span>
             <span class="material-symbols-outlined invalid" *ngIf="!validateMap[node.name.certificate.subjectCertificateAlias]">warning</span>
-
             <span class="material-symbols-outlined child" *ngIf="validateMap[node.name.certificate.subjectCertificateAlias]" (click)="createCertificate(node.name)">add_box</span>
           </mat-tree-node>
         </mat-tree>
