@@ -43,21 +43,21 @@ export class CertificateRequestComponent {
                     forge.asn1.fromDer(derBytes));
                   console.log(certificate);
 
-                  const binaryData: string = atob(response.certificate);
+                  // const binaryData: string = atob(response.certificate);
 
-                  const uint8Array = new Uint8Array(binaryData.length);
-                  for (let i = 0; i < binaryData.length; i++) {
-                    uint8Array[i] = binaryData.charCodeAt(i);
-                  }
+                  // const uint8Array = new Uint8Array(binaryData.length);
+                  // for (let i = 0; i < binaryData.length; i++) {
+                  //   uint8Array[i] = binaryData.charCodeAt(i);
+                  // }
 
                   // const publicKeyObject = crypto.createPublicKey("" + response.publicKey)
 
-                  const publicKeyData = window.atob("" + response.publicKey);
+                  // const publicKeyData = window.atob("" + response.publicKey);
 
-                  const publicKeyBuffer = new Uint8Array(publicKeyData.length);
-                  for (let i = 0; i < publicKeyData.length; ++i) {
-                    publicKeyBuffer[i] = publicKeyData.charCodeAt(i);
-                  }
+                  // const publicKeyBuffer = new Uint8Array(publicKeyData.length);
+                  // for (let i = 0; i < publicKeyData.length; ++i) {
+                  //   publicKeyBuffer[i] = publicKeyData.charCodeAt(i);
+                  // }
 
                   // const publicKeyObject = crypto.createPublicKey({
                   //   key: "" + response.publicKey,
@@ -67,29 +67,29 @@ export class CertificateRequestComponent {
 
                   // const a = new crypto.X509Certificate(response.certificate);
                   // console.log(a.verify(publicKeyObject));
-                  crypto.subtle.importKey(
-                    "spki",
-                    publicKeyBuffer,
-                    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-                    true,
-                    ["verify"]
-                  ).then((publicKey) => {
-                    return crypto.subtle.verify(
-                      { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-                      publicKey,
-                      response.digitlSignature,
-                      uint8Array
-                    );
-                  }).then((isValid) => {
-                    if (isValid) {
-                      console.log("Digital signature is valid");
-                    } else {
-                      console.error("Digital signature verification failed");
-                    }
-                  })
-                    .catch((error) => {
-                      console.error("Error verifying digital signature:", error);
-                    });
+                  // crypto.subtle.importKey(
+                  //   "spki",
+                  //   publicKeyBuffer,
+                  //   { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+                  //   true,
+                  //   ["verify"]
+                  // ).then((publicKey) => {
+                  //   return crypto.subtle.verify(
+                  //     { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+                  //     publicKey,
+                  //     response.digitlSignature,
+                  //     uint8Array
+                  //   );
+                  // }).then((isValid) => {
+                  //   if (isValid) {
+                  //     console.log("Digital signature is valid");
+                  //   } else {
+                  //     console.error("Digital signature verification failed");
+                  //   }
+                  // })
+                  //   .catch((error) => {
+                  //     console.error("Error verifying digital signature:", error);
+                  //   });
                 }
               })
               this.status = "CERTIFIED";
