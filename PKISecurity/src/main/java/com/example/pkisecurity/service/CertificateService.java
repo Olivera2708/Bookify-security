@@ -408,7 +408,7 @@ public class CertificateService implements ICertificateService {
         response.setPublicKey(root.getPublicKey().getEncoded());
         response.setDigitalSignature(digitalSignature);
         try {
-            response.setCertificate(Base64.getEncoder().encodeToString(request.getEncoded()));
+            response.setCertificate(request.getEncoded());
         } catch (CertificateEncodingException e) {
             throw new RuntimeException(e);
         }

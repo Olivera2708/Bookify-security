@@ -115,17 +115,4 @@ public class CertificateController {
     public ResponseEntity<Boolean> activate(@RequestParam("alias") String alias) {
         return new ResponseEntity<>(certificateService.verifyCertificate(alias), HttpStatus.OK);
     }
-
-    @GetMapping("/test-read")
-    public ResponseEntity readTest(){
-//        CertificateDTO certificateDTO123 = new CertificateDTO("root", new SubjectDTO("bookify","bookify.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
-//        certificateService.createCertificate(certificateDTO123);
-//        CertificateDTO certificateDTO = new CertificateDTO("137771131808395199342628611820242162821", new SubjectDTO("bookify2","bookify2.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
-//        certificateService.createCertificate(certificateDTO);
-        CertificateDTO certificateDTO1 = new CertificateDTO("137771131808395199342628611820242162821", new SubjectDTO("bookify3","bookify3.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
-        certificateService.createCertificate(certificateDTO1);
-        CertificateDTO certificateDTO2 = new CertificateDTO("137771131808395199342628611820242162821", new SubjectDTO("bookify4","bookify4.team3@gmail.com", "RS", "BOOKIFY", "BOOKIFY-HEAD"),new ArrayList<>(),new Date(), new Date());
-        certificateService.createCertificate(certificateDTO2);
-        return new ResponseEntity(HttpStatus.OK);
-    }
 }

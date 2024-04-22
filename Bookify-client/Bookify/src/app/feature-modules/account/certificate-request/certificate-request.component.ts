@@ -1,14 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { CertificateService } from "../../sysadmin/certificate.service";
-import { LiveAnnouncer } from "@angular/cdk/a11y";
-import { MatDialog } from "@angular/material/dialog";
 import { AccountService } from "../account.service";
 import { AuthenticationService } from "../../authentication/authentication.service";
-import { ChangeDetection } from "@angular/cli/lib/config/workspace-schema";
 import { Account } from "../model/account";
-import { response } from 'express';
-import * as crypto from 'crypto';
 import * as forge from 'node-forge';
+import { Base64 } from 'js-base64';
 
 @Component({
   selector: 'app-certificate-request',
@@ -35,64 +30,24 @@ export class CertificateRequestComponent {
             if (data.email) {
               this.accountService.getCertificate(data.email).subscribe({
                 next: (response) => {
-                  console.log(response);
-                  console.log("-------------------");
-                  const derBytes = forge.util.decode64(response.certificate);
+                  const publicKey = this.importRsaPublicKeyFromBase64(response.publicKey);
+                  if (publicKey != null) {
+                    const byteArray = new Uint8Array(Base64.toUint8Array(response.digitalSignature));
+                    const cert = new Uint8Array(Base64.toUint8Array(response.certificate));
+                    const isSigned = this.verifyDigitalSignature(publicKey, cert, byteArray);
+                    if (isSigned)
+                      this.status = "CERTIFIED";
+                    else
+                      this.status = "NOT CERTIFIED"
+                  }
 
-                  const certificate = forge.pki.certificateFromAsn1(
-                    forge.asn1.fromDer(derBytes));
-                  console.log(certificate);
-
-                  // const binaryData: string = atob(response.certificate);
-
-                  // const uint8Array = new Uint8Array(binaryData.length);
-                  // for (let i = 0; i < binaryData.length; i++) {
-                  //   uint8Array[i] = binaryData.charCodeAt(i);
-                  // }
-
-                  // const publicKeyObject = crypto.createPublicKey("" + response.publicKey)
-
-                  // const publicKeyData = window.atob("" + response.publicKey);
-
-                  // const publicKeyBuffer = new Uint8Array(publicKeyData.length);
-                  // for (let i = 0; i < publicKeyData.length; ++i) {
-                  //   publicKeyBuffer[i] = publicKeyData.charCodeAt(i);
-                  // }
-
-                  // const publicKeyObject = crypto.createPublicKey({
-                  //   key: "" + response.publicKey,
-                  //   format: 'der',
-                  //   type: 'spki'
-                  // });
-
-                  // const a = new crypto.X509Certificate(response.certificate);
-                  // console.log(a.verify(publicKeyObject));
-                  // crypto.subtle.importKey(
-                  //   "spki",
-                  //   publicKeyBuffer,
-                  //   { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-                  //   true,
-                  //   ["verify"]
-                  // ).then((publicKey) => {
-                  //   return crypto.subtle.verify(
-                  //     { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-                  //     publicKey,
-                  //     response.digitlSignature,
-                  //     uint8Array
-                  //   );
-                  // }).then((isValid) => {
-                  //   if (isValid) {
-                  //     console.log("Digital signature is valid");
-                  //   } else {
-                  //     console.error("Digital signature verification failed");
-                  //   }
-                  // })
-                  //   .catch((error) => {
-                  //     console.error("Error verifying digital signature:", error);
-                  //   });
+                  //view cert in log
+                  // const derBytes = forge.util.decode64(response.certificate);
+                  // const certificate = forge.pki.certificateFromAsn1(
+                  //   forge.asn1.fromDer(derBytes));
+                  // console.log(certificate);
                 }
-              })
-              this.status = "CERTIFIED";
+              });
             }
           }
           else {
@@ -102,6 +57,53 @@ export class CertificateRequestComponent {
       });
     }
   }
+
+  private base64ToUint8Array(base64: string): Uint8Array {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  private importRsaPublicKeyFromBase64(base64: string): forge.pki.rsa.PublicKey | null {
+    try {
+      const uint8Array = this.base64ToUint8Array(base64);
+      const derBuffer = forge.util.createBuffer(uint8Array); // Convert to forge buffer
+      const asn1 = forge.asn1.fromDer(derBuffer); // Parse DER
+      return forge.pki.publicKeyFromAsn1(asn1) as forge.pki.rsa.PublicKey;
+    } catch (error) {
+      console.error("Error parsing RSA public key from Base64:", error);
+      return null; // Return null if parsing fails
+    }
+  }
+
+  private uint8ArrayToForgeBuffer(array: Uint8Array): forge.util.ByteBuffer {
+    return forge.util.createBuffer(array); // Convert Uint8Array to forge ByteBuffer
+  }
+
+  private verifyDigitalSignature(
+    publicKey: forge.pki.rsa.PublicKey,
+    data: Uint8Array,
+    digitalSignature: Uint8Array
+  ): boolean {
+    try {
+      const hash = forge.md.sha256.create();
+
+      // Convert Uint8Array to string without specifying encoding
+      const dataString = String.fromCharCode(...data);
+      hash.update(dataString);
+
+      const signatureBuffer = this.uint8ArrayToForgeBuffer(digitalSignature);
+
+      return publicKey.verify(hash.digest().bytes(), signatureBuffer.bytes());
+    } catch (error) {
+      console.error("Error verifying digital signature:", error);
+      return false; // Return false if verification fails
+    }
+  }
+
 
   private sendCertificateRequest() {
     this.accountService.sendCertificateRequest(this.authService.getUserId()).subscribe({
