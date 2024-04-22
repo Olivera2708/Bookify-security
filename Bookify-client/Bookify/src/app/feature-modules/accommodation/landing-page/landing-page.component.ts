@@ -38,7 +38,6 @@ export class LandingPageComponent implements OnInit {
     this.accommodationService.getTopAccommodations().subscribe({
       next: (data) => {
         this.accommodations = data;
-        console.log(data);
       }
     });
   }

@@ -87,7 +87,6 @@ export class FilterComponent {
     this.maxPossiblePrice = maxPossiblePrice;
 
     for (const el of filter.filters){
-      console.log(el);
       const c = document.getElementById("cbx-" + this.transformBackLabel(el)) as HTMLInputElement;
       c.checked = true;
     }

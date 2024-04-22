@@ -60,7 +60,6 @@ export class NotificationService {
   handleResult(message: {
     body: string;
   }) {
-    console.log(message);
     if (message.body) {
       let messageResult = JSON.parse(message.body);
       if (messageResult['description']) {

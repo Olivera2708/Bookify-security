@@ -17,10 +17,8 @@ export class GuestReservationsComponent implements OnInit {
   ngOnInit(): void {
     this.reservationService.getGuestReservations(this.authService.getUserId()).subscribe({
       next: (reservations: ReservationGuestViewDTO[]) => {
-        console.log(reservations);
         this.reservations = reservations;
       },
-      // error: err => {}
     });
   }
 }

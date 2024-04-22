@@ -16,10 +16,27 @@ import { Interceptor } from "./feature-modules/authentication/interceptor/interc
 import { AdministrationModule } from "./feature-modules/administration/administration.module";
 import { ReviewModule } from './feature-modules/review/review.module';
 import { ReservationModule } from './feature-modules/reservation/reservation.module';
+import { CertificateManagerComponent } from './feature-modules/sysadmin/certificate-manager/certificate-manager.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from "@angular/material/sort";
+import { MatTreeModule } from "@angular/material/tree";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { FormDialogComponent } from './feature-modules/sysadmin/form-dialog/form-dialog.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MaterialModule } from './infrastructure/material/material.module';
+import {NgxSpinnerModule} from "ngx-spinner";
+import { DetailsDialogComponent } from './feature-modules/sysadmin/details-dialog/details-dialog.component';
+import { RevokeDialogComponent } from './feature-modules/sysadmin/revoke-dialog/revoke-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CertificateManagerComponent,
+    FormDialogComponent,
+    FormDialogComponent,
+    DetailsDialogComponent,
+    RevokeDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +53,17 @@ import { ReservationModule } from './feature-modules/reservation/reservation.mod
     ReservationModule,
     SharedModule,
     AdministrationModule,
-    ReviewModule
+    ReviewModule,
+    MatTableModule,
+    MatSortModule,
+    MatTreeModule,
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },

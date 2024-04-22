@@ -18,7 +18,6 @@ export class FeedbackComponent implements OnInit {
   ngOnInit(): void {
     this.adminService.getAllCreatedReviews().subscribe({
       next: (createdReviews: Review[]): void =>{
-        console.log(createdReviews);
         this.createdReviews = createdReviews;
       }
     });

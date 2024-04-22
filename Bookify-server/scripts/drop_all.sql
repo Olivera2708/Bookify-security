@@ -1,6 +1,5 @@
 DROP TABLE users_accommodations;
 DROP TABLE notification_settings;
-DROP TABLE users_edited_accommodations;
 DROP TABLE users_favorites;
 DROP TABLE users_notifications;
 DROP TABLE users_reviews;
@@ -18,3 +17,4 @@ DROP TABLE users;
 DROP TABLE availability;
 DROP TABLE pricelist_items;
 DROP TABLE image;
+DROP TABLE certificate_request;

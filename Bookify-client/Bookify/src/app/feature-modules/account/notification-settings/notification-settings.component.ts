@@ -31,7 +31,6 @@ export class NotificationSettingsComponent implements OnInit {
     this.notificationService.getNotificationSettings(this.authService.getUserId()).subscribe({
       next: (loadedSettings: Settings): void => {
         this.settings = loadedSettings;
-        console.log(this.settings);
       }, error: err => {
 
       }

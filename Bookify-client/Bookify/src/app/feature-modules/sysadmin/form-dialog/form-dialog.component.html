@@ -1,0 +1,72 @@
+<div id="main">
+  <h1>Certificate creation - <span *ngIf="!data.request">Intermediate</span><span *ngIf="data.request">For
+      {{data.request.name}}</span></h1>
+  <div mat-dialog-content>
+    <form [formGroup]="form">
+      <div class="enter-data">
+        <div class="center-data">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input id="name" name="name" formControlName="name" matInput>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Country (two-letter)</mat-label>
+            <input matInput id="country" name="country" formControlName="country">
+          </mat-form-field>
+        </div>
+        <div class="center-data">
+          <mat-form-field>
+            <mat-label>Organization</mat-label>
+            <input matInput id="organization" name="organization" formControlName="organization">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Organization unit</mat-label>
+            <input matInput id="organizationUnit" name="organizationUnit" formControlName="organizationUnit">
+          </mat-form-field>
+        </div>
+        <div class="center-data">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput id="email" name="email" formControlName="email">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Duration (year)</mat-label>
+            <input matInput id="duration" name="duration" formControlName="duration" type="number" min="1"
+              max="{{maxYear}}">
+          </mat-form-field>
+        </div>
+      </div>
+      <br>
+      <mat-label class="extensions">Extensions (at least one)</mat-label>
+      <br>
+      <br>
+      <div class="flex">
+        <div *ngFor="let label of extensionsCheckbox; trackBy: trackByFn">
+          <div class="checkbox-wrapper-42 checkbox-type" *ngIf="extensionsContains(label)">
+            <input id="cbx-{{label}}" type="checkbox" checked />
+            <label class="cbx" for="cbx-{{label}}"></label>
+            <label class="lbl" for="cbx-{{label}}">{{ convertExtension(label) }}</label>
+            <label class="lbl-small">{{ getExtensionDescription(label) }}</label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+    <button mat-button id="submit" (click)="onSubmitClick()">Submit</button>
+  </div>
+  <ngx-spinner name="create-spinner" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple"
+    [fullScreen]="false">
+    <p style="color: white"> Creating Certificate... </p>
+  </ngx-spinner>
+  <ngx-spinner name="fail-spinner" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#f83333" type="ball-scale-multiple"
+    [fullScreen]="false">
+    <p style="color: white"> Failed... </p>
+  </ngx-spinner>
+  <ngx-spinner name="success-spinner" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#2bcc56"
+    type="ball-scale-multiple" [fullScreen]="false">
+    <p style="color: white"> Success... </p>
+  </ngx-spinner>
+
+</div>

@@ -1,0 +1,48 @@
+.card{
+  background-color: #D8EBDE;
+  padding: 30px;
+  border-radius: 30px;
+}
+
+#status {
+  font-size: 1.2rem;
+  margin: auto auto auto 0;
+}
+
+.inline {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.acc-title{
+  display: block;
+  color: #326268;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+button[mat-button]{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  border-radius: 20px;
+  background-color: #2E4057;
+  color: white;
+}
+
+#notification-settings{
+  margin-top: 30px;
+  min-height: 100px;
+}
+
+button[mat-button]{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  border-radius: 20px;
+  background-color: #2E4057;
+  color: white;
+  padding: 5px 25px;
+  margin-top: 5px;
+  width: 25%;
+  align-self: end;
+}
