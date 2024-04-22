@@ -66,31 +66,34 @@ export class FormDialogComponent {
   }
 
   onSubmitClick(): void {
+    this.certificateService.userHasValidCertificate(this.form.get("email")?.value).subscribe({
+      next: (data) => {
+        if (data){
+          alert("User already has a valid certificate. ");
+        }
+        else {
+          if (this.form.valid && this.getCheckedExtensions().length>0) {
+            this.spinner.show("create-spinner");
+            const createCertificateDTO = this.initializeCreateCertificateDTO();
 
-    if(this.certificateService.userHasValidCertificate(this.form.get("email")?.value)){
-      alert("User already has a valid certificate. ");
-      return;
-    }
-
-    if (this.form.valid && this.getCheckedExtensions().length>0) {
-      this.spinner.show("create-spinner");
-      const createCertificateDTO = this.initializeCreateCertificateDTO();
-
-      this.certificateService.createCertificate(createCertificateDTO).subscribe({
-          next: (data) => {
-            this.spinner.hide("create-spinner");
-            this.spinnerVisibleFor(2, "success-spinner");
-            setTimeout(() => {this.dialogRef.close(data);}, (2000));
-            this.certificateService.approveCertificateRequest(this.data.request.id).subscribe({
+            this.certificateService.createCertificate(createCertificateDTO).subscribe({
               next: (data) => {
+                this.spinner.hide("create-spinner");
+                this.spinnerVisibleFor(2, "success-spinner");
+                setTimeout(() => {this.dialogRef.close(data);}, (2000));
+                this.certificateService.approveCertificateRequest(this.data.request.id).subscribe({
+                  next: (data) => {
+                  }
+                });
+              },error: (data) =>{
+                this.spinner.hide("create-spinner");
+                this.spinnerVisibleFor(2, "fail-spinner");
               }
             });
-          },error: (data) =>{
-            this.spinner.hide("create-spinner");
-            this.spinnerVisibleFor(2, "fail-spinner");
           }
-        });
-    }
+        }
+      }
+    });
   }
   spinnerVisibleFor(seconds: number, spinnerName: string) {
     this.spinner.show(spinnerName);

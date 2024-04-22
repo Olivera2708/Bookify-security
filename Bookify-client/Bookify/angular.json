@@ -85,8 +85,8 @@
           },
           "options": {
             "ssl": true,
-            "sslKey": "C:\\Users\\Dell\\Desktop\\security\\podaci\\private_key.pem",
-            "sslCert": "C:\\Users\\Dell\\Desktop\\security\\podaci\\root.pem"
+            "sslKey": "/Users/olivera/Documents/Bezbednost-tajne/private_key.pem",
+            "sslCert": "/Users/olivera/Documents/Bezbednost-tajne/root.pem"
           },
           "defaultConfiguration": "development"
         },

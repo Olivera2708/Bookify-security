@@ -61,6 +61,6 @@ export class CertificateService {
   }
 
   userHasValidCertificate(email: string) {
-    return this.httpClient.get<boolean>(environment.apiPKI + "/exist/" + email);
+    return this.httpClient.get<boolean>(environment.apiPKI + "/exists/" + email);
   }
 }
