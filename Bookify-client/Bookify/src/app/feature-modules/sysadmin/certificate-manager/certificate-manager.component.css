@@ -1,0 +1,110 @@
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: #D8EBDE;
+}
+
+.demo-row-is-clicked {
+  background-color: #D8EBDE;
+}
+
+h1 {
+  margin: 7rem auto 3rem auto;
+  text-align: center;
+}
+
+h3 {
+  color: #D8EBDE;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#view {
+  background-color: #326268;
+  padding: 1rem;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 1rem;
+  display: flex;
+  height: 70%;
+}
+
+#left {
+  float: left;
+  margin: 1rem;
+  width: 50%;
+  min-width: 48%;
+  max-width: 48%;
+}
+
+#right {
+  float: right;
+  margin: 1rem;
+  min-width: 48%;
+  max-width: 48%;
+  width: 50%;
+}
+
+#table{
+  margin: 0 auto;
+  overflow-x: auto;
+  max-height: 91%;
+}
+
+#tree {
+  background-color: white;
+  overflow-y: auto;
+  overflow-x: auto;
+  height: 91%;
+}
+
+mat-tree-node {
+  padding-right: 1rem;
+  width: fit-content;
+  text-wrap: nowrap;
+}
+
+#main {
+  height: 100vh;
+  position: absolute;
+  width: 100vw;
+}
+
+.inline {
+  display: flex;
+}
+
+.child {
+  margin-left: 0.8rem;
+  color: #4d4d4d;
+  cursor: pointer;
+}
+
+.reject {
+  z-index: 2;
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+}
+
+matTreeNodePadding {
+  padding-left: 4px;
+}
+
+.invalid {
+  color: darkred;
+  margin-left: 1rem;
+}
+
+.cert-name {
+  cursor: pointer;
+}

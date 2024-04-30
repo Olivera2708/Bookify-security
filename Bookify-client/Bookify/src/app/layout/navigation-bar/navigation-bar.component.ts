@@ -62,28 +62,36 @@ export class NavigationBarComponent implements OnInit {
   }
 
   private setAccountImageIcon(): void {
-    this.userImage = "assets/images/user.jpg";
-    const id: number = this.authenticationService.getUserId();
-    if (id === -1) return;
-    this.accountService.getAccountImageId(id).subscribe({
-      next: (id: number) => {
-        if (id !== -1) {
-          this.accountService.getAccountImage(id).subscribe({
-            next: (image: Blob) => {
-              const reader: FileReader = new FileReader();
-              reader.onloadend = () => {
-                this.userImage = reader.result;
-              }
-              reader.readAsDataURL(image);
-            },
-            error: err => {
-              if (err.status === 404) {
-
-              }
+    if(this.role !== "SYSADMIN"){
+      if(this.role !== ""){
+        this.userImage = "assets/images/user.jpg";
+        const id: number = this.authenticationService.getUserId();
+        if (id === -1) return;
+        this.accountService.getAccountImageId(id).subscribe({
+          next: (id: number) => {
+            if (id !== -1) {
+              this.accountService.getAccountImage(id).subscribe({
+                next: (image: Blob) => {
+                  const reader: FileReader = new FileReader();
+                  reader.onloadend = () => {
+                    this.userImage = reader.result;
+                  }
+                  reader.readAsDataURL(image);
+                },
+                error: err => {
+                  if (err.status === 404) {
+    
+                  }
+                }
+              });
             }
-          });
-        }
+          }
+        });
       }
-    });
+      }
+  }
+  OnLogoutClick(): void {
+    this.authenticationService.logout();
+    this.router.navigate(['']);
   }
 }

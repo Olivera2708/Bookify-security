@@ -19,7 +19,6 @@ export class OwnerAccommodationsComponent implements OnInit{
   ngOnInit(): void {
     this.accommodationService.getOwnerAccommodations(this.authenticationService.getUserId()).subscribe({
       next: (data: AccommodationOwnerDtoModel[]) => {
-        console.log(data);
         this.accommodations = data;
       },
       error: err => {}

@@ -1,0 +1,44 @@
+<div id="main">
+  <h1>Certificate details - {{data.node.certificate.subject.name}}</h1>
+  <div mat-dialog-content>
+    <form>
+      <div class="enter-data">
+        <br>
+        <mat-label class="extensions">Expires: {{formatDate(data.node.certificate.expires)}}</mat-label>
+        <br>
+        <br>
+        <mat-label class="extensions">Alias: {{data.node.certificate.subjectCertificateAlias}}</mat-label>
+        <br>
+        <br>
+        <mat-label class="extensions">Email: {{data.node.certificate.subject.email}}</mat-label>
+        <br>
+        <br>
+        <mat-label class="extensions">Country: {{data.node.certificate.subject.country}}</mat-label>
+        <br>
+        <br>
+        <mat-label class="extensions">Organization: {{data.node.certificate.subject.organization}}</mat-label>
+        <br>
+        <br>
+        <mat-label class="extensions">Organization unit: {{data.node.certificate.subject.organizationUnit}}</mat-label>
+        <br>
+        <br>
+      </div>
+      <br>
+      <mat-label class="extensions" *ngIf="data.node.certificate.extensions.length>0">Extensions:</mat-label>
+      <br>
+      <br>
+      <div *ngFor="let label of data.node.certificate.extensions; trackBy: trackByFn">
+        <div class="checkbox-wrapper-42">
+          <mat-label>{{ convertExtension(label) }} - {{getExtensionDescription(label)}}</mat-label>
+          <br>
+          <br>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+    <button mat-button class="revoke" (click)="revokeClick()" *ngIf="!isRevoked && environment.rootAlias != data.node.certificate.subjectCertificateAlias">Revoke</button>
+    <button mat-button class="revoke" (click)="restoreClick()" *ngIf="isRevoked && environment.rootAlias != data.node.certificate.subjectCertificateAlias">Restore</button>
+  </div>
+</div>

@@ -194,6 +194,8 @@ public class UserService implements IUserService {
             role = "OWNER";
         } else if (user instanceof Admin) {
             role = "ADMIN";
+        } else if (user instanceof SysAdmin) {
+            role = "SYSADMIN";
         } else {
             role = "GUEST";
         }
@@ -218,7 +220,7 @@ public class UserService implements IUserService {
         if (u.isEmpty()) throw new BadRequestException("User not found");
         User user = u.get();
 
-        if(!user.isBlocked()) throw new BadRequestException("User is not blocked");
+        if (!user.isBlocked()) throw new BadRequestException("User is not blocked");
         return new UserDTO(unblock(user));
     }
 
@@ -302,7 +304,8 @@ public class UserService implements IUserService {
         List<AccommodationRequestDTO> response = new ArrayList<>();
         for (Owner owner : userRepository.findAllOwners()) {
             for (Accommodation accommodation : owner.getAccommodations()) {
-                if (!isRequestReactedOn(accommodation)) response.add(new AccommodationRequestDTO(owner, accommodation));
+                if (!isRequestReactedOn(accommodation))
+                    response.add(new AccommodationRequestDTO(owner, accommodation));
             }
         }
         return response;
@@ -356,16 +359,16 @@ public class UserService implements IUserService {
     public Long reportUser(ReportedUser reportedUser) {
         Guest guest;
         Owner owner;
-        if(reportedUser.getReportedUser() instanceof Guest){
+        if (reportedUser.getReportedUser() instanceof Guest) {
             guest = (Guest) reportedUser.getReportedUser();
             owner = (Owner) reportedUser.getCreatedBy();
-            if(reservationService.getReservations(guest.getId(), owner.getId()).isEmpty()){
+            if (reservationService.getReservations(guest.getId(), owner.getId()).isEmpty()) {
                 throw new BadRequestException("Do not have reservations");
             }
-        }else{
+        } else {
             owner = (Owner) reportedUser.getReportedUser();
             guest = (Guest) reportedUser.getCreatedBy();
-            if(reservationService.getReservations(guest.getId(), owner.getId()).isEmpty()){
+            if (reservationService.getReservations(guest.getId(), owner.getId()).isEmpty()) {
                 throw new BadRequestException("Do not have reservations");
             }
         }
@@ -427,14 +430,16 @@ public class UserService implements IUserService {
 
     private User unblock(User user) {
         String role = getRole(user);
-        if (role.equals("ADMIN")) throw new BadRequestException("Administrator's account cannot be blocked/unblocked");
+        if (role.equals("ADMIN"))
+            throw new BadRequestException("Administrator's account cannot be blocked/unblocked");
         user.setBlocked(false);
         return userRepository.save(user);
     }
 
     private User block(User user) {
         String role = getRole(user);
-        if (role.equals("ADMIN")) throw new BadRequestException("Administrator's account cannot be blocked/unblocked");
+        if (role.equals("ADMIN"))
+            throw new BadRequestException("Administrator's account cannot be blocked/unblocked");
         if (role.equals("GUEST")) {
             reservationService.cancelGuestsReservations(user.getId());
         }

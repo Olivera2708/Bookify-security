@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.Bookify.model.Admin;
 import rs.ac.uns.ftn.Bookify.model.Owner;
+import rs.ac.uns.ftn.Bookify.model.SysAdmin;
 import rs.ac.uns.ftn.Bookify.model.User;
 import rs.ac.uns.ftn.Bookify.repository.interfaces.IUserRepository;
 
@@ -23,7 +24,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-       User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with email %s.", email));
         }
@@ -40,6 +41,8 @@ public class CustomUserDetailService implements UserDetailsService {
             return "ADMIN";
         } else if (user instanceof Owner) {
             return "OWNER";
+        } else if (user instanceof SysAdmin) {
+            return "SYSADMIN";
         } else {
             return "GUEST";
         }

@@ -37,7 +37,8 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/custom-theme.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",
@@ -82,6 +83,11 @@
               "buildTarget": "Bookify:build:development"
             }
           },
+          "options": {
+            "ssl": true,
+            "sslKey": "/Users/olivera/Documents/Bezbednost-tajne/private_key.pem",
+            "sslCert": "/Users/olivera/Documents/Bezbednost-tajne/root.pem"
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
@@ -111,5 +117,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "cdbf0f02-df0b-4343-b6fb-a0a302fa4e9c"
   }
 }

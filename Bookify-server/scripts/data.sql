@@ -9,8 +9,8 @@ VALUES
     ('OWNER', true, '2023-11-29 15:45:00', 'Admin Road 321', 'Admin City', 'Hungary', '13579', false, 'owner3@example.com', 'Admin', 'Tester', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', '+2233445566', null, false, ""),
     ('GUEST', true,'2023-11-30 12:30:00', 'Another Guest Street 99', 'Guestropolis', 'Romania', '11223', false, 'guest3@example.com', 'Sam', 'White', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', '+7788990011', null, false, ""),
     ('OWNER', true, '2023-11-27 20:20:00', 'Owner Street 876', 'Owner City', 'Bulgaria', '554433', false, 'owner4@example.com', 'Eva', 'Brown', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', '+7788990011', null, false, ""),
-    ('GUEST', true,'2023-11-30 12:30:00', 'Admin Lane 765', 'Adminville', 'Montenego', '332211', false, 'guest5@example.com', 'Chris', 'Miller', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', '+7788990011', null, false, "")
-;
+    ('GUEST', true,'2023-11-30 12:30:00', 'Admin Lane 765', 'Adminville', 'Montenego', '332211', false, 'guest5@example.com', 'Chris', 'Miller', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', '+7788990011', null, false, ""),
+    ('SYSADMIN', true,'2023-11-30 12:30:00', 'Admin Lane 765', 'AdminSys', 'Montenego', '332211', false, 'adminsys@example.com', 'Chris', 'Adminko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', '+7788990011', null, false, "");
 
 
 

@@ -37,7 +37,6 @@ export class AccommodationRequestsCardComponent implements OnInit {
     OnApproveClick(): void {
         this.adminService.approveAccommodationRequest(this.request.id).subscribe({
             next: value => {
-                console.log(value);
                 this.visible = !this.visible;
             }
         })
@@ -46,7 +45,6 @@ export class AccommodationRequestsCardComponent implements OnInit {
     OnRejectClick(): void {
         this.adminService.rejectAccommodationRequest(this.request.id).subscribe({
             next: value => {
-                console.log(value);
                 this.visible = !this.visible;
             }
         })
