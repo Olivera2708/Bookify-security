@@ -9,6 +9,6 @@ import java.security.cert.X509Certificate;
 @NoArgsConstructor
 public class TransactionResponse {
     byte[] digitalSignature;
-    String certificate;
+    byte[] certificate;
     byte[] publicKey;
 }
