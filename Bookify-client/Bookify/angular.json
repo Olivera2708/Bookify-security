@@ -84,9 +84,10 @@
             }
           },
           "options": {
+            "browserTarget": "app:build",
             "ssl": true,
-            "sslKey": "/Users/olivera/Documents/Bezbednost-tajne/private_key.pem",
-            "sslCert": "/Users/olivera/Documents/Bezbednost-tajne/root.pem"
+            "sslKey": "/Users/olivera/Documents/Bezbednost-tajne/https-private.key",
+            "sslCert": "/Users/olivera/Documents/Bezbednost-tajne/https.pem"
           },
           "defaultConfiguration": "development"
         },

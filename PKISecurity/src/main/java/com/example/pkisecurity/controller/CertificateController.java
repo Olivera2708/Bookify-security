@@ -1,6 +1,7 @@
 package com.example.pkisecurity.controller;
 
 import com.example.pkisecurity.dto.*;
+import com.example.pkisecurity.enumerations.Extension;
 import com.example.pkisecurity.mapper.CertificateRequestDTOMapper;
 import com.example.pkisecurity.model.CertificateRequest;
 import com.example.pkisecurity.model.TransactionResponse;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.cert.CRLReason;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -114,5 +112,19 @@ public class CertificateController {
     @GetMapping("/verify")
     public ResponseEntity<Boolean> activate(@RequestParam("alias") String alias) {
         return new ResponseEntity<>(certificateService.verifyCertificate(alias), HttpStatus.OK);
+    }
+
+    @PostMapping("/https")
+    public ResponseEntity<Boolean> createCertificate() {
+        String issuerCertificateAlias = "238458583729625732815324261166972421788";
+        SubjectDTO subject = new SubjectDTO("HTTPS", "bookify@example.com", "RS", "Bookify", "Bookify secure");
+        Date issued = new Date();
+        Date expires = new Date(issued.getTime() + 365 * 24 * 60 * 60 * 1000 * 4);
+        List<Extension> extensions = new ArrayList<>();
+        extensions.add(Extension.KEY_ENCIPHERMENT);
+        extensions.add(Extension.DIGITAL_SIGNATURE);
+        CertificateDTO certificateDTO = new CertificateDTO(issuerCertificateAlias, subject, extensions, issued, expires);
+        certificateService.createCertificate(certificateDTO);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
