@@ -132,8 +132,13 @@ public class CertificateController {
     public ResponseEntity<Boolean> createCertificate() {
         String issuerCertificateAlias = "97686932519769593075200054006278345820";
         SubjectDTO subject = new SubjectDTO("https", "bookify@example.com", "RS", "Bookify", "Bookify secure");
-        Date issued = new Date();
-        Date expires = new Date(issued.getTime() + 365 * 24 * 60 * 60 * 1000 * 4);
+
+        Calendar calendar = Calendar.getInstance();
+        Date issued = calendar.getTime();
+
+        calendar.add(Calendar.YEAR, 5);
+        Date expires = calendar.getTime();
+
         List<Extension> extensions = new ArrayList<>();
         extensions.add(Extension.KEY_ENCIPHERMENT);
         extensions.add(Extension.DIGITAL_SIGNATURE);
