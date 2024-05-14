@@ -93,7 +93,30 @@ public class CertificateService implements ICertificateService {
                 certificateDTO.getIssued(),
                 certificateDTO.getExpires(),
                 UUID.randomUUID().toString().replace("-", ""),
-                certificateDTO.getExtensions());
+                certificateDTO.getExtensions(), null);
+
+        String nextKSName = getKeyStoreName(certificateDTO.getIssuerCertificateAlias(), subject);
+        char[] ksPass = getPassword(nextKSName);
+
+        saveCertificate(x509Certificate.getSerialNumber().toString(), ksPass, x509Certificate, nextKSName);
+        saveSubjectPrivateKey(x509Certificate.getSerialNumber().toString(), keyPair.getPrivate());
+    }
+
+    @Override
+    public void createCertificateHTTPS(CertificateDTO certificateDTO, List<String> sanList) {
+        X500Name x500Name = createX500Name(certificateDTO.getSubject());
+        KeyPair keyPair = generateKeyPair();
+        Subject subject = new Subject(keyPair.getPublic(), x500Name);
+
+        Issuer issuer = getNextIssuer(certificateDTO.getIssuerCertificateAlias());
+
+        X509Certificate x509Certificate = CertificateGenerator.generateCertificate(subject,
+                issuer,
+                certificateDTO.getIssued(),
+                certificateDTO.getExpires(),
+                UUID.randomUUID().toString().replace("-", ""),
+                certificateDTO.getExtensions(),
+                sanList);
 
         String nextKSName = getKeyStoreName(certificateDTO.getIssuerCertificateAlias(), subject);
         char[] ksPass = getPassword(nextKSName);

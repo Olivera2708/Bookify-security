@@ -4,6 +4,7 @@ import com.example.pkisecurity.enumerations.Extension;
 import com.example.pkisecurity.model.Issuer;
 import com.example.pkisecurity.model.Subject;
 import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -20,6 +21,7 @@ import java.math.BigInteger;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import org.bouncycastle.asn1.x509.GeneralName;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class CertificateGenerator {
         Security.addProvider(new BouncyCastleProvider());
     }
 
-    public static X509Certificate generateCertificate(Subject subject, Issuer issuer, Date startDate, Date endDate, String serialNumber, List<Extension> extensions) {
+    public static X509Certificate generateCertificate(Subject subject, Issuer issuer, Date startDate, Date endDate, String serialNumber, List<Extension> extensions, List<String> sanList) {
         try {
             JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
             builder = builder.setProvider("BC");
@@ -43,7 +45,14 @@ public class CertificateGenerator {
                     subject.getX500Name(),
                     subject.getPublicKey());
 
-            if(extensions.contains(Extension.CA)){
+            // Add SANs only if provided
+            if (sanList != null && !sanList.isEmpty()) {
+                GeneralNames sanNames = createSANs(sanList);
+                certGen.addExtension(org.bouncycastle.asn1.x509.Extension.subjectAlternativeName, false, sanNames);
+            }
+
+            // Add other extensions
+            if (extensions.contains(Extension.CA)){
                 extensions.remove(Extension.CA);
                 certGen.addExtension(org.bouncycastle.asn1.x509.Extension.basicConstraints, true, new BasicConstraints(true));
             }
@@ -55,7 +64,6 @@ public class CertificateGenerator {
                 KeyUsage keyUsage = new KeyUsage(keyUsageFlags);
                 certGen.addExtension(org.bouncycastle.asn1.x509.Extension.keyUsage, false, keyUsage);
             }
-
 
             X509CertificateHolder certHolder = certGen.build(contentSigner);
             JcaX509CertificateConverter certConverter = new JcaX509CertificateConverter();
@@ -69,5 +77,14 @@ public class CertificateGenerator {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    // Helper method to create SANs
+    private static GeneralNames createSANs(List<String> sanList) {
+        GeneralName[] sanArray = new GeneralName[sanList.size()];
+        for (int i = 0; i < sanList.size(); i++) {
+            sanArray[i] = new GeneralName(GeneralName.dNSName, sanList.get(i));
+        }
+        return new GeneralNames(sanArray);
     }
 }
