@@ -15,6 +15,7 @@ import java.security.cert.CRLReason;
 import java.security.cert.X509CRL;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public interface ICertificateService {
@@ -40,4 +41,5 @@ public interface ICertificateService {
     boolean doesValidCertificateExistForCertificateSubject(String serialNumber);
 
     public TransactionResponse getTransactionResponse(String email);
+    public void createCertificateHTTPS(CertificateDTO certificateDTO, List<String> sanList);
 }
