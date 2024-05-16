@@ -8,6 +8,7 @@ import {PasswordChangeDialogComponent} from "../password-change-dialog/password-
 import {Router} from "@angular/router";
 import {AccountDeleteDialogComponent} from '../account-delete-dialog/account-delete-dialog.component';
 import {MessageDialogComponent} from "../../../layout/message-dialog/message-dialog.component";
+import {KeycloakService} from "../../../keycloak/keycloak.service";
 
 @Component({
   selector: 'app-user-information',
@@ -55,7 +56,8 @@ export class UserInformationComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService,
               private accountService: AccountService,
               public dialog: MatDialog,
-              private router: Router) {
+              private router: Router,
+              private keycloakService: KeycloakService) {
 
   }
 
@@ -208,7 +210,8 @@ export class UserInformationComponent implements OnInit {
   }
 
   OnLogoutClick(): void {
-    this.authenticationService.logout();
-    this.router.navigate(['']);
+    this.keycloakService.logout();
+    // this.authenticationService.logout();
+    // this.router.navigate(['']);
   }
 }

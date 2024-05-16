@@ -2,7 +2,8 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {AuthenticationService} from "../../feature-modules/authentication/authentication.service";
 import {AccountService} from "../../feature-modules/account/account.service";
-import { KeycloakService } from '../../keycloak/keycloak.service';
+import {KeycloakService} from '../../keycloak/keycloak.service';
+
 
 @Component({
   selector: 'app-navigation-bar',
@@ -51,8 +52,18 @@ export class NavigationBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.authenticationService.userState.subscribe((result: string): void => {
-      this.role = result;
+      const token = this.keycloakService.profile?.token;
+
+      if(token !== undefined){
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        const roles = decodedToken.resource_access['login-app'].roles;
+        console.log(roles);
+        this.role = roles[0];
+      }
+
+      console.log(this.role);
       this.setAccountImageIcon();
+
     });
     if (this.role === '') {
       this.role = this.authenticationService.getRole();
@@ -82,7 +93,7 @@ export class NavigationBarComponent implements OnInit {
                 },
                 error: err => {
                   if (err.status === 404) {
-    
+
                   }
                 }
               });

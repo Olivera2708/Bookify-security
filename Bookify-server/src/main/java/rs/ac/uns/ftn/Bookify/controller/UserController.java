@@ -88,7 +88,7 @@ public class UserController {
         MessageDTO token = new MessageDTO();
         if (user != null) {
             emailService.sendEmail("Account Activation", user.getEmail(), "Click the link to activate your account: ",
-                    "http://localhost:4200/confirmation?uuid=" + user.getActive().getHashToken());
+                    "https://localhost:4200/confirmation?uuid=" + user.getActive().getHashToken());
             token.setToken(user.getActive().getHashToken());
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
