@@ -34,6 +34,7 @@
     "file-server": "^2.2.1",
     "http-server": "^14.1.1",
     "js-base64": "^3.7.7",
+    "keycloak-js": "^24.0.4",
     "leaflet": "^1.9.4",
     "moment": "^2.29.4",
     "ng-bootstrap": "^1.6.3",

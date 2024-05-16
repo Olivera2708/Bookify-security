@@ -5,24 +5,31 @@ import {AdminPaths} from "./adminpaths";
 import {GuestPaths} from "./guestpaths";
 import {OwnerPaths} from "./ownerpaths";
 import {SysAdminPaths} from "./sysadminpaths";
+import { KeycloakService } from '../../../keycloak/keycloak.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
+  const keycloakService: KeycloakService = inject(KeycloakService);
   const authenticationService: AuthenticationService = inject(AuthenticationService);
   const router: Router = inject(Router);
   const path: string = getFullPath(route.url);
   const userRole = authenticationService.getRole();
-  if (userRole === 'ADMIN' && checkForPaths(path, AdminPaths)) {
-    return true;
-  } else if (userRole === 'GUEST' && checkForPaths(path, GuestPaths)) {
-    return true;
-  } else if (userRole === 'OWNER' && checkForPaths(path, OwnerPaths)) {
-    return true;
-  } else if (userRole === 'SYSADMIN' && checkForPaths(path, SysAdminPaths)) {
-    return true;
-  } else {
-    router.navigate(['']);
+  if(keycloakService.keycloak.isTokenExpired()){
+    router.navigate([''])
     return false;
   }
+  return true;
+  // if (userRole === 'ADMIN' && checkForPaths(path, AdminPaths)) {
+  //   return true;
+  // } else if (userRole === 'GUEST' && checkForPaths(path, GuestPaths)) {
+  //   return true;
+  // } else if (userRole === 'OWNER' && checkForPaths(path, OwnerPaths)) {
+  //   return true;
+  // } else if (userRole === 'SYSADMIN' && checkForPaths(path, SysAdminPaths)) {
+  //   return true;
+  // } else {
+  //   router.navigate(['']);
+  //   return false;
+  // }
 };
 
 function getFullPath(urlSegments: UrlSegment[]): string {

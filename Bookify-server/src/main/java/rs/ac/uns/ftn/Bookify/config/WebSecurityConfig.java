@@ -55,30 +55,30 @@ public class WebSecurityConfig {
     @Autowired
     private JWTUtils jwtUtils;
 
-    private static final String GROUPS = "groups";
-    private static final String REALM_ACCESS_CLAIM = "realm_access";
-    private static final String ROLES_CLAIM = "roles";
-
-    private final KeycloakLogoutHandler keycloakLogoutHandler;
-
-    WebSecurityConfig(KeycloakLogoutHandler keycloakLogoutHandler) {
-        this.keycloakLogoutHandler = keycloakLogoutHandler;
-    }
-
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-    }
-
-    @Bean
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(sessionRegistry());
-    }
-
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
+//    private static final String GROUPS = "groups";
+//    private static final String REALM_ACCESS_CLAIM = "realm_access";
+//    private static final String ROLES_CLAIM = "roles";
+//
+//    private final KeycloakLogoutHandler keycloakLogoutHandler;
+//
+//    WebSecurityConfig(KeycloakLogoutHandler keycloakLogoutHandler) {
+//        this.keycloakLogoutHandler = keycloakLogoutHandler;
+//    }
+//
+//    @Bean
+//    public SessionRegistry sessionRegistry() {
+//        return new SessionRegistryImpl();
+//    }
+//
+//    @Bean
+//    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+//        return new RegisterSessionAuthenticationStrategy(sessionRegistry());
+//    }
+//
+//    @Bean
+//    public HttpSessionEventPublisher httpSessionEventPublisher() {
+//        return new HttpSessionEventPublisher();
+//    }
     @Bean
     public WebMvcConfigurer CORSConfigurer(){
         return new WebMvcConfigurer() {
@@ -115,73 +115,74 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //        http.securityContext((securityContext) -> securityContext.securityContextRepository(new RequestAttributeSecurityContextRepository()));
-//        http.csrf(AbstractHttpConfigurer::disable);
-//        http.cors(httpSecurityCorsConfigurer -> CORSConfigurer());
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.cors(httpSecurityCorsConfigurer -> CORSConfigurer());
 //        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 //        http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(restAuthenticationEntryPoint));
-//        http.authorizeHttpRequests(request ->{
-//            request.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-//                    .requestMatchers(HttpMethod.GET, "/api/v1/accommodations/image/{imageId}","/api/v1/accommodations/search", "/api/v1/accommodations/details/{accommodationId}",
-//                            "/api/v1/accommodations/top-accommodations", "/api/v1/accommodations/top-locations", "/api/v1/users/image/{imageId}", "/api/v1/users/forgot-password/{email}",
-//                            "/api/v1/accommodations/images/{accommodationId}", "/api/v1/reviews/accommodation/{accommodationId}", "/api/v1/reviews/owner/{ownerId}", "/api/v1/users/user/{userId}",
-//                            "/api/v1/reviews/owner/{ownerId}", "/api/v1/reviews/owner/{ownerId}/rating", "/api/v1/reviews/accommodation/{accommodationId}/rating").permitAll()
-//                    .requestMatchers(HttpMethod.POST,"/api/v1/users/login", "/api/v1/users", "/api/v1/accommodations/filter", "/api/v1/users/mobile", "/sendMessageRest").permitAll()
-//                    .requestMatchers(HttpMethod.PUT, "/api/v1/users/activate-account").permitAll()
-//                    .anyRequest().authenticated()
-//            ;
-//        });
+        http.authorizeHttpRequests(request ->{
+            request.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/v1/accommodations/image/{imageId}","/api/v1/accommodations/search", "/api/v1/accommodations/details/{accommodationId}",
+                            "/api/v1/accommodations/top-accommodations", "/api/v1/accommodations/top-locations", "/api/v1/users/image/{imageId}", "/api/v1/users/forgot-password/{email}",
+                            "/api/v1/accommodations/images/{accommodationId}", "/api/v1/reviews/accommodation/{accommodationId}", "/api/v1/reviews/owner/{ownerId}", "/api/v1/users/user/{userId}",
+                            "/api/v1/reviews/owner/{ownerId}", "/api/v1/reviews/owner/{ownerId}/rating", "/api/v1/reviews/accommodation/{accommodationId}/rating").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/api/v1/users/login", "/api/v1/users", "/api/v1/accommodations/filter", "/api/v1/users/mobile", "/sendMessageRest").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/api/v1/users/activate-account").permitAll()
+                    .anyRequest().authenticated()
+            ;
+        });
 
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/*"))
-                .hasRole("GUEST")
-                .requestMatchers(new AntPathRequestMatcher("/"))
-                .permitAll()
-                .anyRequest()
-                .authenticated());
-        http.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
-        http.oauth2Login(Customizer.withDefaults()).logout(logout -> logout.addLogoutHandler(keycloakLogoutHandler).logoutSuccessUrl("/"));
+//        http.authorizeHttpRequests(auth -> auth
+//                .requestMatchers(new AntPathRequestMatcher("/*"))
+//                .hasRole("GUEST")
+//                .requestMatchers(new AntPathRequestMatcher("/"))
+//                .permitAll()
+//                .anyRequest()
+//                .authenticated());
+//        http.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+        http.oauth2ResourceServer(auth -> auth.jwt(token -> token.jwtAuthenticationConverter(new KeycloakJwtAuthenticationConverter())));
+//        http.oauth2Login(Customizer.withDefaults()).logout(logout -> logout.addLogoutHandler(keycloakLogoutHandler).logoutSuccessUrl("/"));
 
 //        http.addFilterBefore(new JWTAuthenticationFilter(jwtUtils, userDetailsService()), UsernamePasswordAuthenticationFilter.class);
 //        http.authenticationProvider(authenticationProvider());
 
         return http.build();
     }
-
-    @Bean
-    public GrantedAuthoritiesMapper userAuthoritiesMapperForKeycloak() {
-        return authorities -> {
-            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-            var authority = authorities.iterator().next();
-            boolean isOidc = authority instanceof OidcUserAuthority;
-
-            if (isOidc) {
-                var oidcUserAuthority = (OidcUserAuthority) authority;
-                var userInfo = oidcUserAuthority.getUserInfo();
-
-                if (userInfo.hasClaim(REALM_ACCESS_CLAIM)) {
-                    var realmAccess = userInfo.getClaimAsMap(REALM_ACCESS_CLAIM);
-                    var roles = (Collection<String>) realmAccess.get(ROLES_CLAIM);
-                    mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
-                } else if (userInfo.hasClaim(GROUPS)) {
-                    Collection<String> roles = (Collection<String>) userInfo.getClaim(GROUPS);
-                    mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
-                }
-            } else {
-                var oauth2UserAuthority = (OAuth2UserAuthority) authority;
-                Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
-                if (userAttributes.containsKey(REALM_ACCESS_CLAIM)) {
-                    Map<String, Object> realmAccess = (Map<String, Object>) userAttributes.get(REALM_ACCESS_CLAIM);
-                    Collection<String> roles = (Collection<String>) realmAccess.get(ROLES_CLAIM);
-                    mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
-                }
-            }
-            return mappedAuthorities;
-        };
-    }
-
-    Collection<GrantedAuthority> generateAuthoritiesFromClaim(Collection<String> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
-    }
+//
+//    @Bean
+//    public GrantedAuthoritiesMapper userAuthoritiesMapperForKeycloak() {
+//        return authorities -> {
+//            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+//            var authority = authorities.iterator().next();
+//            boolean isOidc = authority instanceof OidcUserAuthority;
+//
+//            if (isOidc) {
+//                var oidcUserAuthority = (OidcUserAuthority) authority;
+//                var userInfo = oidcUserAuthority.getUserInfo();
+//
+//                if (userInfo.hasClaim(REALM_ACCESS_CLAIM)) {
+//                    var realmAccess = userInfo.getClaimAsMap(REALM_ACCESS_CLAIM);
+//                    var roles = (Collection<String>) realmAccess.get(ROLES_CLAIM);
+//                    mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
+//                } else if (userInfo.hasClaim(GROUPS)) {
+//                    Collection<String> roles = (Collection<String>) userInfo.getClaim(GROUPS);
+//                    mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
+//                }
+//            } else {
+//                var oauth2UserAuthority = (OAuth2UserAuthority) authority;
+//                Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
+//                if (userAttributes.containsKey(REALM_ACCESS_CLAIM)) {
+//                    Map<String, Object> realmAccess = (Map<String, Object>) userAttributes.get(REALM_ACCESS_CLAIM);
+//                    Collection<String> roles = (Collection<String>) realmAccess.get(ROLES_CLAIM);
+//                    mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
+//                }
+//            }
+//            return mappedAuthorities;
+//        };
+//    }
+//
+//    Collection<GrantedAuthority> generateAuthoritiesFromClaim(Collection<String> roles) {
+//        return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
+//    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

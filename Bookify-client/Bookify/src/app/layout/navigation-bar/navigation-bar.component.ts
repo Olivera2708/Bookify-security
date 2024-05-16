@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {AuthenticationService} from "../../feature-modules/authentication/authentication.service";
 import {AccountService} from "../../feature-modules/account/account.service";
+import { KeycloakService } from '../../keycloak/keycloak.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -19,7 +20,8 @@ export class NavigationBarComponent implements OnInit {
 
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private keycloakService: KeycloakService) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
@@ -91,7 +93,8 @@ export class NavigationBarComponent implements OnInit {
       }
   }
   OnLogoutClick(): void {
-    this.authenticationService.logout();
-    this.router.navigate(['']);
+    this.keycloakService.logout();
+    // this.authenticationService.logout();
+    // this.router.navigate(['']);
   }
 }

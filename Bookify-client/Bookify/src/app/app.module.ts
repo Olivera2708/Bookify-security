@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withNoHttpTransferCache } from '@angular/platform-browser';
 import { AccommodationModule } from './feature-modules/accommodation/accommodation.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +28,11 @@ import { MaterialModule } from './infrastructure/material/material.module';
 import {NgxSpinnerModule} from "ngx-spinner";
 import { DetailsDialogComponent } from './feature-modules/sysadmin/details-dialog/details-dialog.component';
 import { RevokeDialogComponent } from './feature-modules/sysadmin/revoke-dialog/revoke-dialog.component';
+import { KeycloakService } from './keycloak/keycloak.service';
+
+export function kcFactory(kcService: KeycloakService){
+  return () => kcService.init(); 
+}
 
 @NgModule({
   declarations: [
@@ -68,6 +73,7 @@ import { RevokeDialogComponent } from './feature-modules/sysadmin/revoke-dialog/
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
     provideClientHydration(withNoHttpTransferCache()),
+    { provide: APP_INITIALIZER, deps: [KeycloakService], useFactory: kcFactory, multi: true}
   ],
   bootstrap: [AppComponent]
 })
