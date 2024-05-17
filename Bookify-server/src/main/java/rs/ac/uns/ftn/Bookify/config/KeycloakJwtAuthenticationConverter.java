@@ -28,9 +28,8 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Abstra
     }
 
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
-        var resourceAccess = new HashMap<>(jwt.getClaim("resource_access"));
-        var eternal = (Map<String, List<String>>) resourceAccess.get("login-app");
-        var roles = eternal.get("roles");
+        var resourceAccess = new HashMap<>(jwt.getClaim("realm_access"));
+        List<String> roles = (List<String>) resourceAccess.get("roles");
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.replace("-", "_")))
                 .collect(toSet());

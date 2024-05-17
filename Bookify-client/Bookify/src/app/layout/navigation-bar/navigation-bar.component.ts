@@ -56,9 +56,9 @@ export class NavigationBarComponent implements OnInit {
 
       if(token !== undefined){
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
-        const roles = decodedToken.resource_access['login-app'].roles;
-        console.log(roles);
-        this.role = roles[0];
+        const roles = decodedToken['realm_access'].roles;
+        this.getRole(roles);
+        console.log(this.role);
       }
 
       console.log(this.role);
@@ -71,6 +71,14 @@ export class NavigationBarComponent implements OnInit {
     }
     this.authenticationService.getNotificationNumber().subscribe({
       next: value => this.notificationNumber = value
+    });
+  }
+  private getRole(roles : string[]){
+    roles.forEach((role)=>{
+      if(role === "GUEST" || role === "OWNER" || role === "ADMIN" || role === "SYSADMIN"){
+        this.role = role;
+        return;
+      }
     });
   }
 
