@@ -52,14 +52,7 @@ export class NavigationBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.authenticationService.userState.subscribe((result: string): void => {
-      const token = this.keycloakService.profile?.token;
-
-      if(token !== undefined){
-        const decodedToken = JSON.parse(atob(token.split('.')[1]));
-        const roles = decodedToken['realm_access'].roles;
-        this.getRole(roles);
-        console.log(this.role);
-      }
+      this.role = this.keycloakService.getRole();
 
       console.log(this.role);
       this.setAccountImageIcon();
@@ -71,14 +64,6 @@ export class NavigationBarComponent implements OnInit {
     }
     this.authenticationService.getNotificationNumber().subscribe({
       next: value => this.notificationNumber = value
-    });
-  }
-  private getRole(roles : string[]){
-    roles.forEach((role)=>{
-      if(role === "GUEST" || role === "OWNER" || role === "ADMIN" || role === "SYSADMIN"){
-        this.role = role;
-        return;
-      }
     });
   }
 
@@ -113,6 +98,12 @@ export class NavigationBarComponent implements OnInit {
   }
   OnLogoutClick(): void {
     this.keycloakService.logout();
+    // this.authenticationService.logout();
+    // this.router.navigate(['']);
+  }
+
+  OnLoginClick(): void {
+    this.keycloakService.login();
     // this.authenticationService.logout();
     // this.router.navigate(['']);
   }

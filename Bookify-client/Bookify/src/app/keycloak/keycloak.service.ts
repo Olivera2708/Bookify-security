@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
 import { UserProfile } from './userprofile';
+import {authGuard} from "../feature-modules/authentication/guard/auth.guard";
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,28 @@ export class KeycloakService {
     return this._profile;
   }
 
+  public getRole(): string {
+    const token = this.profile?.token;
+    if(token !== undefined){
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      const roles = decodedToken['realm_access'].roles;
+      return this.findRole(roles);
+    }
+    return "";
+  }
+
+  private findRole(roles : string[]) : string {
+    for (let role of roles){
+      if(role === "GUEST" || role === "OWNER" || role === "ADMIN" || role === "SYSADMIN"){
+        return role;
+      }
+    }
+    return "";
+  }
+
   async init() {
     const authenticated = await this.keycloak.init({
-      onLoad: 'login-required',
+      onLoad: 'check-sso'
     });
 
     if (authenticated) {

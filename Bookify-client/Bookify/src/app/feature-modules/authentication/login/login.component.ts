@@ -14,7 +14,7 @@ import { KeycloakService } from '../../../keycloak/keycloak.service';
   styleUrl: './login.component.css'
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   credentialsForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
@@ -28,10 +28,10 @@ export class LoginComponent implements OnInit {
               private dialog: MatDialog,
               private keycloakService: KeycloakService) {
   }
-  async ngOnInit(): Promise<void> {
-    await this.keycloakService.init();
-    await this.keycloakService.login(); 
-  }
+  // async ngOnInit(): Promise<void> {
+  //   await this.keycloakService.init();
+  //   await this.keycloakService.login();
+  // }
 
   getErrorMessage() {
     if (this.credentialsForm.controls['email'].hasError('required')) {
