@@ -59,7 +59,7 @@ export class NavigationBarComponent implements OnInit {
 
     });
     if (this.role === '') {
-      this.role = this.authenticationService.getRole();
+      // this.role = this.authenticationService.getRole();
       this.setAccountImageIcon();
     }
     this.authenticationService.getNotificationNumber().subscribe({

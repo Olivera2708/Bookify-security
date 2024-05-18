@@ -47,9 +47,7 @@ export class KeycloakService {
   }
 
   async init() {
-    const authenticated = await this.keycloak.init({
-      onLoad: 'check-sso'
-    });
+    const authenticated = await this.keycloak.init({});
 
     if (authenticated) {
       this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
