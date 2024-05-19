@@ -31,8 +31,7 @@ export class KeycloakService {
     const token = this.profile?.token;
     if(token !== undefined){
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      const roles = decodedToken['realm_access'].roles;
-      return this.findRole(roles);
+      return decodedToken['role'];
     }
     return "";
   }
