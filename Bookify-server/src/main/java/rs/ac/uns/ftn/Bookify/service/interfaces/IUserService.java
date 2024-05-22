@@ -28,7 +28,7 @@ public interface IUserService {
     public Float getAvgRating(Long id);
     public void saveOwnerAccommodation(Accommodation accommodation, Long ownerId);
     public OwnerDTO setOwnerForAccommodation(Long id);
-    public void checkInactiveUsers();
+//    public void checkInactiveUsers();
     public List<AccommodationRequestDTO> findAccommodationRequests();
     public Owner getOwner(Long ownerId);
     public Guest getGuest(Long guestId);

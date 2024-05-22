@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
 import { UserProfile } from './userprofile';
 import {authGuard} from "../feature-modules/authentication/guard/auth.guard";
+import { AccountService } from '../feature-modules/account/account.service';
+import { Account } from '../feature-modules/account/model/account';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,8 @@ export class KeycloakService {
 
   private _keycloak: Keycloak | undefined;
 
+  constructor(    private accountService: AccountService) {}
+  
   get keycloak() {
     if (!this._keycloak) {
       this._keycloak = new Keycloak({
@@ -51,6 +55,21 @@ export class KeycloakService {
     if (authenticated) {
       this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
       this._profile.token = this.keycloak.token || '';
+      if (this._profile?.username){
+        var email = this._profile.username;
+        localStorage.setItem('user', this._profile.username);
+
+        this.accountService.getUserByEmail(email).subscribe({
+          next: (data: Account) => {
+            localStorage.setItem('userId', "" + data.id);
+            localStorage.setItem('userRole', this.getRole())
+          },
+          error: (err) => {
+    
+          }
+        });
+
+      }
       console.log(this._profile);
     }
   }

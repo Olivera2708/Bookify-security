@@ -27,6 +27,7 @@ import rs.ac.uns.ftn.Bookify.mapper.UserBasicDTOMapper;
 import rs.ac.uns.ftn.Bookify.model.ReportedUser;
 import rs.ac.uns.ftn.Bookify.model.User;
 import rs.ac.uns.ftn.Bookify.service.EmailService;
+import rs.ac.uns.ftn.Bookify.service.LdapPollingService;
 import rs.ac.uns.ftn.Bookify.service.interfaces.IReportedUserService;
 import rs.ac.uns.ftn.Bookify.service.interfaces.IUserService;
 
@@ -35,6 +36,8 @@ import java.util.*;
 import rs.ac.uns.ftn.Bookify.dto.ReportedUserDTO;
 import rs.ac.uns.ftn.Bookify.model.Guest;
 import rs.ac.uns.ftn.Bookify.model.Owner;
+
+import javax.naming.NamingException;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -54,6 +57,8 @@ public class UserController {
     @Autowired
     private JWTUtils jwtUtils;
 
+    @Autowired
+    private LdapPollingService ldapPollingService;
 
     private final String IP_ADDRESS = "192.168.1.5";
 
@@ -82,6 +87,13 @@ public class UserController {
         return user.map(userDetailDTO -> new ResponseEntity<>(new UserDetailDTO(user.get()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/email/{email}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_GUEST', 'ROLE_OWNER', 'ROLE_SYSADMIN')")
+    public ResponseEntity<UserDetailDTO> getUserByEmail(@PathVariable String email) {
+        Optional<User> user = Optional.ofNullable(userService.get(email));
+        return user.map(userDetailDTO -> new ResponseEntity<>(new UserDetailDTO(user.get()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping
     public ResponseEntity<MessageDTO> registerUser(@Valid @RequestBody UserRegisteredDTO newUser) throws MessagingException {
         User user = userService.create(newUser);
@@ -100,6 +112,11 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_GUEST', 'ROLE_OWNER')")
     public ResponseEntity<UserDetailDTO> updateUser(@Valid @RequestBody UserDetailDTO updatedUser) {
         Optional<User> user = Optional.ofNullable(userService.update(updatedUser));
+        try {
+            ldapPollingService.synchronizeSQLToLDAP();
+        } catch (NamingException e) {
+            throw new RuntimeException(e);
+        }
         return user.map(userDetailDTO -> new ResponseEntity<>(new UserDetailDTO(user.get()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.BAD_REQUEST));
     }
 

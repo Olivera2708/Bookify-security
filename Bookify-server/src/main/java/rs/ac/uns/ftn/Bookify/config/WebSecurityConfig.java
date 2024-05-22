@@ -153,14 +153,14 @@ public class WebSecurityConfig {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .ldapAuthentication()
-                .userDnPatterns("uid={0},ou=people")
-                .groupSearchBase("ou=groups")
+                .userDnPatterns("uid={0},ou=users,ou=system")
+//                .groupSearchBase("ou=groups")
                 .contextSource()
-                .url("ldap://localhost:8389/dc=example,dc=com")
+                .url("ldap://localhost:10389/dc=example,dc=com")
                 .and()
                 .passwordCompare()
                 .passwordEncoder(new BCryptPasswordEncoder())
-                .passwordAttribute("userPassword");
+                .passwordAttribute("userpassword");
     }
 
 //

@@ -54,7 +54,6 @@ export class NavigationBarComponent implements OnInit {
     this.authenticationService.userState.subscribe((result: string): void => {
       this.role = this.keycloakService.getRole();
 
-      console.log(this.role);
       this.setAccountImageIcon();
 
     });

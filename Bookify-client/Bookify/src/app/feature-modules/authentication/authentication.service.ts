@@ -52,21 +52,35 @@ export class AuthenticationService {
 
   getRole(): string {
     if (this.isLoggedIn()) {
-      const accessToken: any = localStorage.getItem('user');
-      const helper: JwtHelperService = new JwtHelperService();
-      return helper.decodeToken(accessToken).role;
+      var role = localStorage.getItem('userRole');
+      if (role)
+        return role
+      return ''
+      // const accessToken: any = localStorage.getItem('user');
+      // const helper: JwtHelperService = new JwtHelperService();
+      // return helper.decodeToken(accessToken).role;
     }
     return '';
   }
 
   getUserId(): number {
     if (this.isLoggedIn()) {
-      const accessToken: any = localStorage.getItem('user');
-      const helper: JwtHelperService = new JwtHelperService();
-      return helper.decodeToken(accessToken).id
+      var id = Number(localStorage.getItem('userId'));
+      return id;
+      // const accessToken: any = localStorage.getItem('user');
+      // const helper: JwtHelperService = new JwtHelperService();
+      // return helper.decodeToken(accessToken).id
     }
     return -1;
   }
+
+  // getUserEmail(): string {
+  //   const accessToken: any = localStorage.getItem('user');
+  //   const helper: JwtHelperService = new JwtHelperService();
+  //   return helper.decodeToken(accessToken).email
+  //   // const decodedToken = JSON.parse(atob(token.split('.')[1]));
+  //   // return decodedToken['email'];
+  // }
 
   setUser(): void {
     this.user$.next(this.getRole());
