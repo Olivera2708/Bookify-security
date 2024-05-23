@@ -13,7 +13,7 @@ export class KeycloakService {
   private _keycloak: Keycloak | undefined;
 
   constructor(    private accountService: AccountService) {}
-  
+
   get keycloak() {
     if (!this._keycloak) {
       this._keycloak = new Keycloak({
@@ -50,7 +50,7 @@ export class KeycloakService {
   }
 
   async init() {
-    const authenticated = await this.keycloak.init({});
+    const authenticated = await this.keycloak.init({onLoad: "check-sso"});
 
     if (authenticated) {
       this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
@@ -65,7 +65,7 @@ export class KeycloakService {
             localStorage.setItem('userRole', this.getRole())
           },
           error: (err) => {
-    
+
           }
         });
 
