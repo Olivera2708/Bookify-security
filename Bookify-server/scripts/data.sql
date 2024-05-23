@@ -197,7 +197,7 @@ VALUES
     (36, 'GARDEN'), (36, 'WHEELCHAIR'), (36, 'BAR'), (36, 'FREE_WIFI'), (36, 'LUNCH');
 
 
-SET @path = 'C:/Users/Dell/Documents/images/';
+SET @path = '/Users/olivera/Documents/images/';
 INSERT INTO image (image_name, image_path)
 VALUES
     ('image', CONCAT(@path, '1/1.jpeg')), ('image', CONCAT(@path, '1/2.jpeg')),

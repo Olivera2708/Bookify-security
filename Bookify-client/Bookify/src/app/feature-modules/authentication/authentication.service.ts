@@ -1,12 +1,11 @@
-import { Injectable, Inject, LOCALE_ID } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Credentials } from "./model/credentials";
-import { BehaviorSubject, Observable } from "rxjs";
-import { UserJWT } from "./model/UserJWT";
-import { environment } from "../../../env/env";
-import { JwtHelperService } from "@auth0/angular-jwt";
-import { UserRegistrationDTO } from "./model/user.registration.dto.model";
-import { Message } from "./model/message.dto.model";
+import {Inject, Injectable, LOCALE_ID} from "@angular/core";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Credentials} from "./model/credentials";
+import {BehaviorSubject, Observable} from "rxjs";
+import {UserJWT} from "./model/UserJWT";
+import {environment} from "../../../env/env";
+import {UserRegistrationDTO} from "./model/user.registration.dto.model";
+import {Message} from "./model/message.dto.model";
 import {NotificationService} from "../account/notification.service";
 
 @Injectable({
@@ -65,8 +64,7 @@ export class AuthenticationService {
 
   getUserId(): number {
     if (this.isLoggedIn()) {
-      var id = Number(localStorage.getItem('userId'));
-      return id;
+      return Number(localStorage.getItem('userId'));
       // const accessToken: any = localStorage.getItem('user');
       // const helper: JwtHelperService = new JwtHelperService();
       // return helper.decodeToken(accessToken).id

@@ -13,7 +13,7 @@ export class KeycloakService {
   private _keycloak: Keycloak | undefined;
 
   constructor(    private accountService: AccountService) {}
-  
+
   get keycloak() {
     if (!this._keycloak) {
       this._keycloak = new Keycloak({
@@ -51,27 +51,24 @@ export class KeycloakService {
   }
 
   async init() {
-    if(this.keycloak){
-      const authenticated = await this.keycloak.init({});
-  
-      if (authenticated) {
-        this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
-        this._profile.token = this.keycloak.token || '';
-        if (this._profile?.username){
-          var email = this._profile.username;
-          localStorage.setItem('user', this._profile.username);
-  
-          this.accountService.getUserByEmail(email).subscribe({
-            next: (data: Account) => {
-              localStorage.setItem('userId', "" + data.id);
-              localStorage.setItem('userRole', this.getRole())
-            },
-            error: (err) => {
-      
-            }
-          });
-  
-        }
+    const authenticated = await this.keycloak.init({});
+
+    if (authenticated) {
+      this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
+      this._profile.token = this.keycloak.token || '';
+      if (this._profile?.username){
+        var email = this._profile.username;
+        localStorage.setItem('user', this._profile.username);
+
+        this.accountService.getUserByEmail(email).subscribe({
+          next: (data: Account) => {
+            localStorage.setItem('userId', "" + data.id);
+            localStorage.setItem('userRole', this.getRole())
+          },
+          error: (err) => {
+
+          }
+        });
       }
     }
   }
