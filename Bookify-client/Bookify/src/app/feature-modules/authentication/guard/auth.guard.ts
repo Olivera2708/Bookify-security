@@ -12,6 +12,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router: Router = inject(Router);
   const path: string = getFullPath(route.url);
   const userRole = keycloakService.getRole();
+  console.log(userRole);
   if(keycloakService.keycloak.isTokenExpired()){
     router.navigate([''])
     return false;
@@ -23,6 +24,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   } else if (userRole === 'OWNER' && checkForPaths(path, OwnerPaths)) {
     return true;
   } else if (userRole === 'SYSADMIN' && checkForPaths(path, SysAdminPaths)) {
+    console.log("SSS");
     return true;
   } else {
     router.navigate(['']);

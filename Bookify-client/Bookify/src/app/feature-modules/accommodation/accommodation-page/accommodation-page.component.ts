@@ -73,7 +73,6 @@ export class AccommodationPageComponent implements OnInit {
     const reserve = document.getElementById("reserve-comp");
     const favorite = document.getElementById("favorite-button");
     if (reserve != null && favorite != null) {
-      console.log(this.authenticationService.getRole());
       if (this.authenticationService.getRole() == "GUEST") {
         reserve.style.display = 'block';
         favorite.style.visibility = 'visible';

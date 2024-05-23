@@ -1,0 +1,17 @@
+a{
+    text-decoration: none;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  
+  a[mat-button]{
+    height: auto;
+    font-size: 20px;
+    color:white;
+  }
+  
+  mat-icon{
+    color: white;
+    height: 25px;
+  }
+  

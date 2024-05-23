@@ -48,6 +48,12 @@ public class LdapPollingService {
             if (!ldapUsers.isEmpty()) {
                 Attributes attributes = sqlUser.toAttributes();
                 attributes.put("employeeType", userService.getRole(sqlUser));
+
+                if(sqlUser.getEmail().contains("+")){
+                    sqlUser.setEmail(sqlUser.getEmail().replace("+", "\\+"));
+                }
+
+
                 String userDn = "uid=" + sqlUser.getEmail() + ",ou=users,ou=system";
                 List<ModificationItem> modificationItems = new ArrayList<>();
                 NamingEnumeration<? extends Attribute> attributeEnumeration = (NamingEnumeration<? extends Attribute>) attributes.getAll();

@@ -30,40 +30,6 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
         return encodedValues;
     }
 
-    @Override
-    public ServletInputStream getInputStream() throws IOException {
-        ServletInputStream originalInputStream = super.getInputStream();
-        String requestBody = new String(originalInputStream.readAllBytes());
-
-        String sanitizedBody = sanitizeInput(requestBody);
-
-        return new ServletInputStream() {
-            private final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-                    sanitizedBody.getBytes()
-            );
-
-            @Override
-            public int read() throws IOException {
-                return byteArrayInputStream.read();
-            }
-
-            @Override
-            public boolean isFinished() {
-                return byteArrayInputStream.available() == 0;
-            }
-
-            @Override
-            public boolean isReady() {
-                return true;
-            }
-
-            @Override
-            public void setReadListener(ReadListener readListener) {
-
-            }
-        };
-    }
-
     private String sanitizeInput(String string) {
         return Encode.forHtml(string);
     }
