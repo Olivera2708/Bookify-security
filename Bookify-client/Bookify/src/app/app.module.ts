@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withNoHttpTransferCache } from '@angular/platform-browser';
 import { AccommodationModule } from './feature-modules/accommodation/accommodation.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationModule } from './feature-modules/authentication/authentication.module';
 import { CarouselComponent } from "./feature-modules/accommodation/carousel/carousel.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { DatapickerRangeComponent } from "./layout/datapicker-range/datapicker-range.component";
 import { SharedModule } from "./shared/shared.module";
 import { AccountModule } from "./feature-modules/account/account.module";
@@ -29,10 +29,25 @@ import {NgxSpinnerModule} from "ngx-spinner";
 import { DetailsDialogComponent } from './feature-modules/sysadmin/details-dialog/details-dialog.component';
 import { RevokeDialogComponent } from './feature-modules/sysadmin/revoke-dialog/revoke-dialog.component';
 import { KeycloakService } from './keycloak/keycloak.service';
+import Keycloak from 'keycloak-angular';
+import { Observable } from 'rxjs';
+
 
 export function kcFactory(kcService: KeycloakService){
   return () => kcService.init(); 
 }
+
+// @Injectable()
+// export class AddHeaderInterceptor implements HttpInterceptor {
+//   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+//     const modifiedRequest = req.clone({
+//       setHeaders: {
+//         'X-XSS-Protection': '1; mode=block'
+//       }
+//     });
+//     return next.handle(modifiedRequest);
+//   }
+// }
 
 @NgModule({
   declarations: [
@@ -79,3 +94,5 @@ export function kcFactory(kcService: KeycloakService){
 })
 export class AppModule {
 }
+
+

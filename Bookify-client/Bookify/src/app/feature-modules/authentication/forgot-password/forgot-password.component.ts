@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-forgot-password',
@@ -28,7 +29,7 @@ export class ForgotPasswordComponent {
 
   onSubmit() {
     if(this.form.valid){
-      this.authenticationService.resetPassword(this.form.get('email')?.value).subscribe({
+      this.authenticationService.resetPassword(DOMPurify.sanitize(this.form.get('email')?.value)).subscribe({
         next: (data: string) => {
           this.openSnackBar("Check email for new password", "close");
           this.router.navigate(['/login']);

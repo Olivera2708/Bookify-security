@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {AccountDeleteDialogComponent} from '../account-delete-dialog/account-delete-dialog.component';
 import {MessageDialogComponent} from "../../../layout/message-dialog/message-dialog.component";
 import {KeycloakService} from "../../../keycloak/keycloak.service";
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-user-information',
@@ -93,15 +94,15 @@ export class UserInformationComponent implements OnInit {
 
   OnSaveClick(): void {
     if (this.userInfoForm.valid) {
-      this.account.firstName = this.userInfoForm.value.firstname;
-      this.account.lastName = this.userInfoForm.value.lastname;
+      this.account.firstName = DOMPurify.sanitize(this.userInfoForm.value.firstname);
+      this.account.lastName = DOMPurify.sanitize(this.userInfoForm.value.lastname);
       if (this.account.address === undefined) this.account.address = {};
       if (this.account.address === null) this.account.address = {};
-      this.account.address.city = this.userInfoForm.value.city;
-      this.account.address.country = this.userInfoForm.value.country;
-      this.account.address.address = this.userInfoForm.value.address;
-      this.account.address.zipCode = this.userInfoForm.value.zipcode;
-      this.account.phone = this.userInfoForm.value.phone;
+      this.account.address.city = DOMPurify.sanitize(this.userInfoForm.value.city);
+      this.account.address.country = DOMPurify.sanitize(this.userInfoForm.value.country);
+      this.account.address.address = DOMPurify.sanitize(this.userInfoForm.value.address);
+      this.account.address.zipCode = DOMPurify.sanitize(this.userInfoForm.value.zipcode);
+      this.account.phone = DOMPurify.sanitize(this.userInfoForm.value.phone);
 
       this.accountService.updateUser(this.account).subscribe({
         next: () => {

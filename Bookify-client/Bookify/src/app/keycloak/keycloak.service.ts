@@ -19,8 +19,9 @@ export class KeycloakService {
       this._keycloak = new Keycloak({
         url: 'http://localhost:8080',
         realm: 'SpringBootKeycloak',
-        clientId: 'login-app'
+        clientId: 'test-login'
       });
+      
     }
     return this._keycloak;
   }
@@ -50,32 +51,33 @@ export class KeycloakService {
   }
 
   async init() {
-    const authenticated = await this.keycloak.init({});
-
-    if (authenticated) {
-      this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
-      this._profile.token = this.keycloak.token || '';
-      if (this._profile?.username){
-        var email = this._profile.username;
-        localStorage.setItem('user', this._profile.username);
-
-        this.accountService.getUserByEmail(email).subscribe({
-          next: (data: Account) => {
-            localStorage.setItem('userId', "" + data.id);
-            localStorage.setItem('userRole', this.getRole())
-          },
-          error: (err) => {
-    
-          }
-        });
-
+    if(this.keycloak){
+      const authenticated = await this.keycloak.init({});
+  
+      if (authenticated) {
+        this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
+        this._profile.token = this.keycloak.token || '';
+        if (this._profile?.username){
+          var email = this._profile.username;
+          localStorage.setItem('user', this._profile.username);
+  
+          this.accountService.getUserByEmail(email).subscribe({
+            next: (data: Account) => {
+              localStorage.setItem('userId', "" + data.id);
+              localStorage.setItem('userRole', this.getRole())
+            },
+            error: (err) => {
+      
+            }
+          });
+  
+        }
       }
-      console.log(this._profile);
     }
   }
 
   login() {
-    return this.keycloak.login();
+        return this.keycloak.login();
   }
 
   logout() {

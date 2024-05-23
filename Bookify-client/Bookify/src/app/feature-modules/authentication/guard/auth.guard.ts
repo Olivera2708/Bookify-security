@@ -12,7 +12,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router: Router = inject(Router);
   const path: string = getFullPath(route.url);
   const userRole = keycloakService.getRole();
-  console.log(userRole);
   if(keycloakService.keycloak.isTokenExpired()){
     router.navigate([''])
     return false;

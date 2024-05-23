@@ -26,6 +26,13 @@ export class AccommodationPhotosComponent implements OnChanges {
 
     if (files) {
       for (let i = 0; i < files.length; i++) {
+        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const file = files[i];
+        const fileNameParts = file.name.split('.');
+        const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+          continue;
+        }
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target) {
