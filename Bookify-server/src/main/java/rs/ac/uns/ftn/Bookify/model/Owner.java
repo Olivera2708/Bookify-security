@@ -47,6 +47,7 @@ public class Owner extends User {
         privileges.add(Privilege.WRITE_REPORT);
         privileges.add(Privilege.MANAGE_ACCOUNT);
         privileges.add(Privilege.VIEW_OWNER_RESERVATION);
+        privileges.add(Privilege.CERTIFICATE);
         return privileges;
     }
 }

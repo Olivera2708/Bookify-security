@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import rs.ac.uns.ftn.Bookify.config.filters.XSSFilter;
+//import rs.ac.uns.ftn.Bookify.config.filters.XSSFilter;
 import rs.ac.uns.ftn.Bookify.config.utils.JWTUtils;
 import rs.ac.uns.ftn.Bookify.service.CustomUserDetailService;
 
@@ -112,13 +112,13 @@ public class WebSecurityConfig {
                 .passwordAttribute("userpassword");
     }
 
-    @Bean
-    public FilterRegistrationBean<XSSFilter> filterRegistrationBean() {
-        FilterRegistrationBean<XSSFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new XSSFilter());
-        registrationBean.addUrlPatterns("/*");
-        return registrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean<XSSFilter> filterRegistrationBean() {
+//        FilterRegistrationBean<XSSFilter> registrationBean = new FilterRegistrationBean<>();
+//        registrationBean.setFilter(new XSSFilter());
+//        registrationBean.addUrlPatterns("/*");
+//        return registrationBean;
+//    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

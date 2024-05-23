@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.Bookify.enumerations;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 public enum Privilege {
     VIEW_ACCOMMODATION_PRICE,
     VIEW_OWNER_ACCOMMODATIONS,
@@ -19,5 +21,6 @@ public enum Privilege {
     REPORT_REVIEW,
     MANAGE_USERS,
     MANAGE_ACCOUNT,
-    WRITE_REPORT
+    WRITE_REPORT,
+    CERTIFICATE
 }

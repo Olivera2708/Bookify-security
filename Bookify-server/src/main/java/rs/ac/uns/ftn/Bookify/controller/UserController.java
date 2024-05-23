@@ -3,13 +3,16 @@ package rs.ac.uns.ftn.Bookify.controller;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import rs.ac.uns.ftn.Bookify.config.utils.JWTUtils;
 import rs.ac.uns.ftn.Bookify.dto.*;
@@ -45,7 +48,6 @@ public class UserController {
 
     @Autowired
     private JWTUtils jwtUtils;
-
     @Autowired
     private LdapPollingService ldapPollingService;
 

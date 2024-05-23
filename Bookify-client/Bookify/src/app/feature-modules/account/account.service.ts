@@ -49,14 +49,14 @@ export class AccountService {
   }
 
   sendCertificateRequest(userId: number): Observable<CertificateRequestDTO> {
-    return this.httpClient.post<CertificateRequestDTO>(environment.apiPKI + "/request/Bookify/" + userId, {});
+    return this.httpClient.post<CertificateRequestDTO>(environment.apiHost + "certificates/request/Bookify/" + userId, {});
   }
 
   doesUserAlreadyHaveValidCertificate(userId: string): Observable<boolean> {
-    return this.httpClient.get<boolean>(environment.apiPKI + "/exists/" + userId);
+    return this.httpClient.get<boolean>(environment.apiHost + "certificates/exists/" + userId);
   }
 
   getCertificate(email: string) : Observable<TransactionResponse> {
-    return this.httpClient.get<TransactionResponse>(environment.apiPKI + "/request?email=" + email);
+    return this.httpClient.get<TransactionResponse>(environment.apiHost + "certificates/request?email=" + email);
   }
 }
