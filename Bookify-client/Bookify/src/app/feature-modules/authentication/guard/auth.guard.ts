@@ -5,12 +5,17 @@ import {AdminPaths} from "./adminpaths";
 import {GuestPaths} from "./guestpaths";
 import {OwnerPaths} from "./ownerpaths";
 import {SysAdminPaths} from "./sysadminpaths";
+import { KeycloakService } from '../../../keycloak/keycloak.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const authenticationService: AuthenticationService = inject(AuthenticationService);
+  const keycloakService: KeycloakService = inject(KeycloakService);
   const router: Router = inject(Router);
   const path: string = getFullPath(route.url);
-  const userRole = authenticationService.getRole();
+  const userRole = keycloakService.getRole();
+  if(keycloakService.keycloak.isTokenExpired()){
+    router.navigate([''])
+    return false;
+  }
   if (userRole === 'ADMIN' && checkForPaths(path, AdminPaths)) {
     return true;
   } else if (userRole === 'GUEST' && checkForPaths(path, GuestPaths)) {

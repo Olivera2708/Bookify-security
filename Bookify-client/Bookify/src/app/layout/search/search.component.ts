@@ -1,6 +1,7 @@
 import {Component, Output, EventEmitter, AfterViewInit, ViewChild} from '@angular/core';
 import { DatapickerRangeComponent } from '../datapicker-range/datapicker-range.component';
 import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-search',
@@ -16,7 +17,7 @@ export class SearchComponent implements AfterViewInit {
 
   onButtonPress(): void {
     const values = {
-      search: this.search,
+      search: "" + DOMPurify.sanitize(this.search),
       persons: this.persons,
       dateBegin: this.convertDate(this.dateComponent.dateBegin),
       dateEnd: this.convertDate(this.dateComponent.dateEnd)

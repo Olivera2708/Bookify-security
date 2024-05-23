@@ -14,12 +14,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Embeddable
 public class Active {
-	@Column(nullable = false)
+	@Column
 	private boolean isActive;
 
-	@Column(nullable = false)
+	@Column
 	private Date time;
 
-	@Column(nullable = false)
+	@Column
 	private String hashToken;
 }

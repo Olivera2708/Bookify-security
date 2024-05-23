@@ -12,6 +12,7 @@ import { ImagesDTO } from '../../model/images';
 import { AccommodationAvailability } from '../../model/accommodation-availability.form.model';
 import { AuthenticationService } from '../../../authentication/authentication.service';
 import { ImageFileDTO } from '../../model/images.dto.model';
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-accommodation-create',
@@ -128,16 +129,16 @@ export class AccommodationCreateComponent implements OnInit {
     this.submitted = true;
     if (this.isValid()) {
       const addressDTO: Address = {
-        country: this.address.country,
-        city: this.address.city,
-        address: this.address.address,
-        zipCode: this.address.zipCode
+        country: DOMPurify.sanitize(this.address.country),
+        city: DOMPurify.sanitize(this.address.city),
+        address: DOMPurify.sanitize(this.address.address),
+        zipCode: DOMPurify.sanitize(this.address.zipCode)
       }
       const dto: AccommodationDTO = {
-        name: this.basicInfoForm.propertyName,
-        description: this.basicInfoForm.description,
+        name: DOMPurify.sanitize(this.basicInfoForm.propertyName),
+        description: DOMPurify.sanitize(this.basicInfoForm.description),
         filters: [...new Set(this.amenitiesFilter)],
-        accommodationType: this.gusetsInfo.type,
+        accommodationType: DOMPurify.sanitize(this.gusetsInfo.type),
         minGuest: this.gusetsInfo.minGuests,
         maxGuest: this.gusetsInfo.maxGuests,
         manual: this.gusetsInfo.reservationAcceptance === 'manual',
