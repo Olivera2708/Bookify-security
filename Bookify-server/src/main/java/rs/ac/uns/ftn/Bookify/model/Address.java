@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Address {
-	@Column(length = 50, nullable = false)
+	@Column(length = 50)
 	private String country;
 
-	@Column(length = 30, nullable = false)
+	@Column(length = 30)
 	private String city;
 
-	@Column(length = 52, nullable = false)
+	@Column(length = 52)
 	private String address;
 
-	@Column(length = 10, nullable = false)
+	@Column(length = 10)
 	private String zipCode;
 }

@@ -14,6 +14,7 @@ import {FooterComponent} from "./footer/footer.component";
 import {SearchComponent} from "./search/search.component";
 import {FormsModule} from "@angular/forms";
 import {DatapickerRangeComponent} from "./datapicker-range/datapicker-range.component";
+import { NavigationSysadminComponent } from './navigation-sysadmin/navigation-sysadmin.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {DatapickerRangeComponent} from "./datapicker-range/datapicker-range.comp
     FilterComponent,
     FooterComponent,
     SearchComponent,
+    NavigationSysadminComponent,
   ],
   imports: [
     CommonModule,

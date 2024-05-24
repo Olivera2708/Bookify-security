@@ -2,6 +2,8 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {AuthenticationService} from "../../feature-modules/authentication/authentication.service";
 import {AccountService} from "../../feature-modules/account/account.service";
+import {KeycloakService} from '../../keycloak/keycloak.service';
+
 
 @Component({
   selector: 'app-navigation-bar',
@@ -19,7 +21,8 @@ export class NavigationBarComponent implements OnInit {
 
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private keycloakService: KeycloakService) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
@@ -49,11 +52,13 @@ export class NavigationBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.authenticationService.userState.subscribe((result: string): void => {
-      this.role = result;
+      this.role = this.keycloakService.getRole();
+
       this.setAccountImageIcon();
+
     });
     if (this.role === '') {
-      this.role = this.authenticationService.getRole();
+      // this.role = this.authenticationService.getRole();
       this.setAccountImageIcon();
     }
     this.authenticationService.getNotificationNumber().subscribe({
@@ -80,7 +85,7 @@ export class NavigationBarComponent implements OnInit {
                 },
                 error: err => {
                   if (err.status === 404) {
-    
+
                   }
                 }
               });
@@ -91,7 +96,14 @@ export class NavigationBarComponent implements OnInit {
       }
   }
   OnLogoutClick(): void {
-    this.authenticationService.logout();
-    this.router.navigate(['']);
+    this.keycloakService.logout();
+    // this.authenticationService.logout();
+    // this.router.navigate(['']);
+  }
+
+  OnLoginClick(): void {
+    this.keycloakService.login();
+    // this.authenticationService.logout();
+    // this.router.navigate(['']);
   }
 }

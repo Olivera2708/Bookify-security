@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DialogData} from "../model/DialogData";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-password-change-dialog',
@@ -25,7 +26,7 @@ export class PasswordChangeDialogComponent {
 
   onSubmitClick(): void {
     if (this.passwordForm.valid) {
-      this.data.password = this.passwordForm.get('password')?.value;
+      this.data.password = DOMPurify.sanitize(this.passwordForm.get('password')?.value);
       this.dialogRef.close(this.data);
     }
   }

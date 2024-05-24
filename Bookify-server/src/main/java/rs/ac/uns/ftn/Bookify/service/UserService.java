@@ -284,20 +284,20 @@ public class UserService implements IUserService {
         return o;
     }
 
-    @Override
-    @Transactional
-    @Scheduled(cron = "${activation.cron}")
-    public void checkInactiveUsers() {
-        Calendar calendar = Calendar.getInstance();
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            calendar.setTime(user.getActive().getTime());
-            calendar.add(Calendar.MINUTE, 1);
-            if (!user.getActive().isActive() && calendar.getTime().compareTo(new Date()) < 0) {
-                userRepository.deleteUser(user.getId());
-            }
-        }
-    }
+//    @Override
+//    @Transactional
+//    @Scheduled(cron = "${activation.cron}")
+//    public void checkInactiveUsers() {
+//        Calendar calendar = Calendar.getInstance();
+//        List<User> users = userRepository.findAll();
+//        for (User user : users) {
+//            calendar.setTime(user.getActive().getTime());
+//            calendar.add(Calendar.MINUTE, 1);
+//            if (!user.getActive().isActive() && calendar.getTime().compareTo(new Date()) < 0) {
+//                userRepository.deleteUser(user.getId());
+//            }
+//        }
+//    }
 
     @Override
     public List<AccommodationRequestDTO> findAccommodationRequests() {
@@ -394,10 +394,19 @@ public class UserService implements IUserService {
     }
 
     private void updateUserData(UserDetailDTO updatedUser, User u) {
-        u.getAddress().setAddress(updatedUser.getAddress().getAddress());
-        u.getAddress().setCity(updatedUser.getAddress().getCity());
-        u.getAddress().setZipCode(updatedUser.getAddress().getZipCode());
-        u.getAddress().setCountry(updatedUser.getAddress().getCountry());
+        if (u.getAddress() != null) {
+            u.getAddress().setAddress(updatedUser.getAddress().getAddress());
+            u.getAddress().setCity(updatedUser.getAddress().getCity());
+            u.getAddress().setZipCode(updatedUser.getAddress().getZipCode());
+            u.getAddress().setCountry(updatedUser.getAddress().getCountry());
+        }
+        else {
+            u.setAddress(new Address());
+            u.getAddress().setAddress(updatedUser.getAddress().getAddress());
+            u.getAddress().setCity(updatedUser.getAddress().getCity());
+            u.getAddress().setZipCode(updatedUser.getAddress().getZipCode());
+            u.getAddress().setCountry(updatedUser.getAddress().getCountry());
+        }
         u.setPhone(updatedUser.getPhone());
         u.setFirstName(updatedUser.getFirstName());
         u.setLastName(updatedUser.getLastName());

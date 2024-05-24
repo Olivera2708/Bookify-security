@@ -20,6 +20,10 @@ export class AccountService {
     return this.httpClient.get<Account>(environment.apiHost + "users/" + userId);
   }
 
+  getUserByEmail(email: string): Observable<Account> {
+    return this.httpClient.get<Account>(environment.apiHost + "users/email/" + email);
+  }
+
   getAccountImage(imageId: number | undefined): Observable<Blob> {
     return this.httpClient.get(environment.apiHost + "users/image/" + imageId, { responseType: "blob" });
   }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import javax.naming.directory.Attributes;
+import javax.naming.directory.BasicAttributes;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
@@ -29,7 +31,7 @@ public abstract class User implements Serializable {
 	@Column(unique = true, nullable = false)
 	private String email;
 
-	@Column(nullable = false)
+	@Column
 	private String password;
 
 	@Column(nullable = false)
@@ -38,10 +40,10 @@ public abstract class User implements Serializable {
 	@Column(nullable = false)
 	private String lastName;
 
-	@Column(nullable = false)
+	@Column
 	private boolean blocked;
 
-	@Column(nullable = false)
+	@Column
 	private String phone;
 
 	@Column
@@ -62,5 +64,19 @@ public abstract class User implements Serializable {
 	public String getUserType() {
 		DiscriminatorValue discriminatorValue = getClass().getAnnotation(DiscriminatorValue.class);
 		return (discriminatorValue != null) ? discriminatorValue.value() : null;
+	}
+
+	public Attributes toAttributes() {
+		Attributes attributes = new BasicAttributes();
+
+		attributes.put("uid", email);  // Assuming username is the attribute used as the unique identifier
+		attributes.put("cn", email);
+		attributes.put("sn", email);
+		attributes.put("givenName", firstName);
+		attributes.put("displayName", lastName);
+		attributes.put("mail", email);
+		attributes.put("mobile", phone);
+
+		return attributes;
 	}
 }

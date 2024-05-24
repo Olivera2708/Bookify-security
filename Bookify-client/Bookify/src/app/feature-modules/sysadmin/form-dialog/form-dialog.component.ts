@@ -7,6 +7,7 @@ import { CreateCertificateDTO } from "../model/createcertificate.dto";
 import { CertificateService } from "../certificate.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { environment } from "../../../../env/env";
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-form-dialog',
@@ -66,7 +67,7 @@ export class FormDialogComponent {
   }
 
   onSubmitClick(): void {
-    this.certificateService.userHasValidCertificate(this.form.get("email")?.value).subscribe({
+    this.certificateService.userHasValidCertificate(DOMPurify.sanitize(this.form.get("email")?.value)).subscribe({
       next: (data) => {
         if (data){
           alert("User already has a valid certificate. ");
@@ -112,11 +113,11 @@ export class FormDialogComponent {
     return {
       issuerCertificateAlias: this.getIssuerAlias(),
       subject: {
-        name: this.form.get('name')!.value,
-        country: this.form.get('country')!.value,
-        organization: this.form.get('organization')!.value,
-        organizationUnit: this.form.get('organizationUnit')!.value,
-        email: this.form.get('email')!.value
+        name: DOMPurify.sanitize(this.form.get('name')!.value),
+        country: DOMPurify.sanitize(this.form.get('country')!.value),
+        organization: DOMPurify.sanitize(this.form.get('organization')!.value),
+        organizationUnit: DOMPurify.sanitize(this.form.get('organizationUnit')!.value),
+        email: DOMPurify.sanitize(this.form.get('email')!.value)
       },
       extensions: this.getCheckedExtensions(),
       issued: new Date(),

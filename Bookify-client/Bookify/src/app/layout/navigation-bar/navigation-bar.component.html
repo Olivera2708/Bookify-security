@@ -3,6 +3,7 @@
   <span class="spacer"></span>
   <a routerLink="/" mat-button *ngIf="role!=='SYSADMIN'">Home</a>
   <app-navigation-admin *ngIf="role==='ADMIN'"></app-navigation-admin>
+  <app-navigation-sysadmin *ngIf="role==='SYSADMIN'"></app-navigation-sysadmin>
   <app-navigation-guest *ngIf="role==='GUEST'"></app-navigation-guest>
   <app-navigation-owner *ngIf="role==='OWNER'"></app-navigation-owner>
   <a routerLink="account" mat-button *ngIf="role==='GUEST'||role==='OWNER'||role==='ADMIN'" class="account">
@@ -12,6 +13,6 @@
   <div id="account-icon-holder" *ngIf="role==='GUEST'||role==='OWNER'||role==='ADMIN'">
     <img  alt="" id="account-icon" [src]="userImage"/>
   </div>
-  <a routerLink="login" mat-button id="login_btn" *ngIf="role===''">Login</a>
+  <a (click)="OnLoginClick()" mat-button id="login_btn" *ngIf="role===''">Login</a>
   <a mat-button id="logout_btn" *ngIf="role==='SYSADMIN'" (click)="OnLogoutClick()">Logout</a>
 </mat-toolbar>

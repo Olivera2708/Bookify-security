@@ -8,6 +8,8 @@ import {PasswordChangeDialogComponent} from "../password-change-dialog/password-
 import {Router} from "@angular/router";
 import {AccountDeleteDialogComponent} from '../account-delete-dialog/account-delete-dialog.component';
 import {MessageDialogComponent} from "../../../layout/message-dialog/message-dialog.component";
+import {KeycloakService} from "../../../keycloak/keycloak.service";
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-user-information',
@@ -55,7 +57,8 @@ export class UserInformationComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService,
               private accountService: AccountService,
               public dialog: MatDialog,
-              private router: Router) {
+              private router: Router,
+              private keycloakService: KeycloakService) {
 
   }
 
@@ -66,19 +69,21 @@ export class UserInformationComponent implements OnInit {
         this.setFormData();
         this.userInfoForm.updateValueAndValidity();
         this.image = "assets/images/user.jpg"
-        this.accountService.getAccountImage(this.account.imageId).subscribe({
-          next: (data: Blob): void => {
-            const reader: FileReader = new FileReader();
-            reader.onloadend = () => {
-              this.image = reader.result;
-
+        if (this.account.imageId){
+          this.accountService.getAccountImage(this.account.imageId).subscribe({
+            next: (data: Blob): void => {
+              const reader: FileReader = new FileReader();
+              reader.onloadend = () => {
+                this.image = reader.result;
+  
+              }
+              reader.readAsDataURL(data);
+            },
+            error: err => {
+  
             }
-            reader.readAsDataURL(data);
-          },
-          error: err => {
-
-          }
-        })
+          })
+        }
       },
       error: (err) => {
 
@@ -89,14 +94,15 @@ export class UserInformationComponent implements OnInit {
 
   OnSaveClick(): void {
     if (this.userInfoForm.valid) {
-      this.account.firstName = this.userInfoForm.value.firstname;
-      this.account.lastName = this.userInfoForm.value.lastname;
+      this.account.firstName = DOMPurify.sanitize(this.userInfoForm.value.firstname);
+      this.account.lastName = DOMPurify.sanitize(this.userInfoForm.value.lastname);
       if (this.account.address === undefined) this.account.address = {};
-      this.account.address.city = this.userInfoForm.value.city;
-      this.account.address.country = this.userInfoForm.value.country;
-      this.account.address.address = this.userInfoForm.value.address;
-      this.account.address.zipCode = this.userInfoForm.value.zipcode;
-      this.account.phone = this.userInfoForm.value.phone;
+      if (this.account.address === null) this.account.address = {};
+      this.account.address.city = DOMPurify.sanitize(this.userInfoForm.value.city);
+      this.account.address.country = DOMPurify.sanitize(this.userInfoForm.value.country);
+      this.account.address.address = DOMPurify.sanitize(this.userInfoForm.value.address);
+      this.account.address.zipCode = DOMPurify.sanitize(this.userInfoForm.value.zipcode);
+      this.account.phone = DOMPurify.sanitize(this.userInfoForm.value.phone);
 
       this.accountService.updateUser(this.account).subscribe({
         next: () => {
@@ -208,7 +214,8 @@ export class UserInformationComponent implements OnInit {
   }
 
   OnLogoutClick(): void {
-    this.authenticationService.logout();
-    this.router.navigate(['']);
+    this.keycloakService.logout();
+    // this.authenticationService.logout();
+    // this.router.navigate(['']);
   }
 }
