@@ -19,9 +19,9 @@ export class KeycloakService {
       this._keycloak = new Keycloak({
         url: 'http://localhost:8080',
         realm: 'SpringBootKeycloak',
-        clientId: 'test-login'
+        clientId: 'login-app'
       });
-      
+
     }
     return this._keycloak;
   }
